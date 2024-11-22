@@ -1,6 +1,6 @@
-# LTC2038 driver for the DE10 Nano
+# LTC2308 driver for the DE10 Nano
 
-The DE10 Nano has an [Analog Devices LTC2038 ADC](https://www.analog.com/en/products/ltc2308.html) on the PCB. Terasic / the Intel University Program provide an HDL component that interfaces with and drives the ADC. 
+The DE10 Nano has an [Analog Devices LTC2308 ADC](https://www.analog.com/en/products/ltc2308.html) on the PCB. Terasic / the Intel University Program provide an HDL component that interfaces with and drives the ADC. 
 
 ## Building
 
@@ -34,4 +34,4 @@ This register map is dumb. Write-only registers are dumb. Having different read/
 ## Documentation
 
 - [DE-Series ADC Controller HDL component documentation](https://ftp.intel.com/Public/Pub/fpgaup/pub/Teaching_Materials/current/Tutorials/Using_DE_Series_ADC.pdf)
-- [AD LTC2038 ADC](https://www.analog.com/en/products/ltc2308.html)
+- [AD LTC2308 ADC](https://www.analog.com/en/products/ltc2308.html)
