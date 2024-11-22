@@ -286,6 +286,13 @@ static ssize_t adc_ch_show(struct device *dev,
 	return scnprintf(buf, PAGE_SIZE, "%u\n", adc_value);
 }
 
+/*
+ * DEVICE_ADC_CH_ATTR uses the dev_ext_attribute struct so we can pass in the
+ * channel's offset to the sysfs store function, allowing us to only write one
+ * store function instead of 8 identical store functions.
+ * https://elixir.bootlin.com/linux/v6.12/source/include/linux/device.h#L118
+ * https://stackoverflow.com/questions/48540242/how-can-i-create-lots-of-similar-functions-for-sysfs-attributes
+ */
 #define DEVICE_ADC_CH_ATTR(_name, _reg_offset) \
 	struct dev_ext_attribute dev_attr_##_name = \
 		{ __ATTR(_name, 0444, adc_ch_show, NULL), &(_reg_offset) }
