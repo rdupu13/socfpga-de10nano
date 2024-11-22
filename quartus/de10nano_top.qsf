@@ -787,10 +787,6 @@ set_location_assignment PIN_AD4 -to adc_sdo
 
 
 set_global_assignment -name QIP_FILE soc_system/synthesis/soc_system.qip
-set_global_assignment -name VHDL_FILE ../hdl/synchronizer/synchronizer.vhd
-set_global_assignment -name VHDL_FILE "../hdl/async-conditioner/debouncer.vhd"
-set_global_assignment -name VHDL_FILE "../hdl/async-conditioner/one_pulse.vhd"
-set_global_assignment -name VHDL_FILE "../hdl/async-conditioner/async_conditioner.vhd"
 set_global_assignment -name SDC_FILE de10nano.sdc
 set_global_assignment -name VHDL_FILE de10nano_top.vhd
 
