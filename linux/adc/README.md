@@ -8,6 +8,16 @@ The Makefile in this directory cross-compiles the driver. Update the `KDIR` vari
 
 Run `make` in this directory to build to kernel module.
 
+## Device tree node
+
+Use the following device tree node:
+```devicetree
+de10nano_adc: adc@ff200000 {
+    compatible = "adsd,de10nano_adc";
+    reg = <0xff200000 32>;
+};
+```
+
 ## Notes / bugs :bug:
 
 The Intel FPGA University Program documentation claims the ADC has an input range of 0--5 V. According to the AD datasheet, the unipolar input range is 0--VREFCOMP, which 4.096 V. If you hook a pot up to a 5 V supply, you'll notice there is a deadzone at the upper end of the pot's range, indicating that the input range stops before 5 V :facepalm:
