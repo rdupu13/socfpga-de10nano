@@ -219,11 +219,11 @@ architecture de10nano_arch of de10nano_top is
 	component keyboard is
 		port
 		(
-			clk           : in  std_logic;
-			rst           : in  std_logic;
-			rows          : out std_logic_vector(2 downto 0);
-			columns       : in  std_logic_vector(6 downto 0);
-			kb_buffer_out : out std_logic_vector(31 downto 0)
+			clk       : in  std_logic;
+			rst       : in  std_logic;
+			rows      : out std_logic_vector(2 downto 0);
+			columns   : in  std_logic_vector(6 downto 0);
+			kb_buffer : out std_logic_vector(31 downto 0)
 		);
 	end component;
 	-------------------------------------------------- Keyboard --
@@ -247,12 +247,12 @@ begin
 	KEYBOARD_DESIGN : keyboard
 		port map
 		(
-			clk           => fpga_clk1_50,
-			rst           => not push_button_n(1),
-			rows          => gpio_1(12 downto 10),
-			columns       => gpio_1(6 downto 0),
-			kb_buffer_out => kb_buffer
-		);	
+			clk       => fpga_clk1_50,
+			rst       => not push_button_n(1),
+			rows      => gpio_1(12 downto 10),
+			columns   => gpio_1(6 downto 0),
+			kb_buffer => kb_buffer
+		);
 	
 	led <= kb_buffer(7 downto 0);
 	

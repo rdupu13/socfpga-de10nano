@@ -1,0 +1,16 @@
+
+State Machine - |de10nano_top|lcd:LCD_DESIGN|curr_state
+Name curr_state.idle curr_state.write_2 curr_state.write_1 curr_state.write_0 curr_state.rst_8 curr_state.rst_7 curr_state.rst_6 curr_state.rst_5 curr_state.rst_4 curr_state.rst_3 curr_state.rst_2 curr_state.rst_1 curr_state.rst_0 
+curr_state.rst_0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+curr_state.rst_1 0 0 0 0 0 0 0 0 0 0 0 1 1 
+curr_state.rst_2 0 0 0 0 0 0 0 0 0 0 1 0 1 
+curr_state.rst_3 0 0 0 0 0 0 0 0 0 1 0 0 1 
+curr_state.rst_4 0 0 0 0 0 0 0 0 1 0 0 0 1 
+curr_state.rst_5 0 0 0 0 0 0 0 1 0 0 0 0 1 
+curr_state.rst_6 0 0 0 0 0 0 1 0 0 0 0 0 1 
+curr_state.rst_7 0 0 0 0 0 1 0 0 0 0 0 0 1 
+curr_state.rst_8 0 0 0 0 1 0 0 0 0 0 0 0 1 
+curr_state.write_0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+curr_state.write_1 0 0 1 0 0 0 0 0 0 0 0 0 1 
+curr_state.write_2 0 1 0 0 0 0 0 0 0 0 0 0 1 
+curr_state.idle 1 0 0 0 0 0 0 0 0 0 0 0 1 

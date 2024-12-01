@@ -108,53 +108,53 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : A27       :        :                   :      
 GND                          : AA1       : gnd    :                   :         :           :                
 GND                          : AA2       : gnd    :                   :         :           :                
 GND                          : AA3       : gnd    :                   :         :           :                
-gpio_1[26]                   : AA4       : bidir  : 2.5 V             :         : 3A        : N              
+arduino_io[3]                : AA4       : bidir  : 2.5 V             :         : 3A        : N              
 VCCIO3A                      : AA5       : power  :                   : 2.5V    : 3A        :                
 nCSO, DATA4                  : AA6       :        :                   :         : 3A        :                
 DCLK                         : AA8       :        :                   :         : 3A        :                
 GND                          : AA9       : gnd    :                   :         :           :                
 VCCPD3A                      : AA10      : power  :                   : 2.5V    : 3A        :                
-gpio_1[15]                   : AA11      : bidir  : 2.5 V             :         : 3A        : N              
+hdmi_tx_d[16]                : AA11      : output : 2.5 V             :         : 3A        : N              
 VCCIO3B                      : AA12      : power  :                   : 2.5V    : 3B        :                
-fpga_clk2_50                 : AA13      : input  : 2.5 V             :         : 4A        : N              
+arduino_io[14]               : AA13      : bidir  : 2.5 V             :         : 4A        : N              
 VCCPD3B4A                    : AA14      : power  :                   : 2.5V    : 3B, 4A    :                
-sw[0]                        : AA15      : input  : 2.5 V             :         : 4A        : N              
+gpio_0[31]                   : AA15      : bidir  : 2.5 V             :         : 4A        : N              
 VCCIO4A                      : AA16      : power  :                   : 2.5V    : 4A        :                
 GND                          : AA17      : gnd    :                   :         :           :                
-arduino_io[4]                : AA18      : bidir  : 2.5 V             :         : 4A        : N              
-sw[3]                        : AA19      : input  : 2.5 V             :         : 4A        : N              
-gpio_1[17]                   : AA20      : bidir  : 2.5 V             :         : 5A        : N              
+gpio_1[2]                    : AA18      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_0[21]                   : AA19      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[6]                    : AA20      : bidir  : 2.5 V             :         : 5A        : N              
 VCCA_FPLL                    : AA21      : power  :                   : 2.5V    :           :                
-hdmi_sclk                    : AA23      : bidir  : 2.5 V             :         : 5A        : N              
-hdmi_tx_d[3]                 : AA24      : output : 2.5 V             :         : 5A        : N              
+arduino_io[5]                : AA23      : bidir  : 2.5 V             :         : 5A        : N              
+gpio_0[34]                   : AA24      : bidir  : 2.5 V             :         : 5A        : N              
 VREFB5BN0                    : AA25      : power  :                   :         : 5B        :                
-gpio_1[13]                   : AA26      : bidir  : 2.5 V             :         : 5B        : N              
+gpio_1[18]                   : AA26      : bidir  : 2.5 V             :         : 5B        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA27      :        :                   :         : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA28      :        :                   :         : 6B        :                
 GND                          : AB1       : gnd    :                   :         :           :                
 GND                          : AB2       : gnd    :                   :         :           :                
 GND                          : AB3       : gnd    :                   :         :           :                
-gpio_1[31]                   : AB4       : bidir  : 2.5 V             :         : 3A        : N              
+arduino_io[9]                : AB4       : bidir  : 2.5 V             :         : 3A        : N              
 TCK                          : AB5       : input  :                   :         : 3A        :                
 AS_DATA3, DATA3              : AB6       :        :                   :         : 3A        :                
-adc_convst                   : AB23      : output : 2.5 V             :         : 5A        : N              
+hdmi_tx_de                   : AB23      : output : 2.5 V             :         : 5A        : N              
 GND                          : AB24      : gnd    :                   :         :           :                
-arduino_io[14]               : AB25      : bidir  : 2.5 V             :         : 5B        : N              
-gpio_0[31]                   : AB26      : bidir  : 2.5 V             :         : 5B        : N              
+gpio_1[21]                   : AB25      : bidir  : 2.5 V             :         : 5B        : N              
+led[5]                       : AB26      : output : 2.5 V             :         : 5B        : N              
 GND                          : AB27      : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AB28      :        :                   :         : 6B        :                
 GND                          : AC1       : gnd    :                   :         :           :                
 GND                          : AC2       : gnd    :                   :         :           :                
 GND                          : AC3       : gnd    :                   :         :           :                
-gpio_0[3]                    : AC4       : bidir  : 2.5 V             :         : 3A        : N              
+hdmi_tx_d[4]                 : AC4       : output : 2.5 V             :         : 3A        : N              
 AS_DATA2, DATA2              : AC5       :        :                   :         : 3A        :                
 AS_DATA1, DATA1              : AC6       :        :                   :         : 3A        :                
 TMS                          : AC7       : input  :                   :         : 3A        :                
 VCC_AUX                      : AC8       : power  :                   : 2.5V    :           :                
 VCC_AUX                      : AC21      : power  :                   : 2.5V    :           :                
-hdmi_tx_d[5]                 : AC22      : output : 2.5 V             :         : 4A        : N              
-adc_sdi                      : AC23      : output : 2.5 V             :         : 4A        : N              
-gpio_0[11]                   : AC24      : bidir  : 2.5 V             :         : 5A        : N              
+led[2]                       : AC22      : output : 2.5 V             :         : 4A        : N              
+gpio_0[0]                    : AC23      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[19]                   : AC24      : bidir  : 2.5 V             :         : 5A        : N              
 VCCIO5A                      : AC25      : power  :                   : 2.5V    : 5A        :                
 VREFB5AN0                    : AC26      : power  :                   :         : 5A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AC27      :        :                   :         : 6B        :                
@@ -162,141 +162,141 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : AC28      :        :                   :      
 DNU                          : AD1       :        :                   :         :           :                
 DNU                          : AD2       :        :                   :         :           :                
 GND                          : AD3       : gnd    :                   :         :           :                
-hdmi_tx_d[17]                : AD4       : output : 2.5 V             :         : 3A        : N              
-arduino_io[5]                : AD5       : bidir  : 2.5 V             :         : 3A        : N              
+gpio_1[0]                    : AD4       : bidir  : 2.5 V             :         : 3A        : N              
+arduino_io[7]                : AD5       : bidir  : 2.5 V             :         : 3A        : N              
 GND                          : AD6       : gnd    :                   :         :           :                
 AS_DATA0, ASDO, DATA0        : AD7       :        :                   :         : 3A        :                
 GND                          : AD8       : gnd    :                   :         :           :                
 VCCPD3B4A                    : AD9       : power  :                   : 2.5V    : 3B, 4A    :                
-gpio_0[23]                   : AD10      : bidir  : 2.5 V             :         : 3B        : N              
-gpio_0[25]                   : AD11      : bidir  : 2.5 V             :         : 3B        : N              
-led[4]                       : AD12      : output : 2.5 V             :         : 3B        : N              
+sw[3]                        : AD10      : input  : 2.5 V             :         : 3B        : N              
+gpio_1[26]                   : AD11      : bidir  : 2.5 V             :         : 3B        : N              
+gpio_1[12]                   : AD12      : bidir  : 2.5 V             :         : 3B        : N              
 VCCPD3B4A                    : AD13      : power  :                   : 2.5V    : 3B, 4A    :                
 GND                          : AD14      : gnd    :                   :         :           :                
 VCC_AUX                      : AD15      : power  :                   : 2.5V    :           :                
 VCCPD3B4A                    : AD16      : power  :                   : 2.5V    : 3B, 4A    :                
-hdmi_tx_d[21]                : AD17      : output : 2.5 V             :         : 4A        : N              
+adc_sck                      : AD17      : output : 2.5 V             :         : 4A        : N              
 VCCPD3B4A                    : AD18      : power  :                   : 2.5V    : 3B, 4A    :                
-gpio_1[30]                   : AD19      : bidir  : 2.5 V             :         : 4A        : N              
-hdmi_tx_d[9]                 : AD20      : output : 2.5 V             :         : 4A        : N              
+gpio_0[11]                   : AD19      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[30]                   : AD20      : bidir  : 2.5 V             :         : 4A        : N              
 VCCPD3B4A                    : AD21      : power  :                   : 2.5V    : 3B, 4A    :                
 GND                          : AD22      : gnd    :                   :         :           :                
-gpio_0[33]                   : AD23      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_0[6]                    : AD23      : bidir  : 2.5 V             :         : 4A        : N              
 VCCPGM                       : AD24      : power  :                   : 1.8V/2.5V/3.0V/3.3V :           :                
 GND                          : AD25      : gnd    :                   :         :           :                
-hdmi_tx_d[12]                : AD26      : output : 2.5 V             :         : 5A        : N              
+hdmi_tx_d[8]                 : AD26      : output : 2.5 V             :         : 5A        : N              
 VCCIO6B_HPS                  : AD27      : power  :                   : 2.5V    : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD28      :        :                   :         : 6B        :                
 GND                          : AE1       : gnd    :                   :         :           :                
 GND                          : AE2       : gnd    :                   :         :           :                
 GND                          : AE3       : gnd    :                   :         :           :                
-hdmi_tx_int                  : AE4       : input  : 2.5 V             :         : 3B        : N              
+hdmi_tx_d[2]                 : AE4       : output : 2.5 V             :         : 3B        : N              
 VREFB3AN0                    : AE5       : power  :                   :         : 3A        :                
-hdmi_tx_de                   : AE6       : output : 2.5 V             :         : 3A        : N              
-adc_sdo                      : AE7       : input  : 2.5 V             :         : 3B        : N              
-gpio_1[23]                   : AE8       : bidir  : 2.5 V             :         : 3B        : N              
-arduino_io[2]                : AE9       : bidir  : 2.5 V             :         : 3B        : N              
+arduino_io[11]               : AE6       : bidir  : 2.5 V             :         : 3A        : N              
+hdmi_i2c_scl                 : AE7       : bidir  : 2.5 V             :         : 3B        : N              
+gpio_0[29]                   : AE8       : bidir  : 2.5 V             :         : 3B        : N              
+hdmi_tx_d[21]                : AE9       : output : 2.5 V             :         : 3B        : N              
 VCCIO3B                      : AE10      : power  :                   : 2.5V    : 3B        :                
-gpio_1[8]                    : AE11      : bidir  : 2.5 V             :         : 3B        : N              
-led[5]                       : AE12      : output : 2.5 V             :         : 3B        : N              
+gpio_1[4]                    : AE11      : bidir  : 2.5 V             :         : 3B        : N              
+arduino_reset_n              : AE12      : bidir  : 2.5 V             :         : 3B        : N              
 VCCIO3B                      : AE13      : power  :                   : 2.5V    : 3B        :                
 DNU                          : AE14      :        :                   :         :           :                
-gpio_0[26]                   : AE15      : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[0]                 : AE15      : output : 2.5 V             :         : 4A        : N              
 GND                          : AE16      : gnd    :                   :         :           :                
-hdmi_tx_d[11]                : AE17      : output : 2.5 V             :         : 4A        : N              
+adc_sdo                      : AE17      : input  : 2.5 V             :         : 4A        : N              
 GND                          : AE18      : gnd    :                   :         :           :                
-gpio_0[24]                   : AE19      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_0[0]                    : AE20      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[1]                    : AE19      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_0[8]                    : AE20      : bidir  : 2.5 V             :         : 4A        : N              
 VCCIO4A                      : AE21      : power  :                   : 2.5V    : 4A        :                
-hdmi_tx_d[4]                 : AE22      : output : 2.5 V             :         : 4A        : N              
-led[7]                       : AE23      : output : 2.5 V             :         : 4A        : N              
-hdmi_mclk                    : AE24      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_0[1]                    : AE25      : bidir  : 2.5 V             :         : 5A        : N              
-gpio_0[8]                    : AE26      : bidir  : 2.5 V             :         : 5A        : N              
+gpio_0[9]                    : AE22      : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[14]                : AE23      : output : 2.5 V             :         : 4A        : N              
+gpio_1[9]                    : AE24      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_0[30]                   : AE25      : bidir  : 2.5 V             :         : 5A        : N              
+gpio_1[14]                   : AE26      : bidir  : 2.5 V             :         : 5A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE27      :        :                   :         : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE28      :        :                   :         : 6B        :                
 GND                          : AF1       : gnd    :                   :         :           :                
 GND                          : AF2       : gnd    :                   :         :           :                
 GND                          : AF3       : gnd    :                   :         :           :                
-gpio_1[22]                   : AF4       : bidir  : 2.5 V             :         : 3B        : N              
-gpio_0[22]                   : AF5       : bidir  : 2.5 V             :         : 3B        : N              
-gpio_1[21]                   : AF6       : bidir  : 2.5 V             :         : 3B        : N              
-gpio_1[16]                   : AF7       : bidir  : 2.5 V             :         : 3B        : N              
-hdmi_tx_d[16]                : AF8       : output : 2.5 V             :         : 3B        : N              
-arduino_io[3]                : AF9       : bidir  : 2.5 V             :         : 3B        : N              
-hdmi_tx_d[22]                : AF10      : output : 2.5 V             :         : 3B        : N              
-gpio_0[16]                   : AF11      : bidir  : 2.5 V             :         : 3B        : N              
+hdmi_sclk                    : AF4       : bidir  : 2.5 V             :         : 3B        : N              
+adc_convst                   : AF5       : output : 2.5 V             :         : 3B        : N              
+gpio_1[27]                   : AF6       : bidir  : 2.5 V             :         : 3B        : N              
+gpio_0[10]                   : AF7       : bidir  : 2.5 V             :         : 3B        : N              
+arduino_io[10]               : AF8       : bidir  : 2.5 V             :         : 3B        : N              
+gpio_1[7]                    : AF9       : bidir  : 2.5 V             :         : 3B        : N              
+arduino_io[2]                : AF10      : bidir  : 2.5 V             :         : 3B        : N              
+push_button_n[0]             : AF11      : input  : 2.5 V             :         : 3B        : N              
 VREFB3BN0                    : AF12      : power  :                   :         : 3B        :                
-gpio_1[10]                   : AF13      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_0[18]                   : AF13      : bidir  : 2.5 V             :         : 4A        : N              
 VCCIO4A                      : AF14      : power  :                   : 2.5V    : 4A        :                
-led[3]                       : AF15      : output : 2.5 V             :         : 4A        : N              
+hdmi_tx_clk                  : AF15      : output : 2.5 V             :         : 4A        : N              
 VREFB4AN0                    : AF16      : power  :                   :         : 4A        :                
-hdmi_tx_hs                   : AF17      : output : 2.5 V             :         : 4A        : N              
-hdmi_tx_d[0]                 : AF18      : output : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[9]                 : AF17      : output : 2.5 V             :         : 4A        : N              
+gpio_0[17]                   : AF18      : bidir  : 2.5 V             :         : 4A        : N              
 VCCIO4A                      : AF19      : power  :                   : 2.5V    : 4A        :                
-gpio_0[14]                   : AF20      : bidir  : 2.5 V             :         : 4A        : N              
-hdmi_i2c_sda                 : AF21      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_1[19]                   : AF22      : bidir  : 2.5 V             :         : 4A        : N              
-hdmi_i2c_scl                 : AF23      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[32]                   : AF20      : bidir  : 2.5 V             :         : 4A        : N              
+led[3]                       : AF21      : output : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[7]                 : AF22      : output : 2.5 V             :         : 4A        : N              
+hdmi_tx_hs                   : AF23      : output : 2.5 V             :         : 4A        : N              
 GND                          : AF24      : gnd    :                   :         :           :                
-gpio_1[18]                   : AF25      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_0[35]                   : AF26      : bidir  : 2.5 V             :         : 5A        : N              
-hdmi_tx_d[7]                 : AF27      : output : 2.5 V             :         : 4A        : N              
-sw[1]                        : AF28      : input  : 2.5 V             :         : 4A        : N              
+gpio_0[20]                   : AF25      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[22]                   : AF26      : bidir  : 2.5 V             :         : 5A        : N              
+arduino_io[12]               : AF27      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[28]                   : AF28      : bidir  : 2.5 V             :         : 4A        : N              
 GND                          : AG1       : gnd    :                   :         :           :                
 GND                          : AG2       : gnd    :                   :         :           :                
 GND                          : AG3       : gnd    :                   :         :           :                
 VCCIO3B                      : AG4       : power  :                   : 2.5V    : 3B        :                
-gpio_0[12]                   : AG5       : bidir  : 2.5 V             :         : 3B        : N              
-arduino_reset_n              : AG6       : bidir  : 2.5 V             :         : 3B        : N              
+arduino_io[6]                : AG5       : bidir  : 2.5 V             :         : 3B        : N              
+gpio_0[28]                   : AG6       : bidir  : 2.5 V             :         : 3B        : N              
 GND                          : AG7       : gnd    :                   :         :           :                
-push_button_n[1]             : AG8       : input  : 2.5 V             :         : 4A        : N              
-gpio_1[5]                    : AG9       : bidir  : 2.5 V             :         : 4A        : N              
-hdmi_tx_d[20]                : AG10      : output : 2.5 V             :         : 4A        : N              
-gpio_0[5]                    : AG11      : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[18]                : AG8       : output : 2.5 V             :         : 4A        : N              
+arduino_io[4]                : AG9       : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[5]                 : AG10      : output : 2.5 V             :         : 4A        : N              
+sw[2]                        : AG11      : input  : 2.5 V             :         : 4A        : N              
 VCCIO4A                      : AG12      : power  :                   : 2.5V    : 4A        :                
-gpio_1[12]                   : AG13      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_1[9]                    : AG14      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_0[17]                   : AG15      : bidir  : 2.5 V             :         : 4A        : N              
-arduino_io[8]                : AG16      : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_lrclk                   : AG13      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[10]                   : AG14      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_0[12]                   : AG15      : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[13]                : AG16      : output : 2.5 V             :         : 4A        : N              
 GND                          : AG17      : gnd    :                   :         :           :                
-gpio_1[35]                   : AG18      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_0[34]                   : AG19      : bidir  : 2.5 V             :         : 4A        : N              
-arduino_io[9]                : AG20      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_0[21]                   : AG21      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[33]                   : AG18      : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[23]                : AG19      : output : 2.5 V             :         : 4A        : N              
+sw[0]                        : AG20      : input  : 2.5 V             :         : 4A        : N              
+gpio_0[7]                    : AG21      : bidir  : 2.5 V             :         : 4A        : N              
 VCCIO4A                      : AG22      : power  :                   : 2.5V    : 4A        :                
-gpio_1[28]                   : AG23      : bidir  : 2.5 V             :         : 4A        : N              
-hdmi_i2s                     : AG24      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_0[10]                   : AG25      : bidir  : 2.5 V             :         : 4A        : N              
-sw[2]                        : AG26      : input  : 2.5 V             :         : 4A        : N              
+gpio_1[3]                    : AG23      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_0[13]                   : AG24      : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[6]                 : AG25      : output : 2.5 V             :         : 4A        : N              
+sw[1]                        : AG26      : input  : 2.5 V             :         : 4A        : N              
 GND                          : AG27      : gnd    :                   :         :           :                
-gpio_1[25]                   : AG28      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_1[20]                   : AH2       : bidir  : 2.5 V             :         : 3B        : N              
-gpio_0[18]                   : AH3       : bidir  : 2.5 V             :         : 3B        : N              
-led[1]                       : AH4       : output : 2.5 V             :         : 3B        : N              
-gpio_1[6]                    : AH5       : bidir  : 2.5 V             :         : 3B        : N              
-led[0]                       : AH6       : output : 2.5 V             :         : 3B        : N              
-gpio_1[11]                   : AH7       : bidir  : 2.5 V             :         : 4A        : N              
-gpio_1[1]                    : AH8       : bidir  : 2.5 V             :         : 4A        : N              
-led[2]                       : AH9       : output : 2.5 V             :         : 4A        : N              
+gpio_1[31]                   : AG28      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_0[14]                   : AH2       : bidir  : 2.5 V             :         : 3B        : N              
+hdmi_tx_vs                   : AH3       : output : 2.5 V             :         : 3B        : N              
+arduino_io[1]                : AH4       : bidir  : 2.5 V             :         : 3B        : N              
+gpio_0[19]                   : AH5       : bidir  : 2.5 V             :         : 3B        : N              
+gpio_0[1]                    : AH6       : bidir  : 2.5 V             :         : 3B        : N              
+hdmi_tx_d[19]                : AH7       : output : 2.5 V             :         : 4A        : N              
+gpio_0[25]                   : AH8       : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[16]                   : AH9       : bidir  : 2.5 V             :         : 4A        : N              
 GND                          : AH10      : gnd    :                   :         :           :                
-hdmi_lrclk                   : AH11      : bidir  : 2.5 V             :         : 4A        : N              
-hdmi_tx_d[10]                : AH12      : output : 2.5 V             :         : 4A        : N              
-gpio_1[24]                   : AH13      : bidir  : 2.5 V             :         : 4A        : N              
-hdmi_tx_d[1]                 : AH14      : output : 2.5 V             :         : 4A        : N              
+gpio_1[11]                   : AH11      : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[11]                : AH12      : output : 2.5 V             :         : 4A        : N              
+gpio_0[5]                    : AH13      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_0[16]                   : AH14      : bidir  : 2.5 V             :         : 4A        : N              
 VCCIO4A                      : AH15      : power  :                   : 2.5V    : 4A        :                
-hdmi_tx_d[23]                : AH16      : output : 2.5 V             :         : 4A        : N              
-fpga_clk3_50                 : AH17      : input  : 2.5 V             :         : 4A        : N              
-gpio_1[14]                   : AH18      : bidir  : 2.5 V             :         : 4A        : N              
-push_button_n[0]             : AH19      : input  : 2.5 V             :         : 4A        : N              
+gpio_0[32]                   : AH16      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[29]                   : AH17      : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[15]                : AH18      : output : 2.5 V             :         : 4A        : N              
+gpio_1[35]                   : AH19      : bidir  : 2.5 V             :         : 4A        : N              
 GND                          : AH20      : gnd    :                   :         :           :                
-gpio_0[6]                    : AH21      : bidir  : 2.5 V             :         : 4A        : N              
-hdmi_tx_d[15]                : AH22      : output : 2.5 V             :         : 4A        : N              
-arduino_io[12]               : AH23      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_0[20]                   : AH24      : bidir  : 2.5 V             :         : 4A        : N              
+fpga_clk2_50                 : AH21      : input  : 2.5 V             :         : 4A        : N              
+gpio_1[34]                   : AH22      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[13]                   : AH23      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[5]                    : AH24      : bidir  : 2.5 V             :         : 4A        : N              
 VCCIO4A                      : AH25      : power  :                   : 2.5V    : 4A        :                
-arduino_io[11]               : AH26      : bidir  : 2.5 V             :         : 4A        : N              
-gpio_0[7]                    : AH27      : bidir  : 2.5 V             :         : 4A        : N              
+arduino_io[13]               : AH26      : bidir  : 2.5 V             :         : 4A        : N              
+gpio_0[22]                   : AH27      : bidir  : 2.5 V             :         : 4A        : N              
 GND                          : B1        :        :                   :         :           :                
 DNU                          : B2        :        :                   :         :           :                
 GND                          : B3        : gnd    :                   :         :           :                
@@ -336,7 +336,7 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : C8        :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : C9        :        :                   :         : 7D        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : C10       :        :                   :         : 7D        :                
 GND                          : C11       : gnd    :                   :         :           :                
-gpio_0[29]                   : C12       : bidir  : 2.5 V             :         : 8A        : N              
+arduino_io[15]               : C12       : bidir  : 2.5 V             :         : 8A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : C13       :        :                   :         : 7C        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : C14       :        :                   :         : 7B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : C15       :        :                   :         : 7B        :                
@@ -360,11 +360,11 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : D4        :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : D5        :        :                   :         : 7D        :                
 VCCIO7D_HPS                  : D6        : power  :                   : 2.5V    : 7D        :                
 VCCBAT                       : D7        : power  :                   : 1.2V    :           :                
-arduino_io[13]               : D8        : bidir  : 2.5 V             :         : 8A        : N              
+led[0]                       : D8        : output : 2.5 V             :         : 8A        : N              
 VREFB8AN0                    : D9        : power  :                   :         : 8A        :                
 GND                          : D10       : gnd    :                   :         :           :                
-gpio_1[34]                   : D11       : bidir  : 2.5 V             :         : 8A        : N              
-gpio_0[9]                    : D12       : bidir  : 2.5 V             :         : 8A        : N              
+gpio_0[26]                   : D11       : bidir  : 2.5 V             :         : 8A        : N              
+hdmi_tx_d[12]                : D12       : output : 2.5 V             :         : 8A        : N              
 GND                          : D13       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D14       :        :                   :         : 7C        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D15       :        :                   :         : 7B        :                
@@ -388,10 +388,10 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : E4        :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : E5        :        :                   :         : 7D        :                
 nCE                          : E6        :        :                   :         : 9A        :                
 VCCIO8A                      : E7        : power  :                   : 2.5V    : 8A        :                
-gpio_0[30]                   : E8        : bidir  : 2.5 V             :         : 8A        : N              
+gpio_0[35]                   : E8        : bidir  : 2.5 V             :         : 8A        : N              
 GND                          : E9        : gnd    :                   :         :           :                
 VCCPD8A                      : E10       : power  :                   : 2.5V    : 8A        :                
-gpio_0[19]                   : E11       : bidir  : 2.5 V             :         : 8A        : N              
+gpio_0[2]                    : E11       : bidir  : 2.5 V             :         : 8A        : N              
 DNU                          : E12       :        :                   :         :           :                
 VCCPD7D_HPS                  : E13       : power  :                   : 2.5V    : 7D        :                
 VCCPD7C_HPS                  : E14       : power  :                   : 2.5V    : 7C        :                
@@ -636,12 +636,12 @@ DNU                          : T2        :        :                   :         
 GND                          : T3        : gnd    :                   :         :           :                
 VCC                          : T4        : power  :                   : 1.1V    :           :                
 VCC                          : T5        : power  :                   : 1.1V    :           :                
-hdmi_tx_d[18]                : T8        : output : 2.5 V             :         : 3A        : N              
+fpga_clk3_50                 : T8        : input  : 2.5 V             :         : 3A        : N              
 VCC                          : T9        : power  :                   : 1.1V    :           :                
 GND                          : T10       : gnd    :                   :         :           :                
-hdmi_tx_d[19]                : T11       : output : 2.5 V             :         : 3B        : N              
-hdmi_tx_d[6]                 : T12       : output : 2.5 V             :         : 3B        : N              
-gpio_1[7]                    : T13       : bidir  : 2.5 V             :         : 3B        : N              
+hdmi_tx_d[1]                 : T11       : output : 2.5 V             :         : 3B        : N              
+hdmi_i2s                     : T12       : bidir  : 2.5 V             :         : 3B        : N              
+hdmi_tx_int                  : T13       : input  : 2.5 V             :         : 3B        : N              
 GND                          : T14       : gnd    :                   :         :           :                
 VCC                          : T15       : power  :                   : 1.1V    :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : T16       :        :                   :         : 6B        :                
@@ -661,12 +661,12 @@ GND                          : U3        : gnd    :                   :         
 VCCA_FPLL                    : U4        : power  :                   : 2.5V    :           :                
 GND                          : U5        : gnd    :                   :         :           :                
 DNU                          : U8        :        :                   :         :           :                
-arduino_io[1]                : U9        : bidir  : 2.5 V             :         : 3A        : N              
-gpio_0[32]                   : U10       : bidir  : 2.5 V             :         : 3A        : N              
-gpio_1[27]                   : U11       : bidir  : 2.5 V             :         : 3B        : N              
+hdmi_tx_d[10]                : U9        : output : 2.5 V             :         : 3A        : N              
+gpio_0[3]                    : U10       : bidir  : 2.5 V             :         : 3A        : N              
+gpio_1[24]                   : U11       : bidir  : 2.5 V             :         : 3B        : N              
 GND                          : U12       : gnd    :                   :         :           :                
-gpio_1[0]                    : U13       : bidir  : 2.5 V             :         : 4A        : N              
-gpio_1[2]                    : U14       : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_i2c_sda                 : U13       : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[25]                   : U14       : bidir  : 2.5 V             :         : 4A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : U15       :        :                   :         : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U16       :        :                   :         : 6B        :                
 GND                          : U17       : gnd    :                   :         :           :                
@@ -686,13 +686,13 @@ GND                          : V4        : gnd    :                   :         
 GND                          : V5        : gnd    :                   :         :           :                
 GND                          : V8        : gnd    :                   :         :           :                
 GND                          : V9        : gnd    :                   :         :           :                
-gpio_1[32]                   : V10       : bidir  : 2.5 V             :         : 3A        : N              
-gpio_1[29]                   : V11       : bidir  : 2.5 V             :         : 3B        : N              
-gpio_1[4]                    : V12       : bidir  : 2.5 V             :         : 3B        : N              
-hdmi_tx_d[8]                 : V13       : output : 2.5 V             :         : 4A        : N              
+gpio_0[23]                   : V10       : bidir  : 2.5 V             :         : 3A        : N              
+gpio_0[33]                   : V11       : bidir  : 2.5 V             :         : 3B        : N              
+hdmi_tx_d[17]                : V12       : output : 2.5 V             :         : 3B        : N              
+gpio_0[15]                   : V13       : bidir  : 2.5 V             :         : 4A        : N              
 GND                          : V14       : gnd    :                   :         :           :                
-hdmi_tx_vs                   : V15       : output : 2.5 V             :         : 5A        : N              
-gpio_0[4]                    : V16       : bidir  : 2.5 V             :         : 5A        : N              
+gpio_1[20]                   : V15       : bidir  : 2.5 V             :         : 5A        : N              
+led[7]                       : V16       : output : 2.5 V             :         : 5A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : V17       :        :                   :         : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : V18       :        :                   :         : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : V19       :        :                   :         : 6B        :                
@@ -708,21 +708,21 @@ GND                          : W2        : gnd    :                   :         
 GND                          : W3        : gnd    :                   :         :           :                
 GND                          : W4        : gnd    :                   :         :           :                
 VCCA_FPLL                    : W5        : power  :                   : 2.5V    :           :                
-arduino_io[6]                : W8        : bidir  : 2.5 V             :         : 3A        : N              
+hdmi_tx_d[3]                 : W8        : output : 2.5 V             :         : 3A        : N              
 VCCIO3A                      : W9        : power  :                   : 2.5V    : 3A        :                
 TDI                          : W10       : input  :                   :         : 3A        :                
-gpio_0[27]                   : W11       : bidir  : 2.5 V             :         : 3B        : N              
-gpio_1[3]                    : W12       : bidir  : 2.5 V             :         : 3B        : N              
+hdmi_tx_d[20]                : W11       : output : 2.5 V             :         : 3B        : N              
+arduino_io[0]                : W12       : bidir  : 2.5 V             :         : 3B        : N              
 VCCIO4A                      : W13       : power  :                   : 2.5V    : 4A        :                
-arduino_io[15]               : W14       : bidir  : 2.5 V             :         : 4A        : N              
-gpio_0[15]                   : W15       : bidir  : 2.5 V             :         : 5A        : N              
+gpio_1[15]                   : W14       : bidir  : 2.5 V             :         : 4A        : N              
+gpio_1[23]                   : W15       : bidir  : 2.5 V             :         : 5A        : N              
 GND                          : W16       : gnd    :                   :         :           :                
 VCCIO5A                      : W17       : power  :                   : 2.5V    : 5A        :                
 GND                          : W18       : gnd    :                   :         :           :                
 VCCPD5B                      : W19       : power  :                   : 2.5V    : 5B        :                
-hdmi_tx_clk                  : W20       : output : 2.5 V             :         : 5B        : N              
+push_button_n[1]             : W20       : input  : 2.5 V             :         : 5B        : N              
 fpga_clk1_50                 : W21       : input  : 2.5 V             :         : 5B        : N              
-adc_sck                      : W24       : output : 2.5 V             :         : 5B        : N              
+led[4]                       : W24       : output : 2.5 V             :         : 5B        : N              
 VCCIO5B                      : W25       : power  :                   : 2.5V    : 5B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : W26       :        :                   :         : 6B        :                
 VCCIO6B_HPS                  : W27       : power  :                   : 2.5V    : 6B        :                
@@ -730,23 +730,23 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : W28       :        :                   :      
 DNU                          : Y1        :        :                   :         :           :                
 DNU                          : Y2        :        :                   :         :           :                
 GND                          : Y3        : gnd    :                   :         :           :                
-led[6]                       : Y4        : output : 2.5 V             :         : 3A        : N              
-hdmi_tx_d[14]                : Y5        : output : 2.5 V             :         : 3A        : N              
-arduino_io[0]                : Y8        : bidir  : 2.5 V             :         : 3A        : N              
+gpio_1[8]                    : Y4        : bidir  : 2.5 V             :         : 3A        : N              
+hdmi_mclk                    : Y5        : bidir  : 2.5 V             :         : 3A        : N              
+adc_sdi                      : Y8        : output : 2.5 V             :         : 3A        : N              
 TDO                          : Y9        : output :                   :         : 3A        :                
 VCCPGM                       : Y10       : power  :                   : 1.8V/2.5V/3.0V/3.3V :           :                
-gpio_0[2]                    : Y11       : bidir  : 2.5 V             :         : 3A        : N              
+gpio_0[24]                   : Y11       : bidir  : 2.5 V             :         : 3A        : N              
 GND                          : Y12       : gnd    :                   :         :           :                
-gpio_1[33]                   : Y13       : bidir  : 2.5 V             :         : 4A        : N              
+hdmi_tx_d[22]                : Y13       : output : 2.5 V             :         : 4A        : N              
 GND                          : Y14       : gnd    :                   :         :           :                
-arduino_io[10]               : Y15       : bidir  : 2.5 V             :         : 4A        : N              
-hdmi_tx_d[2]                 : Y16       : output : 2.5 V             :         : 5A        : N              
-gpio_0[28]                   : Y17       : bidir  : 2.5 V             :         : 5A        : N              
-gpio_0[13]                   : Y18       : bidir  : 2.5 V             :         : 5A        : N              
-hdmi_tx_d[13]                : Y19       : output : 2.5 V             :         : 5A        : N              
+arduino_io[8]                : Y15       : bidir  : 2.5 V             :         : 4A        : N              
+led[6]                       : Y16       : output : 2.5 V             :         : 5A        : N              
+gpio_0[4]                    : Y17       : bidir  : 2.5 V             :         : 5A        : N              
+gpio_0[27]                   : Y18       : bidir  : 2.5 V             :         : 5A        : N              
+led[1]                       : Y19       : output : 2.5 V             :         : 5A        : N              
 GND                          : Y20       : gnd    :                   :         :           :                
 VCCPD5A                      : Y21       : power  :                   : 2.5V    : 5A        :                
-arduino_io[7]                : Y24       : bidir  : 2.5 V             :         : 5B        : N              
+gpio_1[17]                   : Y24       : bidir  : 2.5 V             :         : 5B        : N              
 GND                          : Y25       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : Y26       :        :                   :         : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : Y27       :        :                   :         : 6B        :                
