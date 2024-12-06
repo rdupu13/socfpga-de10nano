@@ -1,5 +1,5 @@
 Analysis & Synthesis report for de10nano_top
-Thu Nov 28 13:22:08 2024
+Thu Dec  5 19:20:18 2024
 Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
 
 
@@ -13,14 +13,13 @@ Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
   5. Analysis & Synthesis Source Files Read
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
-  8. State Machine - |de10nano_top|lcd:LCD_DESIGN|curr_state
-  9. Registers Removed During Synthesis
- 10. General Register Statistics
- 11. Parameter Settings for User Entity Instance: lcd:LCD_DESIGN
- 12. Port Connectivity Checks: "lcd:LCD_DESIGN"
- 13. Post-Synthesis Netlist Statistics for Top Partition
- 14. Elapsed Time Per Partition
- 15. Analysis & Synthesis Messages
+  8. General Register Statistics
+  9. Inverted Register Statistics
+ 10. Parameter Settings for User Entity Instance: keyboard:KEYBOARD_DESIGN
+ 11. Port Connectivity Checks: "keyboard:KEYBOARD_DESIGN"
+ 12. Post-Synthesis Netlist Statistics for Top Partition
+ 13. Elapsed Time Per Partition
+ 14. Analysis & Synthesis Messages
 
 
 
@@ -47,13 +46,13 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +---------------------------------+------------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Thu Nov 28 13:22:08 2024          ;
+; Analysis & Synthesis Status     ; Successful - Thu Dec  5 19:20:18 2024          ;
 ; Quartus Prime Version           ; 23.1std.1 Build 993 05/14/2024 SC Lite Edition ;
 ; Revision Name                   ; de10nano_top                                   ;
 ; Top-level Entity Name           ; de10nano_top                                   ;
 ; Family                          ; Cyclone V                                      ;
 ; Logic utilization (in ALMs)     ; N/A                                            ;
-; Total registers                 ; 51                                             ;
+; Total registers                 ; 3                                              ;
 ; Total pins                      ; 145                                            ;
 ; Total virtual pins              ; 0                                              ;
 ; Total block memory bits         ; 0                                              ;
@@ -171,86 +170,52 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------+-------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                            ;
-+----------------------------------+-----------------+-----------------+----------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                     ; Library ;
-+----------------------------------+-----------------+-----------------+----------------------------------------------------------------------------------+---------+
-; ../../hdl/lcd/de10nano_top.vhd   ; yes             ; User VHDL File  ; /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd ;         ;
-; ../../hdl/lcd/lcd.vhd            ; yes             ; User VHDL File  ; /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/lcd.vhd          ;         ;
-+----------------------------------+-----------------+-----------------+----------------------------------------------------------------------------------+---------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                            ;
++-------------------------------------+-----------------+-----------------+-----------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path    ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                                  ; Library ;
++-------------------------------------+-----------------+-----------------+-----------------------------------------------------------------------------------------------+---------+
+; ../../hdl/keyboard/de10nano_top.vhd ; yes             ; User VHDL File  ; /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd ;         ;
+; ../../hdl/keyboard/keyboard.vhd     ; yes             ; User VHDL File  ; /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/keyboard.vhd     ;         ;
++-------------------------------------+-----------------+-----------------+-----------------------------------------------------------------------------------------------+---------+
 
 
-+----------------------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary                          ;
-+---------------------------------------------+------------------------+
-; Resource                                    ; Usage                  ;
-+---------------------------------------------+------------------------+
-; Estimate of Logic utilization (ALMs needed) ; 28                     ;
-;                                             ;                        ;
-; Combinational ALUT usage for logic          ; 47                     ;
-;     -- 7 input functions                    ; 0                      ;
-;     -- 6 input functions                    ; 6                      ;
-;     -- 5 input functions                    ; 1                      ;
-;     -- 4 input functions                    ; 4                      ;
-;     -- <=3 input functions                  ; 36                     ;
-;                                             ;                        ;
-; Dedicated logic registers                   ; 51                     ;
-;                                             ;                        ;
-; I/O pins                                    ; 145                    ;
-;                                             ;                        ;
-; Total DSP Blocks                            ; 0                      ;
-;                                             ;                        ;
-; Maximum fan-out node                        ; push_button_n[1]~input ;
-; Maximum fan-out                             ; 51                     ;
-; Total fan-out                               ; 565                    ;
-; Average fan-out                             ; 1.17                   ;
-+---------------------------------------------+------------------------+
++-----------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                                       ;
++---------------------------------------------+-------------------------------------+
+; Resource                                    ; Usage                               ;
++---------------------------------------------+-------------------------------------+
+; Estimate of Logic utilization (ALMs needed) ; 2                                   ;
+;                                             ;                                     ;
+; Combinational ALUT usage for logic          ; 3                                   ;
+;     -- 7 input functions                    ; 0                                   ;
+;     -- 6 input functions                    ; 0                                   ;
+;     -- 5 input functions                    ; 0                                   ;
+;     -- 4 input functions                    ; 0                                   ;
+;     -- <=3 input functions                  ; 3                                   ;
+;                                             ;                                     ;
+; Dedicated logic registers                   ; 3                                   ;
+;                                             ;                                     ;
+; I/O pins                                    ; 145                                 ;
+;                                             ;                                     ;
+; Total DSP Blocks                            ; 0                                   ;
+;                                             ;                                     ;
+; Maximum fan-out node                        ; keyboard:KEYBOARD_DESIGN|row_sig[0] ;
+; Maximum fan-out                             ; 4                                   ;
+; Total fan-out                               ; 269                                 ;
+; Average fan-out                             ; 0.69                                ;
++---------------------------------------------+-------------------------------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                              ;
-+----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+------------------------------+--------------+--------------+
-; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name          ; Entity Name  ; Library Name ;
-+----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+------------------------------+--------------+--------------+
-; |de10nano_top              ; 47 (0)              ; 51 (0)                    ; 0                 ; 0          ; 145  ; 0            ; |de10nano_top                ; de10nano_top ; work         ;
-;    |lcd:LCD_DESIGN|        ; 47 (47)             ; 51 (51)                   ; 0                 ; 0          ; 0    ; 0            ; |de10nano_top|lcd:LCD_DESIGN ; lcd          ; work         ;
-+----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+------------------------------+--------------+--------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                           ;
++-------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+----------------------------------------+--------------+--------------+
+; Compilation Hierarchy Node    ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                    ; Entity Name  ; Library Name ;
++-------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+----------------------------------------+--------------+--------------+
+; |de10nano_top                 ; 3 (0)               ; 3 (0)                     ; 0                 ; 0          ; 145  ; 0            ; |de10nano_top                          ; de10nano_top ; work         ;
+;    |keyboard:KEYBOARD_DESIGN| ; 3 (3)               ; 3 (3)                     ; 0                 ; 0          ; 0    ; 0            ; |de10nano_top|keyboard:KEYBOARD_DESIGN ; keyboard     ; work         ;
++-------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+----------------------------------------+--------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
-
-
-Encoding Type:  One-Hot
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; State Machine - |de10nano_top|lcd:LCD_DESIGN|curr_state                                                                                                                                                                                                                        ;
-+--------------------+-----------------+--------------------+--------------------+--------------------+------------------+------------------+------------------+------------------+------------------+------------------+------------------+------------------+------------------+
-; Name               ; curr_state.idle ; curr_state.write_2 ; curr_state.write_1 ; curr_state.write_0 ; curr_state.rst_8 ; curr_state.rst_7 ; curr_state.rst_6 ; curr_state.rst_5 ; curr_state.rst_4 ; curr_state.rst_3 ; curr_state.rst_2 ; curr_state.rst_1 ; curr_state.rst_0 ;
-+--------------------+-----------------+--------------------+--------------------+--------------------+------------------+------------------+------------------+------------------+------------------+------------------+------------------+------------------+------------------+
-; curr_state.rst_0   ; 0               ; 0                  ; 0                  ; 0                  ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ;
-; curr_state.rst_1   ; 0               ; 0                  ; 0                  ; 0                  ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 1                ; 1                ;
-; curr_state.rst_2   ; 0               ; 0                  ; 0                  ; 0                  ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 1                ; 0                ; 1                ;
-; curr_state.rst_3   ; 0               ; 0                  ; 0                  ; 0                  ; 0                ; 0                ; 0                ; 0                ; 0                ; 1                ; 0                ; 0                ; 1                ;
-; curr_state.rst_4   ; 0               ; 0                  ; 0                  ; 0                  ; 0                ; 0                ; 0                ; 0                ; 1                ; 0                ; 0                ; 0                ; 1                ;
-; curr_state.rst_5   ; 0               ; 0                  ; 0                  ; 0                  ; 0                ; 0                ; 0                ; 1                ; 0                ; 0                ; 0                ; 0                ; 1                ;
-; curr_state.rst_6   ; 0               ; 0                  ; 0                  ; 0                  ; 0                ; 0                ; 1                ; 0                ; 0                ; 0                ; 0                ; 0                ; 1                ;
-; curr_state.rst_7   ; 0               ; 0                  ; 0                  ; 0                  ; 0                ; 1                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 1                ;
-; curr_state.rst_8   ; 0               ; 0                  ; 0                  ; 0                  ; 1                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 1                ;
-; curr_state.write_0 ; 0               ; 0                  ; 0                  ; 1                  ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 1                ;
-; curr_state.write_1 ; 0               ; 0                  ; 1                  ; 0                  ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 1                ;
-; curr_state.write_2 ; 0               ; 1                  ; 0                  ; 0                  ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 1                ;
-; curr_state.idle    ; 1               ; 0                  ; 0                  ; 0                  ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 0                ; 1                ;
-+--------------------+-----------------+--------------------+--------------------+--------------------+------------------+------------------+------------------+------------------+------------------+------------------+------------------+------------------+------------------+
-
-
-+--------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                             ;
-+---------------------------------------+----------------------------------------+
-; Register name                         ; Reason for Removal                     ;
-+---------------------------------------+----------------------------------------+
-; lcd:LCD_DESIGN|ctl[1]                 ; Stuck at GND due to stuck port data_in ;
-; lcd:LCD_DESIGN|data[4,5,7]            ; Stuck at GND due to stuck port data_in ;
-; lcd:LCD_DESIGN|curr_state.idle        ; Lost fanout                            ;
-; Total Number of Removed Registers = 5 ;                                        ;
-+---------------------------------------+----------------------------------------+
 
 
 +------------------------------------------------------+
@@ -258,33 +223,43 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 51    ;
-; Number of registers using Synchronous Clear  ; 31    ;
+; Total registers                              ; 3     ;
+; Number of registers using Synchronous Clear  ; 0     ;
 ; Number of registers using Synchronous Load   ; 0     ;
-; Number of registers using Asynchronous Clear ; 39    ;
+; Number of registers using Asynchronous Clear ; 3     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 12    ;
+; Number of registers using Clock Enable       ; 0     ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
 
-+-------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: lcd:LCD_DESIGN ;
-+----------------+-------------+------------------------------+
-; Parameter Name ; Value       ; Type                         ;
-+----------------+-------------+------------------------------+
-; sys_clk_period ; 20000000 fs ; Physical                     ;
-+----------------+-------------+------------------------------+
++--------------------------------------------------+
+; Inverted Register Statistics                     ;
++----------------------------------------+---------+
+; Inverted Register                      ; Fan out ;
++----------------------------------------+---------+
+; keyboard:KEYBOARD_DESIGN|row_sig[0]    ; 4       ;
+; Total number of inverted registers = 1 ;         ;
++----------------------------------------+---------+
+
+
++-----------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: keyboard:KEYBOARD_DESIGN ;
++----------------+-------------+----------------------------------------+
+; Parameter Name ; Value       ; Type                                   ;
++----------------+-------------+----------------------------------------+
+; sys_clk_period ; 20000000 fs ; Physical                               ;
++----------------+-------------+----------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+----------------------------------------------+
-; Port Connectivity Checks: "lcd:LCD_DESIGN"   ;
-+------------+-------+----------+--------------+
-; Port       ; Type  ; Severity ; Details      ;
-+------------+-------+----------+--------------+
-; reg[31..4] ; Input ; Info     ; Stuck at GND ;
-+------------+-------+----------+--------------+
++---------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "keyboard:KEYBOARD_DESIGN"                                                                ;
++-----------+--------+----------+-------------------------------------------------------------------------------------+
+; Port      ; Type   ; Severity ; Details                                                                             ;
++-----------+--------+----------+-------------------------------------------------------------------------------------+
+; kb_buffer ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-----------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +-----------------------------------------------------+
@@ -292,26 +267,17 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 51                          ;
-;     CLR               ; 8                           ;
-;     CLR SCLR          ; 31                          ;
-;     ENA               ; 12                          ;
+; arriav_ff             ; 3                           ;
+;     CLR               ; 3                           ;
 ; arriav_io_obuf        ; 95                          ;
-; arriav_lcell_comb     ; 48                          ;
-;     arith             ; 31                          ;
-;         1 data inputs ; 31                          ;
-;     normal            ; 17                          ;
+; arriav_lcell_comb     ; 4                           ;
+;     normal            ; 4                           ;
 ;         0 data inputs ; 1                           ;
-;         1 data inputs ; 1                           ;
-;         2 data inputs ; 1                           ;
 ;         3 data inputs ; 3                           ;
-;         4 data inputs ; 4                           ;
-;         5 data inputs ; 1                           ;
-;         6 data inputs ; 6                           ;
 ; boundary_port         ; 145                         ;
 ;                       ;                             ;
-; Max LUT depth         ; 4.00                        ;
-; Average LUT depth     ; 1.49                        ;
+; Max LUT depth         ; 1.00                        ;
+; Average LUT depth     ; 0.05                        ;
 +-----------------------+-----------------------------+
 
 
@@ -330,190 +296,198 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
-    Info: Processing started: Thu Nov 28 13:21:55 2024
+    Info: Processing started: Thu Dec  5 19:20:05 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off final_project -c de10nano_top
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
-Info (12021): Found 2 design units, including 1 entities, in source file /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd
-    Info (12022): Found design unit 1: de10nano_top-de10nano_arch File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 198
-    Info (12023): Found entity 1: de10nano_top File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 24
-Info (12021): Found 2 design units, including 1 entities, in source file /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/lcd.vhd
-    Info (12022): Found design unit 1: lcd-lcd_arch File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/lcd.vhd Line: 20
-    Info (12023): Found entity 1: lcd File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/lcd.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/async_conditioner.vhd
+    Info (12022): Found design unit 1: async_conditioner-async_conditioner_arch File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/async_conditioner.vhd Line: 18
+    Info (12023): Found entity 1: async_conditioner File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/async_conditioner.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/debouncer.vhd
+    Info (12022): Found design unit 1: debouncer-debouncer_arch File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/debouncer.vhd Line: 18
+    Info (12023): Found entity 1: debouncer File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/debouncer.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/one_pulse.vhd
+    Info (12022): Found design unit 1: one_pulse-one_pulse_arch File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/one_pulse.vhd Line: 14
+    Info (12023): Found entity 1: one_pulse File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/one_pulse.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/synchronizer.vhd
+    Info (12022): Found design unit 1: synchronizer-synchronizer_arch File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/synchronizer.vhd Line: 12
+    Info (12023): Found entity 1: synchronizer File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/async-conditioner/synchronizer.vhd Line: 4
+Info (12021): Found 2 design units, including 1 entities, in source file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd
+    Info (12022): Found design unit 1: de10nano_top-de10nano_arch File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 198
+    Info (12023): Found entity 1: de10nano_top File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 24
+Info (12021): Found 2 design units, including 1 entities, in source file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/keyboard.vhd
+    Info (12022): Found design unit 1: keyboard-keyboard_arch File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/keyboard.vhd Line: 20
+    Info (12023): Found entity 1: keyboard File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/keyboard.vhd Line: 5
 Info (12127): Elaborating entity "de10nano_top" for the top level hierarchy
-Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(45): used implicit default value for signal "hdmi_tx_clk" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 45
-Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(46): used implicit default value for signal "hdmi_tx_d" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(47): used implicit default value for signal "hdmi_tx_de" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 47
-Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(48): used implicit default value for signal "hdmi_tx_hs" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 48
-Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(50): used implicit default value for signal "hdmi_tx_vs" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 50
-Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(191): used implicit default value for signal "adc_convst" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 191
-Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(192): used implicit default value for signal "adc_sck" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 192
-Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(193): used implicit default value for signal "adc_sdi" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 193
-Info (12128): Elaborating entity "lcd" for hierarchy "lcd:LCD_DESIGN" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 276
+Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(45): used implicit default value for signal "hdmi_tx_clk" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 45
+Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(46): used implicit default value for signal "hdmi_tx_d" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(47): used implicit default value for signal "hdmi_tx_de" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 47
+Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(48): used implicit default value for signal "hdmi_tx_hs" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 48
+Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(50): used implicit default value for signal "hdmi_tx_vs" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 50
+Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(191): used implicit default value for signal "adc_convst" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 191
+Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(192): used implicit default value for signal "adc_sck" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 192
+Warning (10541): VHDL Signal Declaration warning at de10nano_top.vhd(193): used implicit default value for signal "adc_sdi" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 193
+Warning (10036): Verilog HDL or VHDL warning at de10nano_top.vhd(220): object "kb_buffer" assigned a value but never read File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 220
+Info (12128): Elaborating entity "keyboard" for hierarchy "keyboard:KEYBOARD_DESIGN" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 255
 Warning (13034): The following nodes have both tri-state and non-tri-state drivers
-    Warning (13035): Inserted always-enabled tri-state buffer between "gpio_1[14]" and its non-tri-state driver. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13035): Inserted always-enabled tri-state buffer between "gpio_1[17]" and its non-tri-state driver. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13035): Inserted always-enabled tri-state buffer between "gpio_1[18]" and its non-tri-state driver. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13035): Inserted always-enabled tri-state buffer between "gpio_1[19]" and its non-tri-state driver. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13035): Inserted always-enabled tri-state buffer between "gpio_1[20]" and its non-tri-state driver. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13035): Inserted always-enabled tri-state buffer between "gpio_1[21]" and its non-tri-state driver. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13035): Inserted always-enabled tri-state buffer between "gpio_1[23]" and its non-tri-state driver. File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
+    Warning (13035): Inserted always-enabled tri-state buffer between "gpio_1[10]" and its non-tri-state driver. File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13035): Inserted always-enabled tri-state buffer between "gpio_1[11]" and its non-tri-state driver. File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13035): Inserted always-enabled tri-state buffer between "gpio_1[12]" and its non-tri-state driver. File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
 Warning (13039): The following bidirectional pins have no drivers
-    Warning (13040): bidirectional pin "hdmi_i2c_scl" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 39
-    Warning (13040): bidirectional pin "hdmi_i2c_sda" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 40
-    Warning (13040): bidirectional pin "hdmi_i2s" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 41
-    Warning (13040): bidirectional pin "hdmi_lrclk" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 42
-    Warning (13040): bidirectional pin "hdmi_mclk" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 43
-    Warning (13040): bidirectional pin "hdmi_sclk" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 44
-    Warning (13040): bidirectional pin "gpio_0[0]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[1]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[2]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[3]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[4]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[5]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[6]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[7]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[8]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[9]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[10]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[11]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[12]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[13]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[14]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[15]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[16]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[17]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[18]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[19]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[20]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[21]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[22]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[23]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[24]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[25]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[26]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[27]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[28]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[29]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[30]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[31]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[32]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[33]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[34]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "gpio_0[35]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 177
-    Warning (13040): bidirectional pin "arduino_io[0]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[1]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[2]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[3]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[4]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[5]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[6]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[7]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[8]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[9]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[10]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[11]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[12]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[13]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[14]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_io[15]" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 184
-    Warning (13040): bidirectional pin "arduino_reset_n" has no driver File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 185
+    Warning (13040): bidirectional pin "hdmi_i2c_scl" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 39
+    Warning (13040): bidirectional pin "hdmi_i2c_sda" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 40
+    Warning (13040): bidirectional pin "hdmi_i2s" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 41
+    Warning (13040): bidirectional pin "hdmi_lrclk" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 42
+    Warning (13040): bidirectional pin "hdmi_mclk" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 43
+    Warning (13040): bidirectional pin "hdmi_sclk" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 44
+    Warning (13040): bidirectional pin "gpio_0[0]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[1]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[2]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[3]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[4]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[5]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[6]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[7]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[8]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[9]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[10]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[11]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[12]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[13]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[14]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[15]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[16]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[17]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[18]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[19]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[20]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[21]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[22]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[23]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[24]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[25]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[26]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[27]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[28]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[29]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[30]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[31]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[32]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[33]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[34]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "gpio_0[35]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 177
+    Warning (13040): bidirectional pin "arduino_io[0]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[1]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[2]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[3]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[4]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[5]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[6]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[7]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[8]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[9]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[10]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[11]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[12]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[13]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[14]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_io[15]" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 184
+    Warning (13040): bidirectional pin "arduino_reset_n" has no driver File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 185
 Warning (13032): The following tri-state nodes are fed by constants
-    Warning (13033): The pin "gpio_1[0]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[1]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[2]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[3]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[4]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[5]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[6]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[7]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[8]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[9]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[10]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[11]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[12]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[13]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[15]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[16]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[22]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[24]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[25]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[26]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[27]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[28]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[29]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[30]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[31]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[32]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[33]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[34]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13033): The pin "gpio_1[35]" is fed by GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[7]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[8]" is fed by VCC File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[9]" is fed by VCC File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[14]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[15]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[16]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[17]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[18]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[19]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[20]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[21]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[22]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[23]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[24]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[25]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[26]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[27]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[28]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[29]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[30]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[31]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[32]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[33]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[34]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13033): The pin "gpio_1[35]" is fed by GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
 Warning (13009): TRI or OPNDRN buffers permanently enabled
-    Warning (13010): Node "gpio_1[14]~synth" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13010): Node "gpio_1[17]~synth" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13010): Node "gpio_1[18]~synth" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13010): Node "gpio_1[19]~synth" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13010): Node "gpio_1[20]~synth" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13010): Node "gpio_1[21]~synth" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
-    Warning (13010): Node "gpio_1[23]~synth" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 178
+    Warning (13010): Node "gpio_1[8]~synth" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13010): Node "gpio_1[9]~synth" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13010): Node "gpio_1[10]~synth" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13010): Node "gpio_1[11]~synth" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
+    Warning (13010): Node "gpio_1[12]~synth" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 178
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "hdmi_tx_clk" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 45
-    Warning (13410): Pin "hdmi_tx_d[0]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[1]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[2]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[3]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[4]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[5]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[6]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[7]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[8]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[9]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[10]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[11]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[12]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[13]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[14]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[15]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[16]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[17]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[18]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[19]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[20]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[21]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[22]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_d[23]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 46
-    Warning (13410): Pin "hdmi_tx_de" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 47
-    Warning (13410): Pin "hdmi_tx_hs" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 48
-    Warning (13410): Pin "hdmi_tx_vs" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 50
-    Warning (13410): Pin "led[0]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 168
-    Warning (13410): Pin "led[2]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 168
-    Warning (13410): Pin "led[3]" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 168
-    Warning (13410): Pin "adc_convst" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 191
-    Warning (13410): Pin "adc_sck" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 192
-    Warning (13410): Pin "adc_sdi" is stuck at GND File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 193
+    Warning (13410): Pin "hdmi_tx_clk" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 45
+    Warning (13410): Pin "hdmi_tx_d[0]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[1]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[2]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[3]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[4]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[5]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[6]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[7]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[8]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[9]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[10]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[11]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[12]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[13]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[14]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[15]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[16]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[17]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[18]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[19]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[20]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[21]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[22]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_d[23]" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 46
+    Warning (13410): Pin "hdmi_tx_de" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 47
+    Warning (13410): Pin "hdmi_tx_hs" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 48
+    Warning (13410): Pin "hdmi_tx_vs" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 50
+    Warning (13410): Pin "adc_convst" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 191
+    Warning (13410): Pin "adc_sck" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 192
+    Warning (13410): Pin "adc_sdi" is stuck at GND File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 193
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 1 registers lost all their fanouts during netlist optimizations.
+Warning (14632): Output pin "led[0]" driven by bidirectional pin "gpio_1[0]" cannot be tri-stated File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 168
+Warning (14632): Output pin "led[1]" driven by bidirectional pin "gpio_1[1]" cannot be tri-stated File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 168
+Warning (14632): Output pin "led[2]" driven by bidirectional pin "gpio_1[2]" cannot be tri-stated File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 168
+Warning (14632): Output pin "led[3]" driven by bidirectional pin "gpio_1[3]" cannot be tri-stated File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 168
+Warning (14632): Output pin "led[4]" driven by bidirectional pin "gpio_1[4]" cannot be tri-stated File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 168
+Warning (14632): Output pin "led[5]" driven by bidirectional pin "gpio_1[5]" cannot be tri-stated File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 168
+Warning (14632): Output pin "led[6]" driven by bidirectional pin "gpio_1[6]" cannot be tri-stated File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 168
+Warning (14632): Output pin "led[7]" driven by bidirectional pin "gpio_1[13]" cannot be tri-stated File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 168
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Warning (21074): Design contains 9 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "fpga_clk2_50" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 32
-    Warning (15610): No output dependent on input pin "fpga_clk3_50" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 33
-    Warning (15610): No output dependent on input pin "hdmi_tx_int" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 49
-    Warning (15610): No output dependent on input pin "push_button_n[0]" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 152
-    Warning (15610): No output dependent on input pin "sw[0]" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 161
-    Warning (15610): No output dependent on input pin "sw[1]" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 161
-    Warning (15610): No output dependent on input pin "sw[2]" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 161
-    Warning (15610): No output dependent on input pin "sw[3]" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 161
-    Warning (15610): No output dependent on input pin "adc_sdo" File: /home/rdupu/documents/git-repos/final-project-ryan-noah/hdl/lcd/de10nano_top.vhd Line: 194
-Info (21057): Implemented 205 device resources after synthesis - the final resource count might be different
+Warning (21074): Design contains 10 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "fpga_clk1_50" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 31
+    Warning (15610): No output dependent on input pin "fpga_clk2_50" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 32
+    Warning (15610): No output dependent on input pin "fpga_clk3_50" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 33
+    Warning (15610): No output dependent on input pin "hdmi_tx_int" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 49
+    Warning (15610): No output dependent on input pin "push_button_n[0]" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 152
+    Warning (15610): No output dependent on input pin "sw[0]" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 161
+    Warning (15610): No output dependent on input pin "sw[1]" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 161
+    Warning (15610): No output dependent on input pin "sw[2]" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 161
+    Warning (15610): No output dependent on input pin "sw[3]" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 161
+    Warning (15610): No output dependent on input pin "adc_sdo" File: /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/hdl/keyboard/de10nano_top.vhd Line: 194
+Info (21057): Implemented 148 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 11 input pins
     Info (21059): Implemented 39 output pins
     Info (21060): Implemented 95 bidirectional pins
-    Info (21061): Implemented 60 logic cells
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 160 warnings
-    Info: Peak virtual memory: 499 megabytes
-    Info: Processing ended: Thu Nov 28 13:22:08 2024
+    Info (21061): Implemented 3 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 157 warnings
+    Info: Peak virtual memory: 502 megabytes
+    Info: Processing ended: Thu Dec  5 19:20:18 2024
     Info: Elapsed time: 00:00:13
-    Info: Total CPU time (on all processors): 00:00:33
+    Info: Total CPU time (on all processors): 00:00:34
 
 

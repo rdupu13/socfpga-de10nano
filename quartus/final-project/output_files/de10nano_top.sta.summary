@@ -2,100 +2,52 @@
 Timing Analyzer Summary
 ------------------------------------------------------------
 
-Type  : Slow 1100mV 100C Model Setup 'fpga_clk1_50'
-Slack : -5.566
-TNS   : -137.589
+Type  : Slow 1100mV 100C Model Setup 'gpio_1[13]'
+Slack : -0.350
+TNS   : -1.646
 
-Type  : Slow 1100mV 100C Model Setup 'lcd:LCD_DESIGN|lcd_clk'
-Slack : -1.906
-TNS   : -26.156
-
-Type  : Slow 1100mV 100C Model Hold 'fpga_clk1_50'
-Slack : 0.438
+Type  : Slow 1100mV 100C Model Hold 'gpio_1[13]'
+Slack : 0.338
 TNS   : 0.000
 
-Type  : Slow 1100mV 100C Model Hold 'lcd:LCD_DESIGN|lcd_clk'
-Slack : 0.815
-TNS   : 0.000
-
-Type  : Slow 1100mV 100C Model Minimum Pulse Width 'fpga_clk1_50'
+Type  : Slow 1100mV 100C Model Minimum Pulse Width 'gpio_1[13]'
 Slack : -0.538
-TNS   : -36.261
+TNS   : -3.921
 
-Type  : Slow 1100mV 100C Model Minimum Pulse Width 'lcd:LCD_DESIGN|lcd_clk'
+Type  : Slow 1100mV -40C Model Setup 'gpio_1[13]'
+Slack : -0.406
+TNS   : -1.916
+
+Type  : Slow 1100mV -40C Model Hold 'gpio_1[13]'
+Slack : 0.332
+TNS   : 0.000
+
+Type  : Slow 1100mV -40C Model Minimum Pulse Width 'gpio_1[13]'
 Slack : -0.538
-TNS   : -14.990
+TNS   : -4.156
 
-Type  : Slow 1100mV -40C Model Setup 'fpga_clk1_50'
-Slack : -5.756
-TNS   : -132.978
-
-Type  : Slow 1100mV -40C Model Setup 'lcd:LCD_DESIGN|lcd_clk'
-Slack : -1.926
-TNS   : -25.843
-
-Type  : Slow 1100mV -40C Model Hold 'fpga_clk1_50'
-Slack : 0.461
+Type  : Fast 1100mV 100C Model Setup 'gpio_1[13]'
+Slack : 0.303
 TNS   : 0.000
 
-Type  : Slow 1100mV -40C Model Hold 'lcd:LCD_DESIGN|lcd_clk'
-Slack : 0.747
+Type  : Fast 1100mV 100C Model Hold 'gpio_1[13]'
+Slack : 0.170
 TNS   : 0.000
 
-Type  : Slow 1100mV -40C Model Minimum Pulse Width 'fpga_clk1_50'
-Slack : -0.538
-TNS   : -38.886
+Type  : Fast 1100mV 100C Model Minimum Pulse Width 'gpio_1[13]'
+Slack : -0.085
+TNS   : -0.422
 
-Type  : Slow 1100mV -40C Model Minimum Pulse Width 'lcd:LCD_DESIGN|lcd_clk'
-Slack : -0.538
-TNS   : -14.862
-
-Type  : Fast 1100mV 100C Model Setup 'fpga_clk1_50'
-Slack : -3.034
-TNS   : -48.393
-
-Type  : Fast 1100mV 100C Model Setup 'lcd:LCD_DESIGN|lcd_clk'
-Slack : -0.773
-TNS   : -9.623
-
-Type  : Fast 1100mV 100C Model Hold 'fpga_clk1_50'
-Slack : 0.204
+Type  : Fast 1100mV -40C Model Setup 'gpio_1[13]'
+Slack : 0.344
 TNS   : 0.000
 
-Type  : Fast 1100mV 100C Model Hold 'lcd:LCD_DESIGN|lcd_clk'
-Slack : 0.306
+Type  : Fast 1100mV -40C Model Hold 'gpio_1[13]'
+Slack : 0.151
 TNS   : 0.000
 
-Type  : Fast 1100mV 100C Model Minimum Pulse Width 'fpga_clk1_50'
-Slack : -0.320
-TNS   : -4.121
-
-Type  : Fast 1100mV 100C Model Minimum Pulse Width 'lcd:LCD_DESIGN|lcd_clk'
-Slack : 0.095
-TNS   : 0.000
-
-Type  : Fast 1100mV -40C Model Setup 'fpga_clk1_50'
-Slack : -2.427
-TNS   : -38.149
-
-Type  : Fast 1100mV -40C Model Setup 'lcd:LCD_DESIGN|lcd_clk'
-Slack : -0.586
-TNS   : -6.927
-
-Type  : Fast 1100mV -40C Model Hold 'fpga_clk1_50'
-Slack : 0.188
-TNS   : 0.000
-
-Type  : Fast 1100mV -40C Model Hold 'lcd:LCD_DESIGN|lcd_clk'
-Slack : 0.253
-TNS   : 0.000
-
-Type  : Fast 1100mV -40C Model Minimum Pulse Width 'fpga_clk1_50'
-Slack : -0.314
-TNS   : -4.046
-
-Type  : Fast 1100mV -40C Model Minimum Pulse Width 'lcd:LCD_DESIGN|lcd_clk'
-Slack : 0.118
-TNS   : 0.000
+Type  : Fast 1100mV -40C Model Minimum Pulse Width 'gpio_1[13]'
+Slack : -0.084
+TNS   : -0.416
 
 ------------------------------------------------------------

@@ -196,9 +196,7 @@ entity de10nano_top is
 end entity;
 
 architecture de10nano_arch of de10nano_top is
-	
-	signal kb_buffer : std_logic_vector(31 downto 0);
-	
+		
 	-- PWM RGB LED Controller ------------------------------------
 	--component pwm_rgb_led is
 	--	port (
@@ -215,8 +213,18 @@ architecture de10nano_arch of de10nano_top is
 	--end component;
 	---------------------------------------- PWM RGB Controller --
 	
+	signal custom_clk : std_logic;
+	signal row_sig    : std_logic_vector(2 downto 0);
+	signal col_in     : std_logic_vector(6 downto 0);
+	
+	signal kb_buffer : std_logic_vector(31 downto 0);
+	
 	-- Keyboard --------------------------------------------------
 	component keyboard is
+		generic
+		(
+			SYS_CLK_PERIOD : time
+		);
 		port
 		(
 			clk       : in  std_logic;
@@ -242,18 +250,27 @@ begin
 	--		--avs_writedata => 
 	--		switches      => sw,
 	--		rgb_output    => rgb_sig
-	--	);
+	--	);	
 	
 	KEYBOARD_DESIGN : keyboard
+		generic map
+		(
+			SYS_CLK_PERIOD => 20 ns
+		)
 		port map
 		(
-			clk       => fpga_clk1_50,
+			clk       => custom_clk,
 			rst       => not push_button_n(1),
-			rows      => gpio_1(12 downto 10),
-			columns   => gpio_1(6 downto 0),
+			rows      => row_sig,
+			columns   => col_in,
 			kb_buffer => kb_buffer
 		);
 	
-	led <= kb_buffer(7 downto 0);
+	custom_clk <= gpio_1(13);
+	col_in     <= gpio_1(6 downto 0);
+	
+	gpio_1 <= "00000000000" & "000" & "00000000" & "Z" & row_sig & "110" & "ZZZZZZZ";
+	
+	led <= custom_clk & col_in; --kb_buffer(7 downto 0);
 	
 end architecture;

@@ -4,7 +4,19 @@
 			"name" : "Top",
 			"pins" : [
 				{
+					"name" : "led[0]",
+					"strict" : false
+				},
+				{
 					"name" : "led[1]",
+					"strict" : false
+				},
+				{
+					"name" : "led[2]",
+					"strict" : false
+				},
+				{
+					"name" : "led[3]",
 					"strict" : false
 				},
 				{
@@ -24,39 +36,51 @@
 					"strict" : false
 				},
 				{
-					"name" : "gpio_1[14]",
+					"name" : "gpio_1[0]",
 					"strict" : false
 				},
 				{
-					"name" : "gpio_1[17]",
+					"name" : "gpio_1[1]",
 					"strict" : false
 				},
 				{
-					"name" : "gpio_1[18]",
+					"name" : "gpio_1[2]",
 					"strict" : false
 				},
 				{
-					"name" : "gpio_1[19]",
+					"name" : "gpio_1[3]",
 					"strict" : false
 				},
 				{
-					"name" : "gpio_1[20]",
+					"name" : "gpio_1[4]",
 					"strict" : false
 				},
 				{
-					"name" : "gpio_1[21]",
+					"name" : "gpio_1[5]",
 					"strict" : false
 				},
 				{
-					"name" : "gpio_1[23]",
+					"name" : "gpio_1[6]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[10]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[11]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[12]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[13]",
 					"strict" : false
 				},
 				{
 					"name" : "push_button_n[1]",
-					"strict" : false
-				},
-				{
-					"name" : "fpga_clk1_50",
 					"strict" : false
 				}
 			]
