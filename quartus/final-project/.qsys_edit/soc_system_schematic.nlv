@@ -10,7 +10,7 @@ preplace inst soc_system.hps.sdmmc -pg 1
 preplace inst soc_system.jtag_master.p2b_adapter -pg 1
 preplace inst soc_system -pg 1 -lvl 1 -y 40 -regy -20
 preplace inst soc_system.jtag_master.b2p -pg 1
-preplace inst soc_system.hps -pg 1 -lvl 2 -y 290
+preplace inst soc_system.hps -pg 1 -lvl 2 -y 330
 preplace inst soc_system.hps.gpio0 -pg 1
 preplace inst soc_system.jtag_master.clk_rst -pg 1
 preplace inst soc_system.hps.gpio1 -pg 1
@@ -23,9 +23,10 @@ preplace inst soc_system.hps.usb0 -pg 1
 preplace inst soc_system.hps.timer1 -pg 1
 preplace inst soc_system.hps.usb1 -pg 1
 preplace inst soc_system.hps.timer2 -pg 1
+preplace inst soc_system.pwm_rgb_led_0 -pg 1 -lvl 3 -y 380
 preplace inst soc_system.hps.timer3 -pg 1
 preplace inst soc_system.jtag_master.fifo -pg 1
-preplace inst soc_system.adc_pll -pg 1 -lvl 2 -y 30
+preplace inst soc_system.adc_pll -pg 1 -lvl 2 -y 70
 preplace inst soc_system.hps.bridges -pg 1
 preplace inst soc_system.hps.arm_a9_0 -pg 1
 preplace inst soc_system.jtag_master.b2p_adapter -pg 1
@@ -34,9 +35,9 @@ preplace inst soc_system.hps.axi_sdram -pg 1
 preplace inst soc_system.hps.fpga_interfaces -pg 1
 preplace inst soc_system.jtag_master.jtag_phy_embedded_in_jtag_master -pg 1
 preplace inst soc_system.hps.sysmgr -pg 1
-preplace inst soc_system.jtag_master -pg 1 -lvl 2 -y 160
+preplace inst soc_system.jtag_master -pg 1 -lvl 2 -y 200
 preplace inst soc_system.hps.uart0 -pg 1
-preplace inst soc_system.fpga_clk -pg 1 -lvl 1 -y 230
+preplace inst soc_system.fpga_clk -pg 1 -lvl 1 -y 270
 preplace inst soc_system.jtag_master.transacto -pg 1
 preplace inst soc_system.hps.timer -pg 1
 preplace inst soc_system.hps.dma -pg 1
@@ -52,6 +53,7 @@ preplace inst soc_system.hps.eosc1 -pg 1
 preplace inst soc_system.hps.wd_timer1 -pg 1
 preplace inst soc_system.hps.eosc2 -pg 1
 preplace inst soc_system.hps.scu -pg 1
+preplace inst soc_system.lcd_0 -pg 1 -lvl 3 -y 480
 preplace inst soc_system.hps.clkmgr -pg 1
 preplace inst soc_system.hps.f2s_sdram_ref_clk -pg 1
 preplace inst soc_system.hps.clk_0 -pg 1
@@ -62,18 +64,22 @@ preplace inst soc_system.hps.i2c2 -pg 1
 preplace inst soc_system.hps.dcan0 -pg 1
 preplace inst soc_system.hps.i2c3 -pg 1
 preplace inst soc_system.hps.dcan1 -pg 1
-preplace inst soc_system.adc -pg 1 -lvl 3 -y 50
+preplace inst soc_system.adc -pg 1 -lvl 3 -y 90
+preplace inst soc_system.keyboard_0 -pg 1 -lvl 3 -y 190
 preplace inst soc_system.hps.qspi -pg 1
 preplace inst soc_system.hps.spim0 -pg 1
 preplace inst soc_system.hps.l3regs -pg 1
-preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)fpga_clk.clk_in_reset,(SLAVE)soc_system.reset) 1 0 1 NJ
-preplace netloc FAN_OUT<net_container>soc_system</net_container>(MASTER)fpga_clk.clk_reset,(SLAVE)adc_pll.reset,(SLAVE)adc.reset,(SLAVE)jtag_master.clk_reset) 1 1 2 280 120 N
-preplace netloc POINT_TO_POINT<net_container>soc_system</net_container>(SLAVE)adc.clk,(MASTER)adc_pll.outclk0) 1 2 1 650
-preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)hps.hps_io,(SLAVE)soc_system.hps_io) 1 0 2 NJ 320 NJ
-preplace netloc FAN_OUT<net_container>soc_system</net_container>(SLAVE)jtag_master.clk,(MASTER)fpga_clk.clk,(SLAVE)adc_pll.refclk,(SLAVE)hps.h2f_lw_axi_clock) 1 1 1 300
-preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)soc_system.adc,(SLAVE)adc.external_interface) 1 0 3 NJ 300 NJ 100 NJ
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)soc_system.kb,(SLAVE)keyboard_0.export) 1 0 3 NJ 140 NJ 140 NJ
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)hps.hps_io,(SLAVE)soc_system.hps_io) 1 0 2 NJ 360 NJ
+preplace netloc INTERCONNECT<net_container>soc_system</net_container>(MASTER)jtag_master.master,(MASTER)hps.h2f_lw_axi_master,(SLAVE)pwm_rgb_led_0.avalon_slave_0,(SLAVE)keyboard_0.avalon_slave_1,(SLAVE)lcd_0.avalon_slave_2,(SLAVE)adc.adc_slave) 1 2 1 650
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)lcd_0.export,(SLAVE)soc_system.lcd) 1 0 3 NJ 530 NJ 530 NJ
+preplace netloc FAN_OUT<net_container>soc_system</net_container>(SLAVE)adc.reset,(SLAVE)jtag_master.clk_reset,(MASTER)fpga_clk.clk_reset,(SLAVE)pwm_rgb_led_0.rst,(SLAVE)adc_pll.reset,(SLAVE)lcd_0.rst,(SLAVE)keyboard_0.rst) 1 1 2 260 60 690
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)pwm_rgb_led_0.export,(SLAVE)soc_system.pwm) 1 0 3 NJ 430 NJ 430 NJ
 preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)soc_system.clk,(SLAVE)fpga_clk.clk_in) 1 0 1 NJ
-preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)hps.memory,(SLAVE)soc_system.memory) 1 0 2 NJ 340 NJ
-preplace netloc FAN_IN<net_container>soc_system</net_container>(MASTER)hps.h2f_lw_axi_master,(MASTER)jtag_master.master,(SLAVE)adc.adc_slave) 1 2 1 670
-levelinfo -pg 1 0 50 890
-levelinfo -hier soc_system 60 90 460 730 880
+preplace netloc POINT_TO_POINT<net_container>soc_system</net_container>(MASTER)adc_pll.outclk0,(SLAVE)adc.clk) 1 2 1 710
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)adc.external_interface,(SLAVE)soc_system.adc) 1 0 3 NJ 40 NJ 40 NJ
+preplace netloc FAN_OUT<net_container>soc_system</net_container>(SLAVE)hps.h2f_lw_axi_clock,(SLAVE)pwm_rgb_led_0.clk,(SLAVE)jtag_master.clk,(SLAVE)lcd_0.clk,(SLAVE)adc_pll.refclk,(SLAVE)keyboard_0.clk,(MASTER)fpga_clk.clk) 1 1 2 280 160 670
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)fpga_clk.clk_in_reset,(SLAVE)soc_system.rst) 1 0 1 NJ
+preplace netloc EXPORT<net_container>soc_system</net_container>(SLAVE)soc_system.memory,(SLAVE)hps.memory) 1 0 2 NJ 380 NJ
+levelinfo -pg 1 0 50 920
+levelinfo -hier soc_system 60 90 460 760 910

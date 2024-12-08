@@ -1,0 +1,23 @@
+#include "socfpga_cyclone5_de10nano.dtsi"
+
+/{
+	adc : adc@ff200000 {
+		compatible = "adsd,led_patterns";
+		reg = <0xff200000 32>;
+	};
+	
+	pwm : pwm@ff200020 {
+		compatible = "dupuis,pwm";
+		reg = <0xff200020 16>;
+	};
+	
+	keyboard : keyboard@ff200030 {
+		compatible = "dupuis,keyboard";
+		reg = <0xff200030 16>;
+	};
+	
+	lcd : lcd@ff200040 {
+		compatible = "dupuis,lcd";
+		reg = <oxff200040 16>;
+	};
+};

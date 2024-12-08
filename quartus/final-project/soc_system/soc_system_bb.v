@@ -53,6 +53,11 @@ module soc_system (
 	hps_io_hps_io_gpio_inst_GPIO53,
 	hps_io_hps_io_gpio_inst_GPIO54,
 	hps_io_hps_io_gpio_inst_GPIO61,
+	kb_columns,
+	kb_rows,
+	kb_div_clk_out,
+	lcd_ctl,
+	lcd_data,
 	memory_mem_a,
 	memory_mem_ba,
 	memory_mem_ck,
@@ -69,14 +74,9 @@ module soc_system (
 	memory_mem_odt,
 	memory_mem_dm,
 	memory_oct_rzqin,
-	rst_reset_n,
 	pwm_switches,
 	pwm_rgb_output,
-	kb_columns,
-	kb_rows,
-	kb_div_clk_out,
-	lcd_ctl,
-	lcd_data);	
+	rst_reset_n);	
 
 	output		adc_sclk;
 	output		adc_cs_n;
@@ -131,6 +131,11 @@ module soc_system (
 	inout		hps_io_hps_io_gpio_inst_GPIO53;
 	inout		hps_io_hps_io_gpio_inst_GPIO54;
 	inout		hps_io_hps_io_gpio_inst_GPIO61;
+	input	[6:0]	kb_columns;
+	output	[2:0]	kb_rows;
+	output		kb_div_clk_out;
+	output	[2:0]	lcd_ctl;
+	output	[7:0]	lcd_data;
 	output	[14:0]	memory_mem_a;
 	output	[2:0]	memory_mem_ba;
 	output		memory_mem_ck;
@@ -147,12 +152,7 @@ module soc_system (
 	output		memory_mem_odt;
 	output	[3:0]	memory_mem_dm;
 	input		memory_oct_rzqin;
-	input		rst_reset_n;
 	input	[3:0]	pwm_switches;
 	output	[2:0]	pwm_rgb_output;
-	input	[6:0]	kb_columns;
-	output	[2:0]	kb_rows;
-	output		kb_div_clk_out;
-	output	[2:0]	lcd_ctl;
-	output	[7:0]	lcd_data;
+	input		rst_reset_n;
 endmodule

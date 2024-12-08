@@ -274,6 +274,11 @@ architecture de10nano_arch of de10nano_top is
 			memory_mem_dm                   : out   std_logic_vector(3 downto 0);
 			memory_oct_rzqin                : in    std_logic;
 			
+			adc_sclk                        : out   std_logic; -- sclk
+            adc_cs_n                        : out   std_logic; -- cs_n
+            adc_dout                        : in    std_logic; -- dout
+            adc_din                         : out   std_logic; -- din
+			
 			pwm_switches                    : in    std_logic_vector(3 downto 0);
 			pwm_rgb_output                  : out   std_logic_vector(2 downto 0);
 			
@@ -303,7 +308,7 @@ begin
 		port map
 		(	
 			-- clk
-			clk_clk        => fpga_clk1_50,
+			clk_clk => fpga_clk1_50,
 			
 			-- ethernet
 			hps_io_hps_io_emac1_inst_tx_clk => hps_enet_gtx_clk,
@@ -385,16 +390,26 @@ begin
 			memory_mem_dm      => hps_ddr3_dm,
 			memory_oct_rzqin   => hps_ddr3_rzq,
 			
+			-- ADC
+			adc_sclk       => adc_sck,
+			adc_cs_n       => adc_convst,
+			adc_dout       => adc_sdo,
+			adc_din        => adc_sdi,
+			
+			-- PWM RGB LED
 			pwm_switches   => sw,
 			pwm_rgb_output => rgb_output,
 			
+			-- Keyboard
 			kb_columns     => gpio_0(34 downto 28),
 			kb_rows        => rows,
 			kb_div_clk_out => div_clk_out,
 			
+			-- LCD Module
 			lcd_data       => lcd_data,
 			lcd_ctl        => lcd_ctl,
 			
+			-- rst
 			rst_reset_n    => not push_button_n(1)
 		);
 	

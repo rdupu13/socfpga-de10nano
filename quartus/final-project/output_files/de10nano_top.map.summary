@@ -1,17 +1,17 @@
-Analysis & Synthesis Status : Successful - Sat Dec  7 18:20:00 2024
+Analysis & Synthesis Status : Successful - Sun Dec  8 12:58:17 2024
 Quartus Prime Version : 23.1std.1 Build 993 05/14/2024 SC Lite Edition
 Revision Name : de10nano_top
 Top-level Entity Name : de10nano_top
 Family : Cyclone V
 Logic utilization (in ALMs) : N/A
-Total registers : 1240
+Total registers : 2476
 Total pins : 265
 Total virtual pins : 0
-Total block memory bits : 0
+Total block memory bits : 512
 Total DSP Blocks : 12
 Total HSSI RX PCSs : 0
 Total HSSI PMA RX Deserializers : 0
 Total HSSI TX PCSs : 0
 Total HSSI PMA TX Serializers : 0
-Total PLLs : 0
+Total PLLs : 1
 Total DLLs : 1

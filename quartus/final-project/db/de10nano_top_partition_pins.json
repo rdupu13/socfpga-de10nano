@@ -8,6 +8,18 @@
 					"strict" : false
 				},
 				{
+					"name" : "adc_convst",
+					"strict" : false
+				},
+				{
+					"name" : "adc_sck",
+					"strict" : false
+				},
+				{
+					"name" : "adc_sdi",
+					"strict" : false
+				},
+				{
 					"name" : "gpio_1[0]",
 					"strict" : false
 				},
@@ -65,6 +77,10 @@
 				},
 				{
 					"name" : "push_button_n[1]",
+					"strict" : false
+				},
+				{
+					"name" : "adc_sdo",
 					"strict" : false
 				}
 			]

@@ -135,7 +135,7 @@ GND                          : AB1       : gnd    :                   :         
 GND                          : AB2       : gnd    :                   :         :           :                
 GND                          : AB3       : gnd    :                   :         :           :                
 hdmi_tx_d[11]                : AB4       : output : 3.3-V LVTTL       :         : 3A        : Y              
-TCK                          : AB5       : input  :                   :         : 3A        :                
+altera_reserved_tck          : AB5       : input  : 3.3-V LVTTL       :         : 3A        : N              
 AS_DATA3, DATA3              : AB6       :        :                   :         : 3A        :                
 gpio_0[23]                   : AB23      : bidir  : 3.3-V LVTTL       :         : 5A        : Y              
 GND                          : AB24      : gnd    :                   :         :           :                
@@ -149,7 +149,7 @@ GND                          : AC3       : gnd    :                   :         
 adc_sdi                      : AC4       : output : 3.3-V LVTTL       :         : 3A        : Y              
 AS_DATA2, DATA2              : AC5       :        :                   :         : 3A        :                
 AS_DATA1, DATA1              : AC6       :        :                   :         : 3A        :                
-TMS                          : AC7       : input  :                   :         : 3A        :                
+altera_reserved_tms          : AC7       : input  : 3.3-V LVTTL       :         : 3A        : N              
 VCC_AUX                      : AC8       : power  :                   : 2.5V    :           :                
 VCC_AUX                      : AC21      : power  :                   : 2.5V    :           :                
 gpio_0[21]                   : AC22      : bidir  : 3.3-V LVTTL       :         : 4A        : Y              
@@ -297,7 +297,7 @@ gpio_1[12]                   : AH24      : bidir  : 3.3-V LVTTL       :         
 VCCIO4A                      : AH25      : power  :                   : 3.3V    : 4A        :                
 gpio_1[11]                   : AH26      : bidir  : 3.3-V LVTTL       :         : 4A        : Y              
 gpio_1[9]                    : AH27      : bidir  : 3.3-V LVTTL       :         : 4A        : Y              
-GND                          : B1        :        :                   :         :           :                
+RREF                         : B1        :        :                   :         :           :                
 DNU                          : B2        :        :                   :         :           :                
 GND                          : B3        : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : B4        :        :                   :         : 7C        :                
@@ -710,7 +710,7 @@ GND                          : W4        : gnd    :                   :         
 VCCA_FPLL                    : W5        : power  :                   : 2.5V    :           :                
 hdmi_tx_d[2]                 : W8        : output : 3.3-V LVTTL       :         : 3A        : Y              
 VCCIO3A                      : W9        : power  :                   : 3.3V    : 3A        :                
-TDI                          : W10       : input  :                   :         : 3A        :                
+altera_reserved_tdi          : W10       : input  : 3.3-V LVTTL       :         : 3A        : N              
 gpio_0[25]                   : W11       : bidir  : 3.3-V LVTTL       :         : 3B        : Y              
 gpio_0[2]                    : W12       : bidir  : 3.3-V LVTTL       :         : 3B        : Y              
 VCCIO4A                      : W13       : power  :                   : 3.3V    : 4A        :                
@@ -733,7 +733,7 @@ GND                          : Y3        : gnd    :                   :         
 hdmi_tx_d[9]                 : Y4        : output : 3.3-V LVTTL       :         : 3A        : Y              
 hdmi_tx_d[7]                 : Y5        : output : 3.3-V LVTTL       :         : 3A        : Y              
 hdmi_tx_d[3]                 : Y8        : output : 3.3-V LVTTL       :         : 3A        : Y              
-TDO                          : Y9        : output :                   :         : 3A        :                
+altera_reserved_tdo          : Y9        : output : 3.3-V LVTTL       :         : 3A        : N              
 VCCPGM                       : Y10       : power  :                   : 1.8V/2.5V/3.0V/3.3V :           :                
 gpio_0[32]                   : Y11       : bidir  : 3.3-V LVTTL       :         : 3A        : Y              
 GND                          : Y12       : gnd    :                   :         :           :                
