@@ -30,15 +30,13 @@ static u32 CH7 = 0x1c;
 static unsigned long VOLTAGE_SCALE_MV = 1;
 
 /**
- * struct adc_dev - Private led patterns device struct.
- * @base_addr: Pointer to the component's base address 
- * @hps_led_control: Pointer to the hps_led_control register 
- * @base_period: Pointer to the base_period register 
- * @led_reg: Pointer to the led_reg register 
- * @miscdev: miscdevice used to create a character device
- * @lock: mutex used to prevent concurrent writes to memory 
+ * struct adc_dev - Private adc device struct.
+ * @base_addr:   Pointer to the component's base address 
+ * @auto_update: 
+ * @miscdev:     miscdevice used to create a character device
+ * @lock:        mutex used to prevent concurrent writes to memory 
  *
- * An adc_dev struct gets created for each led patterns component.
+ * An adc_dev struct gets created for each adc component.
  */
 struct adc_dev {
 	void __iomem *base_addr;

@@ -1,5 +1,9 @@
 	component soc_system is
 		port (
+			adc_sclk                        : out   std_logic;                                        -- sclk
+			adc_cs_n                        : out   std_logic;                                        -- cs_n
+			adc_dout                        : in    std_logic                     := 'X';             -- dout
+			adc_din                         : out   std_logic;                                        -- din
 			clk_clk                         : in    std_logic                     := 'X';             -- clk
 			hps_io_hps_io_emac1_inst_TX_CLK : out   std_logic;                                        -- hps_io_emac1_inst_TX_CLK
 			hps_io_hps_io_emac1_inst_TXD0   : out   std_logic;                                        -- hps_io_emac1_inst_TXD0
@@ -52,6 +56,8 @@
 			kb_columns                      : in    std_logic_vector(6 downto 0)  := (others => 'X'); -- columns
 			kb_rows                         : out   std_logic_vector(2 downto 0);                     -- rows
 			kb_div_clk_out                  : out   std_logic;                                        -- div_clk_out
+			lcd_ctl                         : out   std_logic_vector(2 downto 0);                     -- ctl
+			lcd_data                        : out   std_logic_vector(7 downto 0);                     -- data
 			memory_mem_a                    : out   std_logic_vector(14 downto 0);                    -- mem_a
 			memory_mem_ba                   : out   std_logic_vector(2 downto 0);                     -- mem_ba
 			memory_mem_ck                   : out   std_logic;                                        -- mem_ck

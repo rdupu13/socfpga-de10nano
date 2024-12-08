@@ -1,5 +1,9 @@
 
 module soc_system (
+	adc_sclk,
+	adc_cs_n,
+	adc_dout,
+	adc_din,
 	clk_clk,
 	hps_io_hps_io_emac1_inst_TX_CLK,
 	hps_io_hps_io_emac1_inst_TXD0,
@@ -49,9 +53,6 @@ module soc_system (
 	hps_io_hps_io_gpio_inst_GPIO53,
 	hps_io_hps_io_gpio_inst_GPIO54,
 	hps_io_hps_io_gpio_inst_GPIO61,
-	kb_columns,
-	kb_rows,
-	kb_div_clk_out,
 	memory_mem_a,
 	memory_mem_ba,
 	memory_mem_ck,
@@ -68,10 +69,19 @@ module soc_system (
 	memory_mem_odt,
 	memory_mem_dm,
 	memory_oct_rzqin,
+	rst_reset_n,
 	pwm_switches,
 	pwm_rgb_output,
-	rst_reset_n);	
+	kb_columns,
+	kb_rows,
+	kb_div_clk_out,
+	lcd_ctl,
+	lcd_data);	
 
+	output		adc_sclk;
+	output		adc_cs_n;
+	input		adc_dout;
+	output		adc_din;
 	input		clk_clk;
 	output		hps_io_hps_io_emac1_inst_TX_CLK;
 	output		hps_io_hps_io_emac1_inst_TXD0;
@@ -121,9 +131,6 @@ module soc_system (
 	inout		hps_io_hps_io_gpio_inst_GPIO53;
 	inout		hps_io_hps_io_gpio_inst_GPIO54;
 	inout		hps_io_hps_io_gpio_inst_GPIO61;
-	input	[6:0]	kb_columns;
-	output	[2:0]	kb_rows;
-	output		kb_div_clk_out;
 	output	[14:0]	memory_mem_a;
 	output	[2:0]	memory_mem_ba;
 	output		memory_mem_ck;
@@ -140,7 +147,12 @@ module soc_system (
 	output		memory_mem_odt;
 	output	[3:0]	memory_mem_dm;
 	input		memory_oct_rzqin;
+	input		rst_reset_n;
 	input	[3:0]	pwm_switches;
 	output	[2:0]	pwm_rgb_output;
-	input		rst_reset_n;
+	input	[6:0]	kb_columns;
+	output	[2:0]	kb_rows;
+	output		kb_div_clk_out;
+	output	[2:0]	lcd_ctl;
+	output	[7:0]	lcd_data;
 endmodule

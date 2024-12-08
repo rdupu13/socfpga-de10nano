@@ -1,5 +1,9 @@
 	component soc_system is
 		port (
+			adc_sclk                        : out   std_logic;                                        -- sclk
+			adc_cs_n                        : out   std_logic;                                        -- cs_n
+			adc_dout                        : in    std_logic                     := 'X';             -- dout
+			adc_din                         : out   std_logic;                                        -- din
 			clk_clk                         : in    std_logic                     := 'X';             -- clk
 			hps_io_hps_io_emac1_inst_TX_CLK : out   std_logic;                                        -- hps_io_emac1_inst_TX_CLK
 			hps_io_hps_io_emac1_inst_TXD0   : out   std_logic;                                        -- hps_io_emac1_inst_TXD0
@@ -49,9 +53,6 @@
 			hps_io_hps_io_gpio_inst_GPIO53  : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO53
 			hps_io_hps_io_gpio_inst_GPIO54  : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO54
 			hps_io_hps_io_gpio_inst_GPIO61  : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO61
-			kb_columns                      : in    std_logic_vector(6 downto 0)  := (others => 'X'); -- columns
-			kb_rows                         : out   std_logic_vector(2 downto 0);                     -- rows
-			kb_div_clk_out                  : out   std_logic;                                        -- div_clk_out
 			memory_mem_a                    : out   std_logic_vector(14 downto 0);                    -- mem_a
 			memory_mem_ba                   : out   std_logic_vector(2 downto 0);                     -- mem_ba
 			memory_mem_ck                   : out   std_logic;                                        -- mem_ck
@@ -68,14 +69,23 @@
 			memory_mem_odt                  : out   std_logic;                                        -- mem_odt
 			memory_mem_dm                   : out   std_logic_vector(3 downto 0);                     -- mem_dm
 			memory_oct_rzqin                : in    std_logic                     := 'X';             -- oct_rzqin
+			rst_reset_n                     : in    std_logic                     := 'X';             -- reset_n
 			pwm_switches                    : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- switches
 			pwm_rgb_output                  : out   std_logic_vector(2 downto 0);                     -- rgb_output
-			rst_reset_n                     : in    std_logic                     := 'X'              -- reset_n
+			kb_columns                      : in    std_logic_vector(6 downto 0)  := (others => 'X'); -- columns
+			kb_rows                         : out   std_logic_vector(2 downto 0);                     -- rows
+			kb_div_clk_out                  : out   std_logic;                                        -- div_clk_out
+			lcd_ctl                         : out   std_logic_vector(2 downto 0);                     -- ctl
+			lcd_data                        : out   std_logic_vector(7 downto 0)                      -- data
 		);
 	end component soc_system;
 
 	u0 : component soc_system
 		port map (
+			adc_sclk                        => CONNECTED_TO_adc_sclk,                        --    adc.sclk
+			adc_cs_n                        => CONNECTED_TO_adc_cs_n,                        --       .cs_n
+			adc_dout                        => CONNECTED_TO_adc_dout,                        --       .dout
+			adc_din                         => CONNECTED_TO_adc_din,                         --       .din
 			clk_clk                         => CONNECTED_TO_clk_clk,                         --    clk.clk
 			hps_io_hps_io_emac1_inst_TX_CLK => CONNECTED_TO_hps_io_hps_io_emac1_inst_TX_CLK, -- hps_io.hps_io_emac1_inst_TX_CLK
 			hps_io_hps_io_emac1_inst_TXD0   => CONNECTED_TO_hps_io_hps_io_emac1_inst_TXD0,   --       .hps_io_emac1_inst_TXD0
@@ -125,9 +135,6 @@
 			hps_io_hps_io_gpio_inst_GPIO53  => CONNECTED_TO_hps_io_hps_io_gpio_inst_GPIO53,  --       .hps_io_gpio_inst_GPIO53
 			hps_io_hps_io_gpio_inst_GPIO54  => CONNECTED_TO_hps_io_hps_io_gpio_inst_GPIO54,  --       .hps_io_gpio_inst_GPIO54
 			hps_io_hps_io_gpio_inst_GPIO61  => CONNECTED_TO_hps_io_hps_io_gpio_inst_GPIO61,  --       .hps_io_gpio_inst_GPIO61
-			kb_columns                      => CONNECTED_TO_kb_columns,                      --     kb.columns
-			kb_rows                         => CONNECTED_TO_kb_rows,                         --       .rows
-			kb_div_clk_out                  => CONNECTED_TO_kb_div_clk_out,                  --       .div_clk_out
 			memory_mem_a                    => CONNECTED_TO_memory_mem_a,                    -- memory.mem_a
 			memory_mem_ba                   => CONNECTED_TO_memory_mem_ba,                   --       .mem_ba
 			memory_mem_ck                   => CONNECTED_TO_memory_mem_ck,                   --       .mem_ck
@@ -144,8 +151,13 @@
 			memory_mem_odt                  => CONNECTED_TO_memory_mem_odt,                  --       .mem_odt
 			memory_mem_dm                   => CONNECTED_TO_memory_mem_dm,                   --       .mem_dm
 			memory_oct_rzqin                => CONNECTED_TO_memory_oct_rzqin,                --       .oct_rzqin
+			rst_reset_n                     => CONNECTED_TO_rst_reset_n,                     --    rst.reset_n
 			pwm_switches                    => CONNECTED_TO_pwm_switches,                    --    pwm.switches
 			pwm_rgb_output                  => CONNECTED_TO_pwm_rgb_output,                  --       .rgb_output
-			rst_reset_n                     => CONNECTED_TO_rst_reset_n                      --    rst.reset_n
+			kb_columns                      => CONNECTED_TO_kb_columns,                      --     kb.columns
+			kb_rows                         => CONNECTED_TO_kb_rows,                         --       .rows
+			kb_div_clk_out                  => CONNECTED_TO_kb_div_clk_out,                  --       .div_clk_out
+			lcd_ctl                         => CONNECTED_TO_lcd_ctl,                         --    lcd.ctl
+			lcd_data                        => CONNECTED_TO_lcd_data                         --       .data
 		);
 

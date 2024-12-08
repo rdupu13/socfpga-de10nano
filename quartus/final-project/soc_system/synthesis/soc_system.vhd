@@ -8,6 +8,10 @@ use IEEE.numeric_std.all;
 
 entity soc_system is
 	port (
+		adc_sclk                        : out   std_logic;                                        --    adc.sclk
+		adc_cs_n                        : out   std_logic;                                        --       .cs_n
+		adc_dout                        : in    std_logic                     := '0';             --       .dout
+		adc_din                         : out   std_logic;                                        --       .din
 		clk_clk                         : in    std_logic                     := '0';             --    clk.clk
 		hps_io_hps_io_emac1_inst_TX_CLK : out   std_logic;                                        -- hps_io.hps_io_emac1_inst_TX_CLK
 		hps_io_hps_io_emac1_inst_TXD0   : out   std_logic;                                        --       .hps_io_emac1_inst_TXD0
@@ -58,10 +62,10 @@ entity soc_system is
 		hps_io_hps_io_gpio_inst_GPIO54  : inout std_logic                     := '0';             --       .hps_io_gpio_inst_GPIO54
 		hps_io_hps_io_gpio_inst_GPIO61  : inout std_logic                     := '0';             --       .hps_io_gpio_inst_GPIO61
 		kb_columns                      : in    std_logic_vector(6 downto 0)  := (others => '0'); --     kb.columns
-		kb_div_clk_out                  : out   std_logic;                                        --       .div_clk_out
 		kb_rows                         : out   std_logic_vector(2 downto 0);                     --       .rows
-		lcd_data                        : out   std_logic_vector(7 downto 0);                     --    lcd.data
-		lcd_ctl                         : out   std_logic_vector(2 downto 0);                     --       .ctl
+		kb_div_clk_out                  : out   std_logic;                                        --       .div_clk_out
+		lcd_ctl                         : out   std_logic_vector(2 downto 0);                     --    lcd.ctl
+		lcd_data                        : out   std_logic_vector(7 downto 0);                     --       .data
 		memory_mem_a                    : out   std_logic_vector(14 downto 0);                    -- memory.mem_a
 		memory_mem_ba                   : out   std_logic_vector(2 downto 0);                     --       .mem_ba
 		memory_mem_ck                   : out   std_logic;                                        --       .mem_ck
@@ -85,6 +89,40 @@ entity soc_system is
 end entity soc_system;
 
 architecture rtl of soc_system is
+	component soc_system_adc is
+		generic (
+			board          : string  := "DE10-Standard";
+			board_rev      : string  := "Autodetect";
+			tsclk          : integer := 0;
+			numch          : integer := 0;
+			max10pllmultby : integer := 0;
+			max10plldivby  : integer := 0
+		);
+		port (
+			clock       : in  std_logic                     := 'X';             -- clk
+			reset       : in  std_logic                     := 'X';             -- reset
+			write       : in  std_logic                     := 'X';             -- write
+			readdata    : out std_logic_vector(31 downto 0);                    -- readdata
+			writedata   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			address     : in  std_logic_vector(2 downto 0)  := (others => 'X'); -- address
+			waitrequest : out std_logic;                                        -- waitrequest
+			read        : in  std_logic                     := 'X';             -- read
+			adc_sclk    : out std_logic;                                        -- export
+			adc_cs_n    : out std_logic;                                        -- export
+			adc_dout    : in  std_logic                     := 'X';             -- export
+			adc_din     : out std_logic                                         -- export
+		);
+	end component soc_system_adc;
+
+	component soc_system_adc_pll is
+		port (
+			refclk   : in  std_logic := 'X'; -- clk
+			rst      : in  std_logic := 'X'; -- reset
+			outclk_0 : out std_logic;        -- clk
+			locked   : out std_logic         -- export
+		);
+	end component soc_system_adc_pll;
+
 	component soc_system_hps is
 		generic (
 			F2S_Width : integer := 2;
@@ -196,18 +234,39 @@ architecture rtl of soc_system is
 		);
 	end component soc_system_hps;
 
+	component soc_system_jtag_master is
+		generic (
+			USE_PLI     : integer := 0;
+			PLI_PORT    : integer := 50000;
+			FIFO_DEPTHS : integer := 2
+		);
+		port (
+			clk_clk              : in  std_logic                     := 'X';             -- clk
+			clk_reset_reset      : in  std_logic                     := 'X';             -- reset
+			master_address       : out std_logic_vector(31 downto 0);                    -- address
+			master_readdata      : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			master_read          : out std_logic;                                        -- read
+			master_write         : out std_logic;                                        -- write
+			master_writedata     : out std_logic_vector(31 downto 0);                    -- writedata
+			master_waitrequest   : in  std_logic                     := 'X';             -- waitrequest
+			master_readdatavalid : in  std_logic                     := 'X';             -- readdatavalid
+			master_byteenable    : out std_logic_vector(3 downto 0);                     -- byteenable
+			master_reset_reset   : out std_logic                                         -- reset
+		);
+	end component soc_system_jtag_master;
+
 	component keyboard is
 		port (
+			rst           : in  std_logic                     := 'X';             -- reset
+			clk           : in  std_logic                     := 'X';             -- clk
+			columns       : in  std_logic_vector(6 downto 0)  := (others => 'X'); -- columns
+			rows          : out std_logic_vector(2 downto 0);                     -- rows
+			div_clk_out   : out std_logic;                                        -- div_clk_out
 			avs_read      : in  std_logic                     := 'X';             -- read
 			avs_write     : in  std_logic                     := 'X';             -- write
 			avs_address   : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- address
 			avs_readdata  : out std_logic_vector(31 downto 0);                    -- readdata
-			avs_writedata : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			rst           : in  std_logic                     := 'X';             -- reset
-			columns       : in  std_logic_vector(6 downto 0)  := (others => 'X'); -- columns
-			div_clk_out   : out std_logic;                                        -- div_clk_out
-			rows          : out std_logic_vector(2 downto 0);                     -- rows
-			clk           : in  std_logic                     := 'X'              -- clk
+			avs_writedata : in  std_logic_vector(31 downto 0) := (others => 'X')  -- writedata
 		);
 	end component keyboard;
 
@@ -218,20 +277,20 @@ architecture rtl of soc_system is
 			avs_address   : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- address
 			avs_readdata  : out std_logic_vector(31 downto 0);                    -- readdata
 			avs_writedata : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			rst           : in  std_logic                     := 'X';             -- reset
 			clk           : in  std_logic                     := 'X';             -- clk
-			data          : out std_logic_vector(7 downto 0);                     -- data
-			ctl           : out std_logic_vector(2 downto 0)                      -- ctl
+			rst           : in  std_logic                     := 'X';             -- reset
+			ctl           : out std_logic_vector(2 downto 0);                     -- ctl
+			data          : out std_logic_vector(7 downto 0)                      -- data
 		);
 	end component lcd;
 
 	component pwm_rgb_led is
 		port (
-			avs_writedata : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			avs_readdata  : out std_logic_vector(31 downto 0);                    -- readdata
-			avs_address   : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- address
 			avs_read      : in  std_logic                     := 'X';             -- read
 			avs_write     : in  std_logic                     := 'X';             -- write
+			avs_address   : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- address
+			avs_readdata  : out std_logic_vector(31 downto 0);                    -- readdata
+			avs_writedata : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
 			rst           : in  std_logic                     := 'X';             -- reset
 			clk           : in  std_logic                     := 'X';             -- clk
 			switches      : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- switches
@@ -277,9 +336,26 @@ architecture rtl of soc_system is
 			hps_h2f_lw_axi_master_rlast                                       : out std_logic;                                        -- rlast
 			hps_h2f_lw_axi_master_rvalid                                      : out std_logic;                                        -- rvalid
 			hps_h2f_lw_axi_master_rready                                      : in  std_logic                     := 'X';             -- rready
+			adc_pll_outclk0_clk                                               : in  std_logic                     := 'X';             -- clk
 			fpga_clk_clk_clk                                                  : in  std_logic                     := 'X';             -- clk
+			adc_reset_reset_bridge_in_reset_reset                             : in  std_logic                     := 'X';             -- reset
 			hps_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset : in  std_logic                     := 'X';             -- reset
+			jtag_master_clk_reset_reset_bridge_in_reset_reset                 : in  std_logic                     := 'X';             -- reset
 			pwm_rgb_led_0_rst_reset_bridge_in_reset_reset                     : in  std_logic                     := 'X';             -- reset
+			jtag_master_master_address                                        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
+			jtag_master_master_waitrequest                                    : out std_logic;                                        -- waitrequest
+			jtag_master_master_byteenable                                     : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			jtag_master_master_read                                           : in  std_logic                     := 'X';             -- read
+			jtag_master_master_readdata                                       : out std_logic_vector(31 downto 0);                    -- readdata
+			jtag_master_master_readdatavalid                                  : out std_logic;                                        -- readdatavalid
+			jtag_master_master_write                                          : in  std_logic                     := 'X';             -- write
+			jtag_master_master_writedata                                      : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			adc_adc_slave_address                                             : out std_logic_vector(2 downto 0);                     -- address
+			adc_adc_slave_write                                               : out std_logic;                                        -- write
+			adc_adc_slave_read                                                : out std_logic;                                        -- read
+			adc_adc_slave_readdata                                            : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			adc_adc_slave_writedata                                           : out std_logic_vector(31 downto 0);                    -- writedata
+			adc_adc_slave_waitrequest                                         : in  std_logic                     := 'X';             -- waitrequest
 			keyboard_0_avalon_slave_1_address                                 : out std_logic_vector(1 downto 0);                     -- address
 			keyboard_0_avalon_slave_1_write                                   : out std_logic;                                        -- write
 			keyboard_0_avalon_slave_1_read                                    : out std_logic;                                        -- read
@@ -364,6 +440,7 @@ architecture rtl of soc_system is
 		);
 	end component altera_reset_controller;
 
+	signal adc_pll_outclk0_clk                                      : std_logic;                     -- adc_pll:outclk_0 -> [adc:clock, mm_interconnect_0:adc_pll_outclk0_clk, rst_controller:clk]
 	signal hps_h2f_lw_axi_master_awburst                            : std_logic_vector(1 downto 0);  -- hps:h2f_lw_AWBURST -> mm_interconnect_0:hps_h2f_lw_axi_master_awburst
 	signal hps_h2f_lw_axi_master_arlen                              : std_logic_vector(3 downto 0);  -- hps:h2f_lw_ARLEN -> mm_interconnect_0:hps_h2f_lw_axi_master_arlen
 	signal hps_h2f_lw_axi_master_wstrb                              : std_logic_vector(3 downto 0);  -- hps:h2f_lw_WSTRB -> mm_interconnect_0:hps_h2f_lw_axi_master_wstrb
@@ -400,6 +477,20 @@ architecture rtl of soc_system is
 	signal hps_h2f_lw_axi_master_awsize                             : std_logic_vector(2 downto 0);  -- hps:h2f_lw_AWSIZE -> mm_interconnect_0:hps_h2f_lw_axi_master_awsize
 	signal hps_h2f_lw_axi_master_awvalid                            : std_logic;                     -- hps:h2f_lw_AWVALID -> mm_interconnect_0:hps_h2f_lw_axi_master_awvalid
 	signal hps_h2f_lw_axi_master_rvalid                             : std_logic;                     -- mm_interconnect_0:hps_h2f_lw_axi_master_rvalid -> hps:h2f_lw_RVALID
+	signal jtag_master_master_readdata                              : std_logic_vector(31 downto 0); -- mm_interconnect_0:jtag_master_master_readdata -> jtag_master:master_readdata
+	signal jtag_master_master_waitrequest                           : std_logic;                     -- mm_interconnect_0:jtag_master_master_waitrequest -> jtag_master:master_waitrequest
+	signal jtag_master_master_address                               : std_logic_vector(31 downto 0); -- jtag_master:master_address -> mm_interconnect_0:jtag_master_master_address
+	signal jtag_master_master_read                                  : std_logic;                     -- jtag_master:master_read -> mm_interconnect_0:jtag_master_master_read
+	signal jtag_master_master_byteenable                            : std_logic_vector(3 downto 0);  -- jtag_master:master_byteenable -> mm_interconnect_0:jtag_master_master_byteenable
+	signal jtag_master_master_readdatavalid                         : std_logic;                     -- mm_interconnect_0:jtag_master_master_readdatavalid -> jtag_master:master_readdatavalid
+	signal jtag_master_master_write                                 : std_logic;                     -- jtag_master:master_write -> mm_interconnect_0:jtag_master_master_write
+	signal jtag_master_master_writedata                             : std_logic_vector(31 downto 0); -- jtag_master:master_writedata -> mm_interconnect_0:jtag_master_master_writedata
+	signal mm_interconnect_0_adc_adc_slave_readdata                 : std_logic_vector(31 downto 0); -- adc:readdata -> mm_interconnect_0:adc_adc_slave_readdata
+	signal mm_interconnect_0_adc_adc_slave_waitrequest              : std_logic;                     -- adc:waitrequest -> mm_interconnect_0:adc_adc_slave_waitrequest
+	signal mm_interconnect_0_adc_adc_slave_address                  : std_logic_vector(2 downto 0);  -- mm_interconnect_0:adc_adc_slave_address -> adc:address
+	signal mm_interconnect_0_adc_adc_slave_read                     : std_logic;                     -- mm_interconnect_0:adc_adc_slave_read -> adc:read
+	signal mm_interconnect_0_adc_adc_slave_write                    : std_logic;                     -- mm_interconnect_0:adc_adc_slave_write -> adc:write
+	signal mm_interconnect_0_adc_adc_slave_writedata                : std_logic_vector(31 downto 0); -- mm_interconnect_0:adc_adc_slave_writedata -> adc:writedata
 	signal mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_readdata  : std_logic_vector(31 downto 0); -- pwm_rgb_led_0:avs_readdata -> mm_interconnect_0:pwm_rgb_led_0_avalon_slave_0_readdata
 	signal mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_address   : std_logic_vector(1 downto 0);  -- mm_interconnect_0:pwm_rgb_led_0_avalon_slave_0_address -> pwm_rgb_led_0:avs_address
 	signal mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_read      : std_logic;                     -- mm_interconnect_0:pwm_rgb_led_0_avalon_slave_0_read -> pwm_rgb_led_0:avs_read
@@ -415,12 +506,45 @@ architecture rtl of soc_system is
 	signal mm_interconnect_0_lcd_0_avalon_slave_2_read              : std_logic;                     -- mm_interconnect_0:lcd_0_avalon_slave_2_read -> lcd_0:avs_read
 	signal mm_interconnect_0_lcd_0_avalon_slave_2_write             : std_logic;                     -- mm_interconnect_0:lcd_0_avalon_slave_2_write -> lcd_0:avs_write
 	signal mm_interconnect_0_lcd_0_avalon_slave_2_writedata         : std_logic_vector(31 downto 0); -- mm_interconnect_0:lcd_0_avalon_slave_2_writedata -> lcd_0:avs_writedata
-	signal rst_controller_reset_out_reset                           : std_logic;                     -- rst_controller:reset_out -> mm_interconnect_0:hps_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset
+	signal rst_controller_reset_out_reset                           : std_logic;                     -- rst_controller:reset_out -> [adc:reset, mm_interconnect_0:adc_reset_reset_bridge_in_reset_reset]
+	signal rst_controller_001_reset_out_reset                       : std_logic;                     -- rst_controller_001:reset_out -> mm_interconnect_0:hps_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset
 	signal hps_h2f_reset_reset                                      : std_logic;                     -- hps:h2f_rst_n -> hps_h2f_reset_reset:in
-	signal rst_reset_n_ports_inv                                    : std_logic;                     -- rst_reset_n:inv -> [keyboard_0:rst, lcd_0:rst, mm_interconnect_0:pwm_rgb_led_0_rst_reset_bridge_in_reset_reset, pwm_rgb_led_0:rst]
-	signal hps_h2f_reset_reset_ports_inv                            : std_logic;                     -- hps_h2f_reset_reset:inv -> rst_controller:reset_in0
+	signal rst_reset_n_ports_inv                                    : std_logic;                     -- rst_reset_n:inv -> [adc_pll:rst, jtag_master:clk_reset_reset, keyboard_0:rst, lcd_0:rst, mm_interconnect_0:jtag_master_clk_reset_reset_bridge_in_reset_reset, mm_interconnect_0:pwm_rgb_led_0_rst_reset_bridge_in_reset_reset, pwm_rgb_led_0:rst, rst_controller:reset_in0]
+	signal hps_h2f_reset_reset_ports_inv                            : std_logic;                     -- hps_h2f_reset_reset:inv -> rst_controller_001:reset_in0
 
 begin
+
+	adc : component soc_system_adc
+		generic map (
+			board          => "DE10-Nano",
+			board_rev      => "Autodetect",
+			tsclk          => 1,
+			numch          => 7,
+			max10pllmultby => 1,
+			max10plldivby  => 1
+		)
+		port map (
+			clock       => adc_pll_outclk0_clk,                         --                clk.clk
+			reset       => rst_controller_reset_out_reset,              --              reset.reset
+			write       => mm_interconnect_0_adc_adc_slave_write,       --          adc_slave.write
+			readdata    => mm_interconnect_0_adc_adc_slave_readdata,    --                   .readdata
+			writedata   => mm_interconnect_0_adc_adc_slave_writedata,   --                   .writedata
+			address     => mm_interconnect_0_adc_adc_slave_address,     --                   .address
+			waitrequest => mm_interconnect_0_adc_adc_slave_waitrequest, --                   .waitrequest
+			read        => mm_interconnect_0_adc_adc_slave_read,        --                   .read
+			adc_sclk    => adc_sclk,                                    -- external_interface.export
+			adc_cs_n    => adc_cs_n,                                    --                   .export
+			adc_dout    => adc_dout,                                    --                   .export
+			adc_din     => adc_din                                      --                   .export
+		);
+
+	adc_pll : component soc_system_adc_pll
+		port map (
+			refclk   => clk_clk,               --  refclk.clk
+			rst      => rst_reset_n_ports_inv, --   reset.reset
+			outclk_0 => adc_pll_outclk0_clk,   -- outclk0.clk
+			locked   => open                   -- (terminated)
+		);
 
 	hps : component soc_system_hps
 		generic map (
@@ -532,18 +656,38 @@ begin
 			h2f_lw_RREADY            => hps_h2f_lw_axi_master_rready     --                  .rready
 		);
 
+	jtag_master : component soc_system_jtag_master
+		generic map (
+			USE_PLI     => 0,
+			PLI_PORT    => 50000,
+			FIFO_DEPTHS => 2
+		)
+		port map (
+			clk_clk              => clk_clk,                          --          clk.clk
+			clk_reset_reset      => rst_reset_n_ports_inv,            --    clk_reset.reset
+			master_address       => jtag_master_master_address,       --       master.address
+			master_readdata      => jtag_master_master_readdata,      --             .readdata
+			master_read          => jtag_master_master_read,          --             .read
+			master_write         => jtag_master_master_write,         --             .write
+			master_writedata     => jtag_master_master_writedata,     --             .writedata
+			master_waitrequest   => jtag_master_master_waitrequest,   --             .waitrequest
+			master_readdatavalid => jtag_master_master_readdatavalid, --             .readdatavalid
+			master_byteenable    => jtag_master_master_byteenable,    --             .byteenable
+			master_reset_reset   => open                              -- master_reset.reset
+		);
+
 	keyboard_0 : component keyboard
 		port map (
+			rst           => rst_reset_n_ports_inv,                                 --            rst.reset
+			clk           => clk_clk,                                               --            clk.clk
+			columns       => kb_columns,                                            --         export.columns
+			rows          => kb_rows,                                               --               .rows
+			div_clk_out   => kb_div_clk_out,                                        --               .div_clk_out
 			avs_read      => mm_interconnect_0_keyboard_0_avalon_slave_1_read,      -- avalon_slave_1.read
 			avs_write     => mm_interconnect_0_keyboard_0_avalon_slave_1_write,     --               .write
 			avs_address   => mm_interconnect_0_keyboard_0_avalon_slave_1_address,   --               .address
 			avs_readdata  => mm_interconnect_0_keyboard_0_avalon_slave_1_readdata,  --               .readdata
-			avs_writedata => mm_interconnect_0_keyboard_0_avalon_slave_1_writedata, --               .writedata
-			rst           => rst_reset_n_ports_inv,                                 --            rst.reset
-			columns       => kb_columns,                                            --         export.columns
-			div_clk_out   => kb_div_clk_out,                                        --               .div_clk_out
-			rows          => kb_rows,                                               --               .rows
-			clk           => clk_clk                                                --            clk.clk
+			avs_writedata => mm_interconnect_0_keyboard_0_avalon_slave_1_writedata  --               .writedata
 		);
 
 	lcd_0 : component lcd
@@ -553,19 +697,19 @@ begin
 			avs_address   => mm_interconnect_0_lcd_0_avalon_slave_2_address,   --               .address
 			avs_readdata  => mm_interconnect_0_lcd_0_avalon_slave_2_readdata,  --               .readdata
 			avs_writedata => mm_interconnect_0_lcd_0_avalon_slave_2_writedata, --               .writedata
-			rst           => rst_reset_n_ports_inv,                            --            rst.reset
 			clk           => clk_clk,                                          --            clk.clk
-			data          => lcd_data,                                         --         export.data
-			ctl           => lcd_ctl                                           --               .ctl
+			rst           => rst_reset_n_ports_inv,                            --            rst.reset
+			ctl           => lcd_ctl,                                          --         export.ctl
+			data          => lcd_data                                          --               .data
 		);
 
 	pwm_rgb_led_0 : component pwm_rgb_led
 		port map (
-			avs_writedata => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_writedata, -- avalon_slave_0.writedata
-			avs_readdata  => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_readdata,  --               .readdata
-			avs_address   => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_address,   --               .address
-			avs_read      => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_read,      --               .read
+			avs_read      => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_read,      -- avalon_slave_0.read
 			avs_write     => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_write,     --               .write
+			avs_address   => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_address,   --               .address
+			avs_readdata  => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_readdata,  --               .readdata
+			avs_writedata => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_writedata, --               .writedata
 			rst           => rst_reset_n_ports_inv,                                    --            rst.reset
 			clk           => clk_clk,                                                  --            clk.clk
 			switches      => pwm_switches,                                             --         export.switches
@@ -610,9 +754,26 @@ begin
 			hps_h2f_lw_axi_master_rlast                                       => hps_h2f_lw_axi_master_rlast,                              --                                                            .rlast
 			hps_h2f_lw_axi_master_rvalid                                      => hps_h2f_lw_axi_master_rvalid,                             --                                                            .rvalid
 			hps_h2f_lw_axi_master_rready                                      => hps_h2f_lw_axi_master_rready,                             --                                                            .rready
+			adc_pll_outclk0_clk                                               => adc_pll_outclk0_clk,                                      --                                             adc_pll_outclk0.clk
 			fpga_clk_clk_clk                                                  => clk_clk,                                                  --                                                fpga_clk_clk.clk
-			hps_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset => rst_controller_reset_out_reset,                           -- hps_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset.reset
+			adc_reset_reset_bridge_in_reset_reset                             => rst_controller_reset_out_reset,                           --                             adc_reset_reset_bridge_in_reset.reset
+			hps_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset => rst_controller_001_reset_out_reset,                       -- hps_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset.reset
+			jtag_master_clk_reset_reset_bridge_in_reset_reset                 => rst_reset_n_ports_inv,                                    --                 jtag_master_clk_reset_reset_bridge_in_reset.reset
 			pwm_rgb_led_0_rst_reset_bridge_in_reset_reset                     => rst_reset_n_ports_inv,                                    --                     pwm_rgb_led_0_rst_reset_bridge_in_reset.reset
+			jtag_master_master_address                                        => jtag_master_master_address,                               --                                          jtag_master_master.address
+			jtag_master_master_waitrequest                                    => jtag_master_master_waitrequest,                           --                                                            .waitrequest
+			jtag_master_master_byteenable                                     => jtag_master_master_byteenable,                            --                                                            .byteenable
+			jtag_master_master_read                                           => jtag_master_master_read,                                  --                                                            .read
+			jtag_master_master_readdata                                       => jtag_master_master_readdata,                              --                                                            .readdata
+			jtag_master_master_readdatavalid                                  => jtag_master_master_readdatavalid,                         --                                                            .readdatavalid
+			jtag_master_master_write                                          => jtag_master_master_write,                                 --                                                            .write
+			jtag_master_master_writedata                                      => jtag_master_master_writedata,                             --                                                            .writedata
+			adc_adc_slave_address                                             => mm_interconnect_0_adc_adc_slave_address,                  --                                               adc_adc_slave.address
+			adc_adc_slave_write                                               => mm_interconnect_0_adc_adc_slave_write,                    --                                                            .write
+			adc_adc_slave_read                                                => mm_interconnect_0_adc_adc_slave_read,                     --                                                            .read
+			adc_adc_slave_readdata                                            => mm_interconnect_0_adc_adc_slave_readdata,                 --                                                            .readdata
+			adc_adc_slave_writedata                                           => mm_interconnect_0_adc_adc_slave_writedata,                --                                                            .writedata
+			adc_adc_slave_waitrequest                                         => mm_interconnect_0_adc_adc_slave_waitrequest,              --                                                            .waitrequest
 			keyboard_0_avalon_slave_1_address                                 => mm_interconnect_0_keyboard_0_avalon_slave_1_address,      --                                   keyboard_0_avalon_slave_1.address
 			keyboard_0_avalon_slave_1_write                                   => mm_interconnect_0_keyboard_0_avalon_slave_1_write,        --                                                            .write
 			keyboard_0_avalon_slave_1_read                                    => mm_interconnect_0_keyboard_0_avalon_slave_1_read,         --                                                            .read
@@ -658,8 +819,8 @@ begin
 			ADAPT_RESET_REQUEST       => 0
 		)
 		port map (
-			reset_in0      => hps_h2f_reset_reset_ports_inv,  -- reset_in0.reset
-			clk            => clk_clk,                        --       clk.clk
+			reset_in0      => rst_reset_n_ports_inv,          -- reset_in0.reset
+			clk            => adc_pll_outclk0_clk,            --       clk.clk
 			reset_out      => rst_controller_reset_out_reset, -- reset_out.reset
 			reset_req      => open,                           -- (terminated)
 			reset_req_in0  => '0',                            -- (terminated)
@@ -693,6 +854,71 @@ begin
 			reset_req_in14 => '0',                            -- (terminated)
 			reset_in15     => '0',                            -- (terminated)
 			reset_req_in15 => '0'                             -- (terminated)
+		);
+
+	rst_controller_001 : component altera_reset_controller
+		generic map (
+			NUM_RESET_INPUTS          => 1,
+			OUTPUT_RESET_SYNC_EDGES   => "deassert",
+			SYNC_DEPTH                => 2,
+			RESET_REQUEST_PRESENT     => 0,
+			RESET_REQ_WAIT_TIME       => 1,
+			MIN_RST_ASSERTION_TIME    => 3,
+			RESET_REQ_EARLY_DSRT_TIME => 1,
+			USE_RESET_REQUEST_IN0     => 0,
+			USE_RESET_REQUEST_IN1     => 0,
+			USE_RESET_REQUEST_IN2     => 0,
+			USE_RESET_REQUEST_IN3     => 0,
+			USE_RESET_REQUEST_IN4     => 0,
+			USE_RESET_REQUEST_IN5     => 0,
+			USE_RESET_REQUEST_IN6     => 0,
+			USE_RESET_REQUEST_IN7     => 0,
+			USE_RESET_REQUEST_IN8     => 0,
+			USE_RESET_REQUEST_IN9     => 0,
+			USE_RESET_REQUEST_IN10    => 0,
+			USE_RESET_REQUEST_IN11    => 0,
+			USE_RESET_REQUEST_IN12    => 0,
+			USE_RESET_REQUEST_IN13    => 0,
+			USE_RESET_REQUEST_IN14    => 0,
+			USE_RESET_REQUEST_IN15    => 0,
+			ADAPT_RESET_REQUEST       => 0
+		)
+		port map (
+			reset_in0      => hps_h2f_reset_reset_ports_inv,      -- reset_in0.reset
+			clk            => clk_clk,                            --       clk.clk
+			reset_out      => rst_controller_001_reset_out_reset, -- reset_out.reset
+			reset_req      => open,                               -- (terminated)
+			reset_req_in0  => '0',                                -- (terminated)
+			reset_in1      => '0',                                -- (terminated)
+			reset_req_in1  => '0',                                -- (terminated)
+			reset_in2      => '0',                                -- (terminated)
+			reset_req_in2  => '0',                                -- (terminated)
+			reset_in3      => '0',                                -- (terminated)
+			reset_req_in3  => '0',                                -- (terminated)
+			reset_in4      => '0',                                -- (terminated)
+			reset_req_in4  => '0',                                -- (terminated)
+			reset_in5      => '0',                                -- (terminated)
+			reset_req_in5  => '0',                                -- (terminated)
+			reset_in6      => '0',                                -- (terminated)
+			reset_req_in6  => '0',                                -- (terminated)
+			reset_in7      => '0',                                -- (terminated)
+			reset_req_in7  => '0',                                -- (terminated)
+			reset_in8      => '0',                                -- (terminated)
+			reset_req_in8  => '0',                                -- (terminated)
+			reset_in9      => '0',                                -- (terminated)
+			reset_req_in9  => '0',                                -- (terminated)
+			reset_in10     => '0',                                -- (terminated)
+			reset_req_in10 => '0',                                -- (terminated)
+			reset_in11     => '0',                                -- (terminated)
+			reset_req_in11 => '0',                                -- (terminated)
+			reset_in12     => '0',                                -- (terminated)
+			reset_req_in12 => '0',                                -- (terminated)
+			reset_in13     => '0',                                -- (terminated)
+			reset_req_in13 => '0',                                -- (terminated)
+			reset_in14     => '0',                                -- (terminated)
+			reset_req_in14 => '0',                                -- (terminated)
+			reset_in15     => '0',                                -- (terminated)
+			reset_req_in15 => '0'                                 -- (terminated)
 		);
 
 	rst_reset_n_ports_inv <= not rst_reset_n;
