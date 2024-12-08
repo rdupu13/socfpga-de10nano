@@ -106,6 +106,7 @@ vsim.wlf
 work/
 transcript
 
+<<<<<<< HEAD
 # ModelSim files
 vsim.wlf
 *.cr.mti
@@ -118,3 +119,8 @@ transcript
 # Disk image files
 *.img
 *.iso
+=======
+
+# Vim swap files
+*.swp
+>>>>>>> refs/remotes/origin/main

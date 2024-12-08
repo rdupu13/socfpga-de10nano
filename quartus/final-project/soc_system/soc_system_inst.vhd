@@ -50,10 +50,8 @@
 			hps_io_hps_io_gpio_inst_GPIO54  : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO54
 			hps_io_hps_io_gpio_inst_GPIO61  : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO61
 			kb_columns                      : in    std_logic_vector(6 downto 0)  := (others => 'X'); -- columns
-			kb_div_clk_out                  : out   std_logic;                                        -- div_clk_out
 			kb_rows                         : out   std_logic_vector(2 downto 0);                     -- rows
-			lcd_data                        : out   std_logic_vector(7 downto 0);                     -- data
-			lcd_ctl                         : out   std_logic_vector(2 downto 0);                     -- ctl
+			kb_div_clk_out                  : out   std_logic;                                        -- div_clk_out
 			memory_mem_a                    : out   std_logic_vector(14 downto 0);                    -- mem_a
 			memory_mem_ba                   : out   std_logic_vector(2 downto 0);                     -- mem_ba
 			memory_mem_ck                   : out   std_logic;                                        -- mem_ck
@@ -128,10 +126,8 @@
 			hps_io_hps_io_gpio_inst_GPIO54  => CONNECTED_TO_hps_io_hps_io_gpio_inst_GPIO54,  --       .hps_io_gpio_inst_GPIO54
 			hps_io_hps_io_gpio_inst_GPIO61  => CONNECTED_TO_hps_io_hps_io_gpio_inst_GPIO61,  --       .hps_io_gpio_inst_GPIO61
 			kb_columns                      => CONNECTED_TO_kb_columns,                      --     kb.columns
-			kb_div_clk_out                  => CONNECTED_TO_kb_div_clk_out,                  --       .div_clk_out
 			kb_rows                         => CONNECTED_TO_kb_rows,                         --       .rows
-			lcd_data                        => CONNECTED_TO_lcd_data,                        --    lcd.data
-			lcd_ctl                         => CONNECTED_TO_lcd_ctl,                         --       .ctl
+			kb_div_clk_out                  => CONNECTED_TO_kb_div_clk_out,                  --       .div_clk_out
 			memory_mem_a                    => CONNECTED_TO_memory_mem_a,                    -- memory.mem_a
 			memory_mem_ba                   => CONNECTED_TO_memory_mem_ba,                   --       .mem_ba
 			memory_mem_ck                   => CONNECTED_TO_memory_mem_ck,                   --       .mem_ck

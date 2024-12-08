@@ -50,10 +50,8 @@ module soc_system (
 	hps_io_hps_io_gpio_inst_GPIO54,
 	hps_io_hps_io_gpio_inst_GPIO61,
 	kb_columns,
-	kb_div_clk_out,
 	kb_rows,
-	lcd_data,
-	lcd_ctl,
+	kb_div_clk_out,
 	memory_mem_a,
 	memory_mem_ba,
 	memory_mem_ck,
@@ -124,10 +122,8 @@ module soc_system (
 	inout		hps_io_hps_io_gpio_inst_GPIO54;
 	inout		hps_io_hps_io_gpio_inst_GPIO61;
 	input	[6:0]	kb_columns;
-	output		kb_div_clk_out;
 	output	[2:0]	kb_rows;
-	output	[7:0]	lcd_data;
-	output	[2:0]	lcd_ctl;
+	output		kb_div_clk_out;
 	output	[14:0]	memory_mem_a;
 	output	[2:0]	memory_mem_ba;
 	output		memory_mem_ck;
