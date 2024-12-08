@@ -1,0 +1,80 @@
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system.qsys --block-symbol-file --output-directory=/home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system --family="Cyclone V" --part=5CSEBA6U23I7
+Progress: Loading final-project/soc_system.qsys
+Progress: Reading input file
+Progress: Adding fpga_clk [clock_source 23.1]
+Progress: Parameterizing module fpga_clk
+Progress: Adding hps [altera_hps 23.1]
+Progress: Parameterizing module hps
+Progress: Adding keyboard_0 [keyboard 1.0]
+Progress: Parameterizing module keyboard_0
+Progress: Adding lcd_0 [lcd 1.0]
+Progress: Parameterizing module lcd_0
+Progress: Adding pwm_rgb_led_0 [pwm_rgb_led 1.0]
+Progress: Parameterizing module pwm_rgb_led_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: soc_system.hps: HPS Main PLL counter settings: n = 0  m = 63
+Info: soc_system.hps: HPS peripherial PLL counter settings: n = 0  m = 39
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system.qsys --synthesis=VHDL --output-directory=/home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis --family="Cyclone V" --part=5CSEBA6U23I7
+Progress: Loading final-project/soc_system.qsys
+Progress: Reading input file
+Progress: Adding fpga_clk [clock_source 23.1]
+Progress: Parameterizing module fpga_clk
+Progress: Adding hps [altera_hps 23.1]
+Progress: Parameterizing module hps
+Progress: Adding keyboard_0 [keyboard 1.0]
+Progress: Parameterizing module keyboard_0
+Progress: Adding lcd_0 [lcd 1.0]
+Progress: Parameterizing module lcd_0
+Progress: Adding pwm_rgb_led_0 [pwm_rgb_led 1.0]
+Progress: Parameterizing module pwm_rgb_led_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: soc_system.hps: HPS Main PLL counter settings: n = 0  m = 63
+Info: soc_system.hps: HPS peripherial PLL counter settings: n = 0  m = 39
+Info: soc_system: Generating soc_system "soc_system" for QUARTUS_SYNTH
+Info: hps: "Running  for module: hps"
+Info: hps: HPS Main PLL counter settings: n = 0  m = 63
+Info: hps: HPS peripherial PLL counter settings: n = 0  m = 39
+Info: hps: "soc_system" instantiated altera_hps "hps"
+Info: keyboard_0: "soc_system" instantiated keyboard "keyboard_0"
+Info: lcd_0: "soc_system" instantiated lcd "lcd_0"
+Info: pwm_rgb_led_0: "soc_system" instantiated pwm_rgb_led "pwm_rgb_led_0"
+Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: mm_interconnect_0: "soc_system" instantiated altera_mm_interconnect "mm_interconnect_0"
+Info: rst_controller: "soc_system" instantiated altera_reset_controller "rst_controller"
+Info: fpga_interfaces: "hps" instantiated altera_interface_generator "fpga_interfaces"
+Info: hps_io: "hps" instantiated altera_hps_io "hps_io"
+Info: pwm_rgb_led_0_avalon_slave_0_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "pwm_rgb_led_0_avalon_slave_0_translator"
+Info: hps_h2f_lw_axi_master_agent: "mm_interconnect_0" instantiated altera_merlin_axi_master_ni "hps_h2f_lw_axi_master_agent"
+Info: pwm_rgb_led_0_avalon_slave_0_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "pwm_rgb_led_0_avalon_slave_0_agent"
+Info: pwm_rgb_led_0_avalon_slave_0_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "pwm_rgb_led_0_avalon_slave_0_agent_rsp_fifo"
+Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
+Info: router_002: "mm_interconnect_0" instantiated altera_merlin_router "router_002"
+Info: hps_h2f_lw_axi_master_wr_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "hps_h2f_lw_axi_master_wr_limiter"
+Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: pwm_rgb_led_0_avalon_slave_0_burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "pwm_rgb_led_0_avalon_slave_0_burst_adapter"
+Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
+Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
+Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
+Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: border: "hps_io" instantiated altera_interface_generator "border"
+Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
+Info: soc_system: Done "soc_system" with 24 modules, 86 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

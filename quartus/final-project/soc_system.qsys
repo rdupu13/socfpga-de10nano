@@ -30,6 +30,54 @@
          type = "boolean";
       }
    }
+   element keyboard_0
+   {
+      datum _sortIndex
+      {
+         value = "3";
+         type = "int";
+      }
+   }
+   element keyboard_0.avalon_slave_1
+   {
+      datum baseAddress
+      {
+         value = "16";
+         type = "String";
+      }
+   }
+   element lcd_0
+   {
+      datum _sortIndex
+      {
+         value = "4";
+         type = "int";
+      }
+   }
+   element lcd_0.avalon_slave_2
+   {
+      datum baseAddress
+      {
+         value = "32";
+         type = "String";
+      }
+   }
+   element pwm_rgb_led_0
+   {
+      datum _sortIndex
+      {
+         value = "2";
+         type = "int";
+      }
+   }
+   element soc_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
    element soc_system
    {
       datum _originalDeviceFamily
@@ -300,7 +348,7 @@
  <parameter name="hideFromIPCatalog" value="false" />
  <parameter name="lockedInterfaceDefinition" value="" />
  <parameter name="maxAdditionalLatency" value="1" />
- <parameter name="projectName" value="de10nano.qpf" />
+ <parameter name="projectName" value="final_project.qpf" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="0" />
  <parameter name="testBenchDutName" value="" />
@@ -314,8 +362,11 @@
  <interface name="hps_io" internal="hps.hps_io" type="conduit" dir="end" />
  <interface name="hps_spim0" internal="hps.spim0" />
  <interface name="hps_spim0_sclk_out" internal="hps.spim0_sclk_out" />
+ <interface name="kb" internal="keyboard_0.export" type="conduit" dir="end" />
+ <interface name="lcd" internal="lcd_0.export" type="conduit" dir="end" />
  <interface name="memory" internal="hps.memory" type="conduit" dir="end" />
- <interface name="reset" internal="fpga_clk.clk_in_reset" type="reset" dir="end" />
+ <interface name="pwm" internal="pwm_rgb_led_0.export" type="conduit" dir="end" />
+ <interface name="rst" internal="fpga_clk.clk_in_reset" type="reset" dir="end" />
  <module name="fpga_clk" kind="clock_source" version="23.1" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -852,11 +903,63 @@
   <parameter name="usb_mp_clk_div" value="0" />
   <parameter name="use_default_mpu_clk" value="true" />
  </module>
+ <module name="keyboard_0" kind="keyboard" version="1.0" enabled="1" />
+ <module name="lcd_0" kind="lcd" version="1.0" enabled="1" />
+ <module name="pwm_rgb_led_0" kind="pwm_rgb_led" version="1.0" enabled="1" />
+ <connection
+   kind="avalon"
+   version="23.1"
+   start="hps.h2f_lw_axi_master"
+   end="pwm_rgb_led_0.avalon_slave_0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="23.1"
+   start="hps.h2f_lw_axi_master"
+   end="keyboard_0.avalon_slave_1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0010" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="23.1"
+   start="hps.h2f_lw_axi_master"
+   end="lcd_0.avalon_slave_2">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0020" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="clock"
+   version="23.1"
+   start="fpga_clk.clk"
+   end="pwm_rgb_led_0.clk" />
+ <connection kind="clock" version="23.1" start="fpga_clk.clk" end="keyboard_0.clk" />
+ <connection kind="clock" version="23.1" start="fpga_clk.clk" end="lcd_0.clk" />
  <connection
    kind="clock"
    version="23.1"
    start="fpga_clk.clk"
    end="hps.h2f_lw_axi_clock" />
+ <connection
+   kind="reset"
+   version="23.1"
+   start="fpga_clk.clk_reset"
+   end="pwm_rgb_led_0.rst" />
+ <connection
+   kind="reset"
+   version="23.1"
+   start="fpga_clk.clk_reset"
+   end="keyboard_0.rst" />
+ <connection
+   kind="reset"
+   version="23.1"
+   start="fpga_clk.clk_reset"
+   end="lcd_0.rst" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>
