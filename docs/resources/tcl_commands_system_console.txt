@@ -1,0 +1,19 @@
+Tcl Console commands for System Console
+
+
+
+Print virtual path of master(s):		get_service_paths master
+
+Index 0 of output of virtual path:		lindex [get_service_paths master] 0
+
+Set it to a variable:				set m [lindex [get_service_paths master] 0]
+Print the value of the variable:		set m
+
+
+
+Open a service for master:			open_service master $m
+
+Read the first n reg of comp:			master_read_32 $m 0 n
+Write to all n reg of comp:			master_write_32 $m 0 <0x0 0x0 0x1 ... >
+
+Close service for master:			close_service master $m

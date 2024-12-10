@@ -25,10 +25,10 @@ See [hardware.md](docs/noahs-project/hardware.md)
 
 Contains VHDL modules that that multiple projects might use
 
-_de10nano_top_template.vhd_ - Top-level VHDL entity template for the DE10-Nano
-_fsm_template.vhd_          - Finite state machine template
+_de10nano_top_template_ - Top-level VHDL entity template for the DE10-Nano
+_fsm_template_          - Finite state machine template
 
-_synchronizer.vhd_          - Syncs an input with the de10nano 50 MHz clock
-_debouncer.vhd_             - Adds grace period for physical buttons or switches that bounce
-_one_pulse.vhd_             - Shortens a synched 
-_async_conditioner.vhd_     - synchronizer + debouncer + one_pulse
+_synchronizer_          - Syncs an input with the de10nano 50 MHz clock
+_debouncer_             - Adds grace period for physical buttons or switches that bounce
+_one_pulse_             - Shortens a synched 
+_async_conditioner_     - _synchronizer_ + _debouncer_ + _one_pulse_
