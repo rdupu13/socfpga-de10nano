@@ -4,10 +4,6 @@
 			"name" : "Top",
 			"pins" : [
 				{
-					"name" : "led[7]",
-					"strict" : false
-				},
-				{
 					"name" : "adc_convst",
 					"strict" : false
 				},
@@ -17,6 +13,34 @@
 				},
 				{
 					"name" : "adc_sdi",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_0[28]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_0[29]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_0[30]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_0[31]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_0[32]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_0[33]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_0[34]",
 					"strict" : false
 				},
 				{
@@ -41,34 +65,6 @@
 				},
 				{
 					"name" : "gpio_1[5]",
-					"strict" : false
-				},
-				{
-					"name" : "gpio_1[10]",
-					"strict" : false
-				},
-				{
-					"name" : "gpio_1[11]",
-					"strict" : false
-				},
-				{
-					"name" : "gpio_1[12]",
-					"strict" : false
-				},
-				{
-					"name" : "gpio_1[13]",
-					"strict" : false
-				},
-				{
-					"name" : "gpio_1[16]",
-					"strict" : false
-				},
-				{
-					"name" : "gpio_1[18]",
-					"strict" : false
-				},
-				{
-					"name" : "gpio_1[20]",
 					"strict" : false
 				},
 				{

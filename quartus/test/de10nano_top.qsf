@@ -790,10 +790,6 @@ set_instance_assignment -name GLOBAL_SIGNAL OFF -to u0|hps_0|hps_io|border|hps_s
 set_instance_assignment -name ENABLE_BENEFICIAL_SKEW_OPTIMIZATION_FOR_NON_GLOBAL_CLOCKS ON -to u0|hps_0|hps_io|border|hps_sdram_inst
 set_instance_assignment -name PLL_COMPENSATION_MODE DIRECT -to u0|hps_0|hps_io|border|hps_sdram_inst|pll0|fbout
 set_global_assignment -name VHDL_FILE ../../hdl/test/kb/de10nano_top.vhd
-set_global_assignment -name VHDL_FILE ../../hdl/common/async_conditioner.vhd
-set_global_assignment -name VHDL_FILE ../../hdl/common/debouncer.vhd
-set_global_assignment -name VHDL_FILE ../../hdl/common/one_pulse.vhd
-set_global_assignment -name VHDL_FILE ../../hdl/common/synchronizer.vhd
 set_global_assignment -name VHDL_FILE "../../hdl/bb-calc/keyboard.vhd"
 set_global_assignment -name VHDL_FILE "../../hdl/bb-calc/lcd.vhd"
 set_global_assignment -name VHDL_FILE "../../hdl/bb-calc/pwm_controller.vhd"

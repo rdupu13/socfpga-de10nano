@@ -13,7 +13,6 @@ entity pwm_rgb_led is
 		avs_readdata  : out std_logic_vector(31 downto 0);
 		avs_writedata : in  std_logic_vector(31 downto 0);
 		-- External I/O; export to top-level
-		switches      : in  std_logic_vector(3 downto 0);
 		rgb_output    : out std_logic_vector(2 downto 0)
 	);
 end entity;
@@ -118,9 +117,9 @@ begin
 	begin
 		if rst = '1' then
 			red_duty_cycle   <= "00000000000000000000" & "100000000000"; -- Red    = 1.0
-			green_duty_cycle <= "00000000000000000000" & "000000000000"; -- Green  = 0.0
-			blue_duty_cycle  <= "00000000000000000000" & "000000000000"; -- Blue   = 0.0
-			period           <= "000000000000000" & "00001100110011001"; -- Period = 100 ms
+			green_duty_cycle <= "00000000000000000000" & "100000000000"; -- Green  = 0.0
+			blue_duty_cycle  <= "00000000000000000000" & "100000000000"; -- Blue   = 0.0
+			period           <= "000000000000000" & "00101000000000000"; -- Period = 5 ms
 			
 		elsif rising_edge(clk) and avs_write = '1' then
 			case avs_address is

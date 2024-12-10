@@ -54,9 +54,6 @@
 		.hps_io_hps_io_gpio_inst_GPIO61  (<connected-to-hps_io_hps_io_gpio_inst_GPIO61>),  //       .hps_io_gpio_inst_GPIO61
 		.kb_columns                      (<connected-to-kb_columns>),                      //     kb.columns
 		.kb_rows                         (<connected-to-kb_rows>),                         //       .rows
-		.kb_div_clk_out                  (<connected-to-kb_div_clk_out>),                  //       .div_clk_out
-		.lcd_ctl                         (<connected-to-lcd_ctl>),                         //    lcd.ctl
-		.lcd_data                        (<connected-to-lcd_data>),                        //       .data
 		.memory_mem_a                    (<connected-to-memory_mem_a>),                    // memory.mem_a
 		.memory_mem_ba                   (<connected-to-memory_mem_ba>),                   //       .mem_ba
 		.memory_mem_ck                   (<connected-to-memory_mem_ck>),                   //       .mem_ck
@@ -73,8 +70,7 @@
 		.memory_mem_odt                  (<connected-to-memory_mem_odt>),                  //       .mem_odt
 		.memory_mem_dm                   (<connected-to-memory_mem_dm>),                   //       .mem_dm
 		.memory_oct_rzqin                (<connected-to-memory_oct_rzqin>),                //       .oct_rzqin
-		.pwm_switches                    (<connected-to-pwm_switches>),                    //    pwm.switches
-		.pwm_rgb_output                  (<connected-to-pwm_rgb_output>),                  //       .rgb_output
+		.pwm_rgb_output                  (<connected-to-pwm_rgb_output>),                  //    pwm.rgb_output
 		.rst_reset_n                     (<connected-to-rst_reset_n>)                      //    rst.reset_n
 	);
 

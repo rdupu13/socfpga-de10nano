@@ -275,19 +275,17 @@ architecture de10nano_arch of de10nano_top is
 			memory_oct_rzqin                : in    std_logic;
 			
 			adc_sclk                        : out   std_logic; -- sclk
-            adc_cs_n                        : out   std_logic; -- cs_n
-            adc_dout                        : in    std_logic; -- dout
-            adc_din                         : out   std_logic; -- din
+			adc_cs_n                        : out   std_logic; -- cs_n
+			adc_dout                        : in    std_logic; -- dout
+			adc_din                         : out   std_logic; -- din
 			
-			pwm_switches                    : in    std_logic_vector(3 downto 0);
 			pwm_rgb_output                  : out   std_logic_vector(2 downto 0);
 			
 			kb_columns                      : in    std_logic_vector(6 downto 0);
 			kb_rows                         : out   std_logic_vector(2 downto 0);
-			kb_div_clk_out                  : out   std_logic;
 			
-			lcd_data                        : out   std_logic_vector(7 downto 0);
-			lcd_ctl                         : out   std_logic_vector(2 downto 0);
+		--	lcd_data                        : out   std_logic_vector(7 downto 0);
+		--	lcd_ctl                         : out   std_logic_vector(2 downto 0);
 			
 			rst_reset_n                     : in    std_logic
 		);
@@ -295,12 +293,11 @@ architecture de10nano_arch of de10nano_top is
 	
 	signal rgb_output  : std_logic_vector(2 downto 0);
 	
-	signal columns     : std_logic_vector(6 downto 0);
-	signal rows        : std_logic_vector(2 downto 0);
-	signal div_clk_out : std_logic;
+	signal kb_columns  : std_logic_vector(6 downto 0);
+	signal kb_rows     : std_logic_vector(2 downto 0);
 	
-	signal lcd_data    : std_logic_vector(7 downto 0);
-	signal lcd_ctl     : std_logic_vector(2 downto 0);
+--	signal lcd_data    : std_logic_vector(7 downto 0);
+--	signal lcd_ctl     : std_logic_vector(2 downto 0);
 	
 begin
 	
@@ -397,24 +394,23 @@ begin
 			adc_din        => adc_sdi,
 			
 			-- PWM RGB LED
-			pwm_switches   => sw,
 			pwm_rgb_output => rgb_output,
 			
 			-- Keyboard
-			kb_columns     => gpio_0(34 downto 28),
-			kb_rows        => rows,
-			kb_div_clk_out => div_clk_out,
+			kb_columns     => kb_columns,
+			kb_rows        => kb_rows,
 			
 			-- LCD Module
-			lcd_data       => lcd_data,
-			lcd_ctl        => lcd_ctl,
+			--lcd_data       => lcd_data,
+			--lcd_ctl        => lcd_ctl,
 			
 			-- rst
-			rst_reset_n    => not push_button_n(1)
+			rst_reset_n    => push_button_n(1)
 		);
 	
-	gpio_1 <= "000000000000000" & not lcd_ctl & not lcd_data & "0000" & rows & rgb_output;
+	kb_columns <= gpio_0(34 downto 28);
+	gpio_1 <= "000000000000000000000000000000" & kb_rows & rgb_output;
 	
-	led <= div_clk_out & columns;
+--	led <= ;
 	
 end architecture;	

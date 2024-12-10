@@ -103,42 +103,32 @@ end entity;
 
 architecture de10nano_arch of de10nano_top is
 	
-	signal div  : std_logic;
-	signal rows : std_logic_vector(2 downto 0);
-	signal col  : std_logic_vector(6 downto 0);
+	signal clk_out : std_logic;
+	signal data : std_logic_vector(7 downto 0);
+	signal ctl  : std_logic_vector(2 downto 0);
 	
-	component keyboard is
+	component lcd is
 		port
 		(
-			clk           : in  std_logic;
-			rst           : in  std_logic;
-			-- Avalon Memory-Mapped Ports
-		--	avs_read      : in  std_logic;
-		--	avs_write     : in  std_logic;
-		--	avs_address   : in  std_logic_vector(1 downto 0);
-		--	avs_readdata  : out std_logic_vector(31 downto 0);
-		--	avs_writedata : in  std_logic_vector(31 downto 0);
-			-- Export
-			div_clk_out   : out std_logic;
-			rows          : out std_logic_vector(2 downto 0);
-			columns       : in  std_logic_vector(6 downto 0)
+			clk        : in  std_logic;
+			rst        : in  std_logic;
+			lcd_data_n : out std_logic_vector(7 downto 0);
+			lcd_ctl_n  : out std_logic_vector(2 downto 0)	
 		);
 	end component;
 	
 begin
 		
-	DUT : keyboard
+	DUT : lcd
 		port map
 		(
-			clk         => fpga_clk1_50,
-			rst         => not push_button_n(1),
-			div_clk_out => div,
-			rows        => rows,
-			columns     => col
+			clk        => fpga_clk1_50,
+			rst        => not push_button_n(1),
+			lcd_data_n => data,
+			lcd_ctl_n  => ctl
 		);
 	
-	col <= gpio_0(34 downto 28);
-	gpio_1 <= "000000000000000000000000000000" & rows & "000";
-	led <= "0000000" & div;
+	gpio_1 <= "000000000000000" & ctl & data & "0000000000";
+	led <= data;
 	
 end architecture de10nano_arch;

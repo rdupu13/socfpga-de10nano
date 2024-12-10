@@ -63,9 +63,6 @@ entity soc_system is
 		hps_io_hps_io_gpio_inst_GPIO61  : inout std_logic                     := '0';             --       .hps_io_gpio_inst_GPIO61
 		kb_columns                      : in    std_logic_vector(6 downto 0)  := (others => '0'); --     kb.columns
 		kb_rows                         : out   std_logic_vector(2 downto 0);                     --       .rows
-		kb_div_clk_out                  : out   std_logic;                                        --       .div_clk_out
-		lcd_ctl                         : out   std_logic_vector(2 downto 0);                     --    lcd.ctl
-		lcd_data                        : out   std_logic_vector(7 downto 0);                     --       .data
 		memory_mem_a                    : out   std_logic_vector(14 downto 0);                    -- memory.mem_a
 		memory_mem_ba                   : out   std_logic_vector(2 downto 0);                     --       .mem_ba
 		memory_mem_ck                   : out   std_logic;                                        --       .mem_ck
@@ -82,8 +79,7 @@ entity soc_system is
 		memory_mem_odt                  : out   std_logic;                                        --       .mem_odt
 		memory_mem_dm                   : out   std_logic_vector(3 downto 0);                     --       .mem_dm
 		memory_oct_rzqin                : in    std_logic                     := '0';             --       .oct_rzqin
-		pwm_switches                    : in    std_logic_vector(3 downto 0)  := (others => '0'); --    pwm.switches
-		pwm_rgb_output                  : out   std_logic_vector(2 downto 0);                     --       .rgb_output
+		pwm_rgb_output                  : out   std_logic_vector(2 downto 0);                     --    pwm.rgb_output
 		rst_reset_n                     : in    std_logic                     := '0'              --    rst.reset_n
 	);
 end entity soc_system;
@@ -261,7 +257,6 @@ architecture rtl of soc_system is
 			clk           : in  std_logic                     := 'X';             -- clk
 			columns       : in  std_logic_vector(6 downto 0)  := (others => 'X'); -- columns
 			rows          : out std_logic_vector(2 downto 0);                     -- rows
-			div_clk_out   : out std_logic;                                        -- div_clk_out
 			avs_read      : in  std_logic                     := 'X';             -- read
 			avs_write     : in  std_logic                     := 'X';             -- write
 			avs_address   : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- address
@@ -269,20 +264,6 @@ architecture rtl of soc_system is
 			avs_writedata : in  std_logic_vector(31 downto 0) := (others => 'X')  -- writedata
 		);
 	end component keyboard;
-
-	component lcd is
-		port (
-			avs_read      : in  std_logic                     := 'X';             -- read
-			avs_write     : in  std_logic                     := 'X';             -- write
-			avs_address   : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- address
-			avs_readdata  : out std_logic_vector(31 downto 0);                    -- readdata
-			avs_writedata : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			clk           : in  std_logic                     := 'X';             -- clk
-			rst           : in  std_logic                     := 'X';             -- reset
-			ctl           : out std_logic_vector(2 downto 0);                     -- ctl
-			data          : out std_logic_vector(7 downto 0)                      -- data
-		);
-	end component lcd;
 
 	component pwm_rgb_led is
 		port (
@@ -293,7 +274,6 @@ architecture rtl of soc_system is
 			avs_writedata : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
 			rst           : in  std_logic                     := 'X';             -- reset
 			clk           : in  std_logic                     := 'X';             -- clk
-			switches      : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- switches
 			rgb_output    : out std_logic_vector(2 downto 0)                      -- rgb_output
 		);
 	end component pwm_rgb_led;
@@ -356,16 +336,11 @@ architecture rtl of soc_system is
 			adc_adc_slave_readdata                                            : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			adc_adc_slave_writedata                                           : out std_logic_vector(31 downto 0);                    -- writedata
 			adc_adc_slave_waitrequest                                         : in  std_logic                     := 'X';             -- waitrequest
-			keyboard_0_avalon_slave_1_address                                 : out std_logic_vector(1 downto 0);                     -- address
-			keyboard_0_avalon_slave_1_write                                   : out std_logic;                                        -- write
-			keyboard_0_avalon_slave_1_read                                    : out std_logic;                                        -- read
-			keyboard_0_avalon_slave_1_readdata                                : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			keyboard_0_avalon_slave_1_writedata                               : out std_logic_vector(31 downto 0);                    -- writedata
-			lcd_0_avalon_slave_2_address                                      : out std_logic_vector(1 downto 0);                     -- address
-			lcd_0_avalon_slave_2_write                                        : out std_logic;                                        -- write
-			lcd_0_avalon_slave_2_read                                         : out std_logic;                                        -- read
-			lcd_0_avalon_slave_2_readdata                                     : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
-			lcd_0_avalon_slave_2_writedata                                    : out std_logic_vector(31 downto 0);                    -- writedata
+			keyboard_0_kb_slave_address                                       : out std_logic_vector(1 downto 0);                     -- address
+			keyboard_0_kb_slave_write                                         : out std_logic;                                        -- write
+			keyboard_0_kb_slave_read                                          : out std_logic;                                        -- read
+			keyboard_0_kb_slave_readdata                                      : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			keyboard_0_kb_slave_writedata                                     : out std_logic_vector(31 downto 0);                    -- writedata
 			pwm_rgb_led_0_avalon_slave_0_address                              : out std_logic_vector(1 downto 0);                     -- address
 			pwm_rgb_led_0_avalon_slave_0_write                                : out std_logic;                                        -- write
 			pwm_rgb_led_0_avalon_slave_0_read                                 : out std_logic;                                        -- read
@@ -496,20 +471,15 @@ architecture rtl of soc_system is
 	signal mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_read      : std_logic;                     -- mm_interconnect_0:pwm_rgb_led_0_avalon_slave_0_read -> pwm_rgb_led_0:avs_read
 	signal mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_write     : std_logic;                     -- mm_interconnect_0:pwm_rgb_led_0_avalon_slave_0_write -> pwm_rgb_led_0:avs_write
 	signal mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_writedata : std_logic_vector(31 downto 0); -- mm_interconnect_0:pwm_rgb_led_0_avalon_slave_0_writedata -> pwm_rgb_led_0:avs_writedata
-	signal mm_interconnect_0_keyboard_0_avalon_slave_1_readdata     : std_logic_vector(31 downto 0); -- keyboard_0:avs_readdata -> mm_interconnect_0:keyboard_0_avalon_slave_1_readdata
-	signal mm_interconnect_0_keyboard_0_avalon_slave_1_address      : std_logic_vector(1 downto 0);  -- mm_interconnect_0:keyboard_0_avalon_slave_1_address -> keyboard_0:avs_address
-	signal mm_interconnect_0_keyboard_0_avalon_slave_1_read         : std_logic;                     -- mm_interconnect_0:keyboard_0_avalon_slave_1_read -> keyboard_0:avs_read
-	signal mm_interconnect_0_keyboard_0_avalon_slave_1_write        : std_logic;                     -- mm_interconnect_0:keyboard_0_avalon_slave_1_write -> keyboard_0:avs_write
-	signal mm_interconnect_0_keyboard_0_avalon_slave_1_writedata    : std_logic_vector(31 downto 0); -- mm_interconnect_0:keyboard_0_avalon_slave_1_writedata -> keyboard_0:avs_writedata
-	signal mm_interconnect_0_lcd_0_avalon_slave_2_readdata          : std_logic_vector(31 downto 0); -- lcd_0:avs_readdata -> mm_interconnect_0:lcd_0_avalon_slave_2_readdata
-	signal mm_interconnect_0_lcd_0_avalon_slave_2_address           : std_logic_vector(1 downto 0);  -- mm_interconnect_0:lcd_0_avalon_slave_2_address -> lcd_0:avs_address
-	signal mm_interconnect_0_lcd_0_avalon_slave_2_read              : std_logic;                     -- mm_interconnect_0:lcd_0_avalon_slave_2_read -> lcd_0:avs_read
-	signal mm_interconnect_0_lcd_0_avalon_slave_2_write             : std_logic;                     -- mm_interconnect_0:lcd_0_avalon_slave_2_write -> lcd_0:avs_write
-	signal mm_interconnect_0_lcd_0_avalon_slave_2_writedata         : std_logic_vector(31 downto 0); -- mm_interconnect_0:lcd_0_avalon_slave_2_writedata -> lcd_0:avs_writedata
+	signal mm_interconnect_0_keyboard_0_kb_slave_readdata           : std_logic_vector(31 downto 0); -- keyboard_0:avs_readdata -> mm_interconnect_0:keyboard_0_kb_slave_readdata
+	signal mm_interconnect_0_keyboard_0_kb_slave_address            : std_logic_vector(1 downto 0);  -- mm_interconnect_0:keyboard_0_kb_slave_address -> keyboard_0:avs_address
+	signal mm_interconnect_0_keyboard_0_kb_slave_read               : std_logic;                     -- mm_interconnect_0:keyboard_0_kb_slave_read -> keyboard_0:avs_read
+	signal mm_interconnect_0_keyboard_0_kb_slave_write              : std_logic;                     -- mm_interconnect_0:keyboard_0_kb_slave_write -> keyboard_0:avs_write
+	signal mm_interconnect_0_keyboard_0_kb_slave_writedata          : std_logic_vector(31 downto 0); -- mm_interconnect_0:keyboard_0_kb_slave_writedata -> keyboard_0:avs_writedata
 	signal rst_controller_reset_out_reset                           : std_logic;                     -- rst_controller:reset_out -> [adc:reset, mm_interconnect_0:adc_reset_reset_bridge_in_reset_reset]
 	signal rst_controller_001_reset_out_reset                       : std_logic;                     -- rst_controller_001:reset_out -> mm_interconnect_0:hps_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset
 	signal hps_h2f_reset_reset                                      : std_logic;                     -- hps:h2f_rst_n -> hps_h2f_reset_reset:in
-	signal rst_reset_n_ports_inv                                    : std_logic;                     -- rst_reset_n:inv -> [adc_pll:rst, jtag_master:clk_reset_reset, keyboard_0:rst, lcd_0:rst, mm_interconnect_0:jtag_master_clk_reset_reset_bridge_in_reset_reset, mm_interconnect_0:pwm_rgb_led_0_rst_reset_bridge_in_reset_reset, pwm_rgb_led_0:rst, rst_controller:reset_in0]
+	signal rst_reset_n_ports_inv                                    : std_logic;                     -- rst_reset_n:inv -> [adc_pll:rst, jtag_master:clk_reset_reset, keyboard_0:rst, mm_interconnect_0:jtag_master_clk_reset_reset_bridge_in_reset_reset, mm_interconnect_0:pwm_rgb_led_0_rst_reset_bridge_in_reset_reset, pwm_rgb_led_0:rst, rst_controller:reset_in0]
 	signal hps_h2f_reset_reset_ports_inv                            : std_logic;                     -- hps_h2f_reset_reset:inv -> rst_controller_001:reset_in0
 
 begin
@@ -678,29 +648,15 @@ begin
 
 	keyboard_0 : component keyboard
 		port map (
-			rst           => rst_reset_n_ports_inv,                                 --            rst.reset
-			clk           => clk_clk,                                               --            clk.clk
-			columns       => kb_columns,                                            --         export.columns
-			rows          => kb_rows,                                               --               .rows
-			div_clk_out   => kb_div_clk_out,                                        --               .div_clk_out
-			avs_read      => mm_interconnect_0_keyboard_0_avalon_slave_1_read,      -- avalon_slave_1.read
-			avs_write     => mm_interconnect_0_keyboard_0_avalon_slave_1_write,     --               .write
-			avs_address   => mm_interconnect_0_keyboard_0_avalon_slave_1_address,   --               .address
-			avs_readdata  => mm_interconnect_0_keyboard_0_avalon_slave_1_readdata,  --               .readdata
-			avs_writedata => mm_interconnect_0_keyboard_0_avalon_slave_1_writedata  --               .writedata
-		);
-
-	lcd_0 : component lcd
-		port map (
-			avs_read      => mm_interconnect_0_lcd_0_avalon_slave_2_read,      -- avalon_slave_2.read
-			avs_write     => mm_interconnect_0_lcd_0_avalon_slave_2_write,     --               .write
-			avs_address   => mm_interconnect_0_lcd_0_avalon_slave_2_address,   --               .address
-			avs_readdata  => mm_interconnect_0_lcd_0_avalon_slave_2_readdata,  --               .readdata
-			avs_writedata => mm_interconnect_0_lcd_0_avalon_slave_2_writedata, --               .writedata
-			clk           => clk_clk,                                          --            clk.clk
-			rst           => rst_reset_n_ports_inv,                            --            rst.reset
-			ctl           => lcd_ctl,                                          --         export.ctl
-			data          => lcd_data                                          --               .data
+			rst           => rst_reset_n_ports_inv,                           --      rst.reset
+			clk           => clk_clk,                                         --      clk.clk
+			columns       => kb_columns,                                      --   export.columns
+			rows          => kb_rows,                                         --         .rows
+			avs_read      => mm_interconnect_0_keyboard_0_kb_slave_read,      -- kb_slave.read
+			avs_write     => mm_interconnect_0_keyboard_0_kb_slave_write,     --         .write
+			avs_address   => mm_interconnect_0_keyboard_0_kb_slave_address,   --         .address
+			avs_readdata  => mm_interconnect_0_keyboard_0_kb_slave_readdata,  --         .readdata
+			avs_writedata => mm_interconnect_0_keyboard_0_kb_slave_writedata  --         .writedata
 		);
 
 	pwm_rgb_led_0 : component pwm_rgb_led
@@ -712,8 +668,7 @@ begin
 			avs_writedata => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_writedata, --               .writedata
 			rst           => rst_reset_n_ports_inv,                                    --            rst.reset
 			clk           => clk_clk,                                                  --            clk.clk
-			switches      => pwm_switches,                                             --         export.switches
-			rgb_output    => pwm_rgb_output                                            --               .rgb_output
+			rgb_output    => pwm_rgb_output                                            --         export.rgb_output
 		);
 
 	mm_interconnect_0 : component soc_system_mm_interconnect_0
@@ -774,16 +729,11 @@ begin
 			adc_adc_slave_readdata                                            => mm_interconnect_0_adc_adc_slave_readdata,                 --                                                            .readdata
 			adc_adc_slave_writedata                                           => mm_interconnect_0_adc_adc_slave_writedata,                --                                                            .writedata
 			adc_adc_slave_waitrequest                                         => mm_interconnect_0_adc_adc_slave_waitrequest,              --                                                            .waitrequest
-			keyboard_0_avalon_slave_1_address                                 => mm_interconnect_0_keyboard_0_avalon_slave_1_address,      --                                   keyboard_0_avalon_slave_1.address
-			keyboard_0_avalon_slave_1_write                                   => mm_interconnect_0_keyboard_0_avalon_slave_1_write,        --                                                            .write
-			keyboard_0_avalon_slave_1_read                                    => mm_interconnect_0_keyboard_0_avalon_slave_1_read,         --                                                            .read
-			keyboard_0_avalon_slave_1_readdata                                => mm_interconnect_0_keyboard_0_avalon_slave_1_readdata,     --                                                            .readdata
-			keyboard_0_avalon_slave_1_writedata                               => mm_interconnect_0_keyboard_0_avalon_slave_1_writedata,    --                                                            .writedata
-			lcd_0_avalon_slave_2_address                                      => mm_interconnect_0_lcd_0_avalon_slave_2_address,           --                                        lcd_0_avalon_slave_2.address
-			lcd_0_avalon_slave_2_write                                        => mm_interconnect_0_lcd_0_avalon_slave_2_write,             --                                                            .write
-			lcd_0_avalon_slave_2_read                                         => mm_interconnect_0_lcd_0_avalon_slave_2_read,              --                                                            .read
-			lcd_0_avalon_slave_2_readdata                                     => mm_interconnect_0_lcd_0_avalon_slave_2_readdata,          --                                                            .readdata
-			lcd_0_avalon_slave_2_writedata                                    => mm_interconnect_0_lcd_0_avalon_slave_2_writedata,         --                                                            .writedata
+			keyboard_0_kb_slave_address                                       => mm_interconnect_0_keyboard_0_kb_slave_address,            --                                         keyboard_0_kb_slave.address
+			keyboard_0_kb_slave_write                                         => mm_interconnect_0_keyboard_0_kb_slave_write,              --                                                            .write
+			keyboard_0_kb_slave_read                                          => mm_interconnect_0_keyboard_0_kb_slave_read,               --                                                            .read
+			keyboard_0_kb_slave_readdata                                      => mm_interconnect_0_keyboard_0_kb_slave_readdata,           --                                                            .readdata
+			keyboard_0_kb_slave_writedata                                     => mm_interconnect_0_keyboard_0_kb_slave_writedata,          --                                                            .writedata
 			pwm_rgb_led_0_avalon_slave_0_address                              => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_address,   --                                pwm_rgb_led_0_avalon_slave_0.address
 			pwm_rgb_led_0_avalon_slave_0_write                                => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_write,     --                                                            .write
 			pwm_rgb_led_0_avalon_slave_0_read                                 => mm_interconnect_0_pwm_rgb_led_0_avalon_slave_0_read,      --                                                            .read

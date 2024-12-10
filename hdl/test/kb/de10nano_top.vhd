@@ -103,7 +103,6 @@ end entity;
 
 architecture de10nano_arch of de10nano_top is
 	
-	signal div  : std_logic;
 	signal rows : std_logic_vector(2 downto 0);
 	signal col  : std_logic_vector(6 downto 0);
 	signal buf  : std_logic_vector(31 downto 0);
@@ -120,7 +119,6 @@ architecture de10nano_arch of de10nano_top is
 		--	avs_readdata  : out std_logic_vector(31 downto 0);
 		--	avs_writedata : in  std_logic_vector(31 downto 0);
 			-- Export
-			div_clk_out   : out std_logic;
 			rows          : out std_logic_vector(2 downto 0);
 			columns       : in  std_logic_vector(6 downto 0);
 			kb_buf        : out std_logic_vector(31 downto 0)
@@ -134,7 +132,6 @@ begin
 		(
 			clk         => fpga_clk1_50,
 			rst         => not push_button_n(1),
-			div_clk_out => div,
 			rows        => rows,
 			columns     => col,
 			kb_buf      => buf
@@ -142,6 +139,6 @@ begin
 	
 	col <= gpio_0(34 downto 28);
 	gpio_1 <= "000000000000000000000000000000" & rows & "000";
-	led <= buf(7 downto 0);
+	led <= buf(8) & buf(6 downto 0);
 	
 end architecture de10nano_arch;

@@ -23,7 +23,7 @@ end entity;
 
 architecture pwm_controller_arch of pwm_controller is
 	
-	constant CYC_PER_SEC : natural := 1000000000 ns / CLK_PERIOD;
+	constant CYC_PER_MS : natural := 1000000 ns / CLK_PERIOD;
 	
 	signal cyc_per_period : natural;
 	signal cyc_per_dc : natural;
@@ -33,8 +33,8 @@ architecture pwm_controller_arch of pwm_controller is
 begin
 	
 	-- Conversion from fixed point to clock-cycle countable integers
-	cyc_per_period <= to_integer(period(16 downto 11)) * CYC_PER_SEC
-		            + to_integer(period(10 downto 0)) * CYC_PER_SEC / 2048;
+	cyc_per_period <= to_integer(period(16 downto 11)) * CYC_PER_MS
+		            + to_integer(period(10 downto 0)) * CYC_PER_MS / 2048;
 	cyc_per_dc     <= to_integer(duty_cycle(10 downto 0)) * cyc_per_period / 2048;
 	dc_is_one      <= (duty_cycle(11) = '1');
 	
