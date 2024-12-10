@@ -55,6 +55,8 @@
 			hps_io_hps_io_gpio_inst_GPIO61  : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO61
 			kb_columns                      : in    std_logic_vector(6 downto 0)  := (others => 'X'); -- columns
 			kb_rows                         : out   std_logic_vector(2 downto 0);                     -- rows
+			lcd_ctl_n                       : out   std_logic_vector(2 downto 0);                     -- ctl_n
+			lcd_data_n                      : out   std_logic_vector(7 downto 0);                     -- data_n
 			memory_mem_a                    : out   std_logic_vector(14 downto 0);                    -- mem_a
 			memory_mem_ba                   : out   std_logic_vector(2 downto 0);                     -- mem_ba
 			memory_mem_ck                   : out   std_logic;                                        -- mem_ck

@@ -284,8 +284,8 @@ architecture de10nano_arch of de10nano_top is
 			kb_columns                      : in    std_logic_vector(6 downto 0);
 			kb_rows                         : out   std_logic_vector(2 downto 0);
 			
-		--	lcd_data                        : out   std_logic_vector(7 downto 0);
-		--	lcd_ctl                         : out   std_logic_vector(2 downto 0);
+			lcd_data_n                      : out   std_logic_vector(7 downto 0);
+			lcd_ctl_n                       : out   std_logic_vector(2 downto 0);
 			
 			rst_reset_n                     : in    std_logic
 		);
@@ -296,8 +296,8 @@ architecture de10nano_arch of de10nano_top is
 	signal kb_columns  : std_logic_vector(6 downto 0);
 	signal kb_rows     : std_logic_vector(2 downto 0);
 	
---	signal lcd_data    : std_logic_vector(7 downto 0);
---	signal lcd_ctl     : std_logic_vector(2 downto 0);
+	signal lcd_data_n  : std_logic_vector(7 downto 0);
+	signal lcd_ctl_n   : std_logic_vector(2 downto 0);
 	
 begin
 	
@@ -401,15 +401,15 @@ begin
 			kb_rows        => kb_rows,
 			
 			-- LCD Module
-			--lcd_data       => lcd_data,
-			--lcd_ctl        => lcd_ctl,
+			lcd_data_n     => lcd_data_n,
+			lcd_ctl_n      => lcd_ctl_n,
 			
 			-- rst
 			rst_reset_n    => push_button_n(1)
 		);
 	
 	kb_columns <= gpio_0(34 downto 28);
-	gpio_1 <= "000000000000000000000000000000" & kb_rows & rgb_output;
+	gpio_1 <= "00" & lcd_data_n & "0000000000000" & lcd_ctl_n & "0000" & kb_rows & rgb_output;
 	
 --	led <= ;
 	

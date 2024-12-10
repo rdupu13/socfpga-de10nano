@@ -1,0 +1,222 @@
+--------------------------------------------------------------------------------
+ Version 23.1 993
+ Copyright (C) 2024 Intel Corporation. All rights reserved.
+ Your use of Intel Corporation's design tools, logic functions
+ and other software and tools, and its AMPP partner logic
+ functions, and any output files from any of the foregoing
+ (including device programming or simulation files), and any
+ associated documentation or information is expressly subject
+ to the terms and conditions of the Intel Program License
+ Subscription Agreement, the Intel Quartus Prime License Agreement,
+ the Intel MegaCore Function License Agreement, or other
+ applicable license agreement, including, without limitation,
+ that your use is for the sole purpose of programming logic
+ devices manufactured by Intel and sold by Intel or its
+ authorized distributors.  Please refer to the applicable
+ agreement for further details.
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ Welcome to Intel's FPGA System Console
+
+ This Tcl console provides access to the hardware modules instantiated in your
+ FPGA. You can use System Console for all of the following purposes:
+
+    * To start, stop, or step a Nios II processor
+    * To read or write Avalon Memory-Mapped (Avalon-MM) slaves using special
+     masters
+    * To sample the SOPC system clock as well as system reset signal
+    * To run JTAG loopback tests to analyze board noise problems
+    * To shift arbitrary instruction register and data register values to
+     instantiated system level debug (SLD) nodes
+
+ In addition, the directory <QuartusII Dir>/sopc_builder/system_console/scripts
+ contains Tcl files that provide miscellaneous utilities and examples of how to
+ access the functionality provided. You can include those macros in your
+ scripts by issuing Tcl source commands.
+--------------------------------------------------------------------------------
+
+% set m [lindex [get_service_paths master] 0]
+/devices/5CSEBA6(.|ES)|5CSEMA6|..@2#1-4#DE-SoC/(link)/JTAG/alt_sld_fab_sldfabric.node_0/phy_0/jtag_master.master
+% open_service master $m
+
+% master_read_32 $m 0x0 20
+0x00000a2f 0x000007a3 0x000006ab 0x00000784 0x0000069c 0x0000078c 0x000006a4 0x0000074f 0x00000800 0x00000800 0x00000800 0x00005000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000
+% master_read_32 $m 0x0 20
+0x00000a2c 0x000007a4 0x000006ac 0x00000783 0x0000069f 0x00000793 0x000006a4 0x0000074b 0x00000800 0x00000800 0x00000800 0x00005000 0x00000046 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000
+% master_write_32 $m 0x40 7
+
+% master_write_32 $m 0x40 6
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 4
+
+% master_write_32 $m 0x40 3
+
+% master_write_32 $m 0x40 2
+
+% master_write_32 $m 0x40 1
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0xAA
+
+% master_write_32 $m 0x44 0x55
+
+% master_write_32 $m 0x44 0x38
+
+% master_write_32 $m 0x40 1
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x0F
+
+% master_write_32 $m 0x40 1
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x06
+
+% master_write_32 $m 0x40 1
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x01
+
+% master_write_32 $m 0x40 1
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x02
+
+% master_write_32 $m 0x40 1
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x52
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x79
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x61
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x6e
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x01
+
+% master_write_32 $m 0x40 1
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x48
+
+% master_write_32 $m 0x40 1
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x65
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x6C
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x6F
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x2C
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x20
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x77
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x6F
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x72
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x6c
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x64
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x21
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x20
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x3a
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% master_write_32 $m 0x44 0x29
+
+% master_write_32 $m 0x40 5
+
+% master_write_32 $m 0x40 0
+
+% 

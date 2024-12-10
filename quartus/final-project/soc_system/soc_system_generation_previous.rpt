@@ -65,7 +65,7 @@ Info: Inserting clock-crossing logic between rsp_demux.src0 and rsp_mux.sink0
 Info: Inserting clock-crossing logic between rsp_demux.src1 and rsp_mux_001.sink0
 Info: Inserting clock-crossing logic between rsp_demux.src2 and rsp_mux_002.sink0
 Info: adc: Starting Generation of ADC Controller for DE-series Board
-Info: adc: /home/rdupu/Dropbox/Desktop/intelFPGA_lite/23.1std/ip/altera/university_program/input_output/altera_up_avalon_adc/hdl/altera_up_avalon_adv_adc.v /tmp/alt0067_6229308776011095359.dir/0106_sopcgen/soc_system_adc.v
+Info: adc: /home/rdupu/Dropbox/Desktop/intelFPGA_lite/23.1std/ip/altera/university_program/input_output/altera_up_avalon_adc/hdl/altera_up_avalon_adv_adc.v /tmp/alt0067_6229308776011095359.dir/0218_sopcgen/soc_system_adc.v
 Info: adc: "soc_system" instantiated altera_up_avalon_adc "adc"
 Info: adc_pll: "soc_system" instantiated altera_pll "adc_pll"
 Info: hps: "Running  for module: hps"
@@ -74,10 +74,12 @@ Info: hps: HPS peripherial PLL counter settings: n = 0  m = 39
 Info: hps: "soc_system" instantiated altera_hps "hps"
 Info: jtag_master: "soc_system" instantiated altera_jtag_avalon_master "jtag_master"
 Info: keyboard_0: "soc_system" instantiated keyboard "keyboard_0"
+Info: lcd_0: "soc_system" instantiated lcd "lcd_0"
 Info: pwm_rgb_led_0: "soc_system" instantiated pwm_rgb_led "pwm_rgb_led_0"
 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
 Info: mm_interconnect_0: "soc_system" instantiated altera_mm_interconnect "mm_interconnect_0"
 Info: rst_controller: "soc_system" instantiated altera_reset_controller "rst_controller"
 Info: fpga_interfaces: "hps" instantiated altera_interface_generator "fpga_interfaces"
@@ -96,9 +98,7 @@ Info: hps_h2f_lw_axi_master_agent: "mm_interconnect_0" instantiated altera_merli
 Info: jtag_master_master_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "jtag_master_master_agent"
 Info: adc_adc_slave_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "adc_adc_slave_agent"
 Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
-Info: router_002: "mm_interconnect_0" instantiated altera_merlin_router "router_002"
 Info: router_003: "mm_interconnect_0" instantiated altera_merlin_router "router_003"
-Info: router_005: "mm_interconnect_0" instantiated altera_merlin_router "router_005"
 Info: hps_h2f_lw_axi_master_wr_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "hps_h2f_lw_axi_master_wr_limiter"
 Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_avalon_sc_fifo.v
 Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
@@ -107,16 +107,10 @@ Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-no
 Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_avalon_st_pipeline_stage.sv
 Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_avalon_st_pipeline_base.v
 Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
-Info: cmd_demux_002: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_002"
 Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
-Info: cmd_mux_002: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_002"
-Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
 Info: rsp_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_001"
-Info: rsp_demux_002: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_002"
 Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
-Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
-Info: rsp_mux_002: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_002"
 Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: crosser: "mm_interconnect_0" instantiated altera_avalon_st_handshake_clock_crosser "crosser"
 Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-noah/quartus/final-project/soc_system/synthesis/submodules/altera_avalon_st_clock_crosser.v
@@ -125,6 +119,6 @@ Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-no
 Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
 Info: border: "hps_io" instantiated altera_interface_generator "border"
 Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
-Info: soc_system: Done "soc_system" with 43 modules, 112 files
+Info: soc_system: Done "soc_system" with 38 modules, 107 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

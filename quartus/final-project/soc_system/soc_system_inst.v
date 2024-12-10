@@ -54,6 +54,8 @@
 		.hps_io_hps_io_gpio_inst_GPIO61  (<connected-to-hps_io_hps_io_gpio_inst_GPIO61>),  //       .hps_io_gpio_inst_GPIO61
 		.kb_columns                      (<connected-to-kb_columns>),                      //     kb.columns
 		.kb_rows                         (<connected-to-kb_rows>),                         //       .rows
+		.lcd_lcd_data_n                  (<connected-to-lcd_lcd_data_n>),                  //    lcd.lcd_data_n
+		.lcd_lcd_ctl_n                   (<connected-to-lcd_lcd_ctl_n>),                   //       .lcd_ctl_n
 		.memory_mem_a                    (<connected-to-memory_mem_a>),                    // memory.mem_a
 		.memory_mem_ba                   (<connected-to-memory_mem_ba>),                   //       .mem_ba
 		.memory_mem_ck                   (<connected-to-memory_mem_ck>),                   //       .mem_ck

@@ -65,7 +65,7 @@ Info: Inserting clock-crossing logic between rsp_demux.src0 and rsp_mux.sink0
 Info: Inserting clock-crossing logic between rsp_demux.src1 and rsp_mux_001.sink0
 Info: Inserting clock-crossing logic between rsp_demux.src2 and rsp_mux_002.sink0
 Info: adc: Starting Generation of ADC Controller for DE-series Board
-Info: adc: /home/rdupu/Dropbox/Desktop/intelFPGA_lite/23.1std/ip/altera/university_program/input_output/altera_up_avalon_adc/hdl/altera_up_avalon_adv_adc.v /tmp/alt0067_6229308776011095359.dir/0145_sopcgen/soc_system_adc.v
+Info: adc: /home/rdupu/Dropbox/Desktop/intelFPGA_lite/23.1std/ip/altera/university_program/input_output/altera_up_avalon_adc/hdl/altera_up_avalon_adv_adc.v /tmp/alt0067_6229308776011095359.dir/0253_sopcgen/soc_system_adc.v
 Info: adc: "soc_system" instantiated altera_up_avalon_adc "adc"
 Info: adc_pll: "soc_system" instantiated altera_pll "adc_pll"
 Info: hps: "Running  for module: hps"
@@ -74,10 +74,12 @@ Info: hps: HPS peripherial PLL counter settings: n = 0  m = 39
 Info: hps: "soc_system" instantiated altera_hps "hps"
 Info: jtag_master: "soc_system" instantiated altera_jtag_avalon_master "jtag_master"
 Info: keyboard_0: "soc_system" instantiated keyboard "keyboard_0"
+Info: lcd_0: "soc_system" instantiated lcd "lcd_0"
 Info: pwm_rgb_led_0: "soc_system" instantiated pwm_rgb_led "pwm_rgb_led_0"
 Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
 Info: mm_interconnect_0: "soc_system" instantiated altera_mm_interconnect "mm_interconnect_0"
 Info: rst_controller: "soc_system" instantiated altera_reset_controller "rst_controller"
 Info: fpga_interfaces: "hps" instantiated altera_interface_generator "fpga_interfaces"
@@ -117,6 +119,6 @@ Info: Reusing file /home/rdupu/Dropbox/documents/git-repos/final-project-ryan-no
 Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
 Info: border: "hps_io" instantiated altera_interface_generator "border"
 Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
-Info: soc_system: Done "soc_system" with 37 modules, 106 files
+Info: soc_system: Done "soc_system" with 38 modules, 107 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

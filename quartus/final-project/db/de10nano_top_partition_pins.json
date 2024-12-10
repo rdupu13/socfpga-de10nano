@@ -68,6 +68,50 @@
 					"strict" : false
 				},
 				{
+					"name" : "gpio_1[10]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[11]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[12]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[26]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[27]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[28]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[29]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[30]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[31]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[32]",
+					"strict" : false
+				},
+				{
+					"name" : "gpio_1[33]",
+					"strict" : false
+				},
+				{
 					"name" : "fpga_clk1_50",
 					"strict" : false
 				},
