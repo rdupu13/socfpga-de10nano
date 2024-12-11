@@ -55,247 +55,149 @@ struct pwm_dev
 	void __iomem *green_duty_cycle;
 	void __iomem *blue_duty_cycle;
 	void __iomem *period;
-	struct miscdevice miscdev;
+	//struct miscdevice miscdev;
 	struct mutex lock;
 };
 
 
 
-// ATTRIBUTES -----------------------------------------------------------------
+// FILE OPERATIONS ------------------------------------------------------------
 
 /**
- * red_duty_cycle_show() - Return the red_duty_cycle value to userspace via sysfs.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that gets returned to userspace.
- * 
- * Return: The number of bytes read.
+ * pwm_read() - Read method for the pwm char device
+ * @file:   Pointer to the char device file struct.
+ * @buf:    User-space buffer to read the value into.
+ * @count:  The number of bytes being requested.
+ * @offset: The byte offset in the file being read from.
+ *
+ * Return: On success, the number of bytes written is returned and the
+ * offset @offset is advanced by this number. On error, a negative error
+ * value is returned.
  */
-static ssize_t red_duty_cycle_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
-{
-	unsigned int red_duty_cycle;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	red_duty_cycle = ioread32(priv->red_duty_cycle);
-	
-	return scnprintf(buf, PAGE_SIZE, "%u\n", red_duty_cycle);
-}
-
-/**
- * red_duty_cycle_store() - Store the red_duty_cycle value.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that contains the red_duty_cycle value being written.
- * @size: The number of bytes being written.
- * 
- * Return: The number of bytes stored.
- */
-static ssize_t red_duty_cycle_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
-{
-	unsigned int red_duty_cycle;
-	int ret;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	// Parse the string we received as an unsigned int
-	// See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L213
-	ret = kstrtouint(buf, 0, &red_duty_cycle);
-	if (ret < 0)
-	{
-		return ret;
-	}
-	
-	iowrite32(red_duty_cycle, priv->red_duty_cycle);
-	
-	// Write was successful, so we return the number of bytes we wrote.
-	return size;
-}
-
-
-
-/**
- * green_duty_cycle_show() - Return the green_duty_cycle value to userspace via sysfs.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that gets returned to userspace.
- * 
- * Return: The number of bytes read.
- */
-static ssize_t green_duty_cycle_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
-{
-	unsigned int green_duty_cycle;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	green_duty_cycle = ioread32(priv->green_duty_cycle);
-	
-	return scnprintf(buf, PAGE_SIZE, "%u\n", green_duty_cycle);
-}
-
-/**
- * green_duty_cycle_store() - Store the green_duty_cycle value.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that contains the green_duty_cycle value being written.
- * @size: The number of bytes being written.
- * 
- * Return: The number of bytes stored.
- */
-static ssize_t green_duty_cycle_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
-{
-	unsigned int green_duty_cycle;
-	int ret;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	// Parse the string we received as a unsigned int
-	// See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L213
-	ret = kstrtouint(buf, 0, &green_duty_cycle);
-	if (ret < 0)
-	{
-		return ret;
-	}
-	
-	iowrite32(green_duty_cycle, priv->green_duty_cycle);
-	
-	// Write was successful, so we return the number of bytes we wrote.
-	return size;
-}
+//static ssize_t pwm_read(struct file *file, char __user *buf, size_t count, loff_t *offset)
+//{
+//	u32 val;
+//	
+//	struct pwm_dev *priv = container_of(file->private_data, struct pwm_dev, miscdev);
+//	
+//	// Check file offset to make sure we are reading from a valid location.
+//	if (*offset < 0)
+//	{
+//		// We can't read from a negative file position.
+//		return -EINVAL;
+//	}
+//	if (*offset >= 16)
+//	{
+//		// We can't read from a position past the end of our device.
+//		return 0;
+//	}
+//	if ((*offset % 0x4) != 0)
+//	{
+//		// Prevent unaligned access.
+//		pr_warn("pwm_read: unaligned access\n");
+//		return -EFAULT;
+//	}
+//	
+//	val = ioread32(priv->base_addr + *offset);
+//	
+//	// Copy the value to userspace.
+//	size_t ret = copy_to_user(buf, &val, sizeof(val));
+//	if (ret == sizeof(val))
+//	{
+//		pr_warn("pwm_read: nothing copied\n");
+//		return -EFAULT;
+//	}
+//
+//	// Increment the file offset by the number of bytes we read.
+//	*offset = *offset + sizeof(val);
+//	
+//	return sizeof(val);
+//}
 
 
 
 /**
- * blue_duty_cycle_show() - Return the blue_duty_cycle value to userspace via sysfs.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that gets returned to userspace.
- * 
- * Return: The number of bytes read.
+ * pwm_write() - Write method for the pwm char device
+ * @file:   Pointer to the char device file struct.
+ * @buf:    User-space buffer to read the value from.
+ * @count:  The number of bytes being written.
+ * @offset: The byte offset in the file being written to.
+ *
+ * Return: On success, the number of bytes written is returned and the
+ * offset @offset is advanced by this number. On error, a negative error
+ * value is returned.
  */
-static ssize_t blue_duty_cycle_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
-{
-	unsigned int blue_duty_cycle;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	blue_duty_cycle = ioread32(priv->blue_duty_cycle);
-	
-	return scnprintf(buf, PAGE_SIZE, "%u\n", blue_duty_cycle);
-}
+//static ssize_t pwm_write(struct file *file, const char __user *buf, size_t count, loff_t *offset)
+//{
+//	u32 val;
+//	
+//	struct pwm_dev *priv = container_of(file->private_data, struct pwm_dev, miscdev);
+//	
+//	if (*offset < 0)
+//	{
+//		return -EINVAL;
+//	}
+//	if (*offset >= 16)
+//	{
+//		return 0;
+//	}
+//	if ((*offset % 0x4) != 0)
+//	{
+//		pr_warn("pwm_write: unaligned access\n");
+//		return -EFAULT;
+//	}
+//	
+//	mutex_lock(&priv->lock);
+//	
+//	// Get the value from userspace.
+//	size_t ret = copy_from_user(&val, buf, sizeof(val));
+//	if (ret != sizeof(val))
+//	{
+//		iowrite32(val, priv->base_addr + *offset);
+//		
+//		// Increment the file offset by the number of bytes we wrote.
+//		*offset = *offset + sizeof(val);
+//		
+//		// Return the number of bytes we wrote.
+//		ret = sizeof(val);
+//	}
+//	else
+//	{
+//		pr_warn("pwm_write: nothing copied from user space\n");
+//		ret = -EFAULT;
+//	}
+//	
+//	mutex_unlock(&priv->lock);
+//	
+//	return ret;
+//}
+
+
 
 /**
- * blue_duty_cycle_store() - Store the blue_duty_cycle value.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that contains the blue_duty_cycle value being written.
- * @size: The number of bytes being written.
- * 
- * Return: The number of bytes stored.
+ * pwm_fops - File operations supported by the pwm driver
+ * @owner:  The pwm driver owns the file operations; this ensures
+ *          that the driver can't be removed while the character device is
+ *          still in use.
+ * @read:   The read function.
+ * @write:  The write function.
+ * @llseek: We use the kernel's default_llseek() function; this allows users
+ *          to change what position they are writing/reading to/from.
  */
-static ssize_t blue_duty_cycle_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
-{
-	unsigned int blue_duty_cycle;
-	int ret;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	// Parse the string we received as an unsigned int
-	// See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L213
-	ret = kstrtouint(buf, 0, &blue_duty_cycle);
-	if (ret < 0)
-	{
-		return ret;
-	}
-	
-	iowrite32(blue_duty_cycle, priv->blue_duty_cycle);
-	
-	// Write was successful, so we return the number of bytes we wrote.
-	return size;
-}
+//static const struct file_operations pwm_fops =
+//{
+//	.owner = THIS_MODULE,
+//	.read = pwm_read,
+//	.write = pwm_write,
+//	.llseek = default_llseek,
+//};
 
-
-
-/**
- * period_show() - Return the period value to userspace via sysfs.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that gets returned to userspace.
- * 
- * Return: The number of bytes read.
- */
-static ssize_t period_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
-{
-	unsigned int period;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	period = ioread32(priv->period);
-	
-	return scnprintf(buf, PAGE_SIZE, "%u\n", period);
-}
-
-/**
- * period_store() - Store the period value.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that contains the period value being written.
- * @size: The number of bytes being written.
- * 
- * Return: The number of bytes stored.
- */
-static ssize_t period_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
-{
-	unsigned int period;
-	int ret;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	// Parse the string we received as an unsigned int
-	// See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L213
-	ret = kstrtouint(buf, 0, &period);
-	if (ret < 0)
-	{
-		return ret;
-	}
-	
-	iowrite32(period, priv->period);
-	
-	// Write was successful, so we return the number of bytes we wrote.
-	return size;
-}
-
-
-
-// Define sysfs attributes
-static DEVICE_ATTR_RW(red_duty_cycle);
-static DEVICE_ATTR_RW(green_duty_cycle);
-static DEVICE_ATTR_RW(blue_duty_cycle);
-static DEVICE_ATTR_RW(period);
-
-// Create an attribute group so the device core can export attributes for us
-static struct attribute *pwm_attrs[] =
-{
-	&dev_attr_red_duty_cycle.attr,
-	&dev_attr_green_duty_cycle.attr,
-	&dev_attr_blue_duty_cycle.attr,
-	&dev_attr_period.attr,
-};
-ATTRIBUTE_GROUPS(pwm);
-
-// END OF ATTRIBUTES ----------------------------------------------------------
+// END OF FILE OPERATIONS -----------------------------------------------------
 
 
 
 // PROBE AND REMOVE -----------------------------------------------------------
+
 
 /**
  * pwm_probe() - Initialize pwm device when a match is found.
@@ -308,7 +210,7 @@ ATTRIBUTE_GROUPS(pwm);
 static int pwm_probe(struct platform_device *pdev)
 {
 	pr_info("pwm_probe\n");
-	
+
 	/**
 	 * Allocate kernel memory for the pwm device and set it to 0.
 	 * GFP_KERNEL specifies that we are allocating normal kernel RAM;
@@ -316,8 +218,7 @@ static int pwm_probe(struct platform_device *pdev)
 	 * is automatically freed when the device is removed.
 	 */
 	struct pwm_dev *priv;
-	priv = devm_kzalloc(&pdev->dev, sizeof(struct pwm_dev),
-		GFP_KERNEL);
+	priv = devm_kzalloc(&pdev->dev, sizeof(struct pwm_dev), GFP_KERNEL);
 	if (!priv)
 	{
 		pr_err("Failed to allocate memory.\n");
@@ -344,10 +245,24 @@ static int pwm_probe(struct platform_device *pdev)
 	priv->period = priv->base_addr + PERIOD_OFFSET;
 	
 	// Initialize registers to show pretty pink
-	iowrite32(0x00000800, priv->red_duty_cycle);
-	iowrite32(0x00000020, priv->green_duty_cycle);
-	iowrite32(0x00000010, priv->blue_duty_cycle);
-	iowrite32(0x00002800, priv->period);	
+	iowrite32(0x00000800, priv->red_duty_cycle);	// Red duty cycle   = 1     = 1.0
+	iowrite32(0x00000020, priv->green_duty_cycle);	// Green duty cycle = 1/64  = 0.0156
+	iowrite32(0x00000010, priv->blue_duty_cycle);	// Blue duty cycle  = 1/128 = 0.0078
+	iowrite32(0x00002800, priv->period);			// Period = 5 ms
+	
+	// Initialize the misc device parameters
+//	priv->miscdev.minor = MISC_DYNAMIC_MINOR;
+//	priv->miscdev.name = "pwm";
+//	priv->miscdev.fops = &pwm_fops;
+//	priv->miscdev.parent = &pdev->dev;
+	
+	// Register the misc device; this creates a char dev at /dev/pwm
+//	size_t ret = misc_register(&priv->miscdev);
+//	if (ret)
+//	{
+//		pr_err("Failed to register misc device");
+//		return ret;
+//	}
 	
 	/**
 	 * Attach the pwm's private data to the platform device's struct.
@@ -369,6 +284,14 @@ static int pwm_probe(struct platform_device *pdev)
  */
 static int pwm_remove(struct platform_device *pdev)
 {	
+	pr_info("pwm_remove\n");
+	
+	// Get the pwm's private data from the platform device.
+	//struct pwm_dev *priv = platform_get_drvdata(pdev);
+	
+	// Deregister the misc device and remove the /dev/pwm file.
+	//misc_deregister(&priv->miscdev);
+	
 	pr_info("pwm_remove successful! :)\n");
 	return 0;
 }
@@ -392,7 +315,7 @@ static struct platform_driver pwm_driver = {
 		.owner = THIS_MODULE,
 		.name = "pwm",
 		.of_match_table = pwm_of_match,
-		.dev_groups = pwm_groups,
+	//	.dev_groups = pwm_groups,
 	},
 };
 
