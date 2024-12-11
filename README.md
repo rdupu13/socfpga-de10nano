@@ -1,3 +1,16 @@
-# 467-final-project
+# Final Project EELE 467
 
-The given organization of the final project repository is a suggestion.  You are free to change it to meet your needs.  However, you will need to update this readme with a discription of how your final project is organized, what the folders contain, and where your source code is located.
+
+
+
+## docs/
+
+## hdl/
+
+This directory is for hardware description language files. These encode the registers and state machines that Quartus
+compiles See [hardware.md](docs/bb-calc/hardware.md)
+
+## linux/
+
+## quartus/
+
