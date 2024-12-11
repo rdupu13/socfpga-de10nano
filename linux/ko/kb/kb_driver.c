@@ -1,5 +1,5 @@
 /**
- * PWM RGB LED Platform Device Driver
+ * Keyboard Platform Device Driver
  * 
  * Ryan Dupuis
  */
@@ -16,10 +16,7 @@
 
 
 
-#define RED_DC_OFFSET 0x0
-#define GREEN_DC_OFFSET 0x4
-#define BLUE_DC_OFFSET 0x8
-#define PERIOD_OFFSET 0xC
+#define KB_BUFFER_OFFSET 0x0
 
 #define BYTE_SIZE 16
 
@@ -30,32 +27,24 @@
  * to be matched with this driver, its device tree node must use the same
  * compatible string as defined here.
  */
-static const struct of_device_id pwm_of_match[] =
+static const struct of_device_id keyboard_of_match[] =
 {
-	{.compatible = "dupuis,pwm",},
+	{.compatible = "dupuis,keyboard",},
 	{}
 };
 
 /**
- * struct pwm_dev - Private pwm device struct.
+ * struct keyboard_dev - Private keyboard device struct.
  * @base_addr:        Pointer to the component's base address
- * @red_duty_cycle:   Address of the red_duty_cycle register
- * @green_duty_cycle: Address of the green_duty_cycle register
- * @blue_duty_cycle:  Address of the blue_duty_cycle register
- * @period:           Address of the period register
- * @miscdev:          miscdevice used to create a character device
+ * @red_duty_cycle:   Address of the kb_buffer register
  * @lock:             mutex used to prevent concurrent writes to memory
  *
- * pwm_dev struct gets created for each pwm component.
+ * keyboard_dev struct gets created for each keyboard component.
  */
-struct pwm_dev
+struct keyboard_dev
 {
 	void __iomem *base_addr;
-	void __iomem *red_duty_cycle;
-	void __iomem *green_duty_cycle;
-	void __iomem *blue_duty_cycle;
-	void __iomem *period;
-	struct miscdevice miscdev;
+	void __iomem *kb_buffer;
 	struct mutex lock;
 };
 
@@ -64,233 +53,47 @@ struct pwm_dev
 // ATTRIBUTES -----------------------------------------------------------------
 
 /**
- * red_duty_cycle_show() - Return the red_duty_cycle value to userspace via sysfs.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
+ * kb_buffer_show() - Return the kb_buffer value to userspace via sysfs.
+ * @dev:  Device structure for the keyboard component. This is embedded
+ *        in the keyboard's platform device struct.
  * @attr: Unused.
  * @buf:  Buffer that gets returned to userspace.
  * 
  * Return: The number of bytes read.
  */
-static ssize_t red_duty_cycle_show(struct device *dev,
+static ssize_t kb_buffer_show(struct device *dev,
 	struct device_attribute *attr, char *buf)
 {
-	unsigned int red_duty_cycle;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
+	unsigned int kb_buffer;
+	struct keyboard_dev *priv = dev_get_drvdata(dev);
 	
-	red_duty_cycle = ioread32(priv->red_duty_cycle);
+	kb_buffer = ioread32(priv->kb_buffer);
 	
-	return scnprintf(buf, PAGE_SIZE, "%u\n", red_duty_cycle);
+	return scnprintf(buf, PAGE_SIZE, "%u\n", kb_buffer);
 }
 
 /**
- * red_duty_cycle_store() - Store the red_duty_cycle value.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that contains the red_duty_cycle value being written.
- * @size: The number of bytes being written.
- * 
- * Return: The number of bytes stored.
- */
-static ssize_t red_duty_cycle_store(struct device *dev,
+ * kb_buffer_store() - Attempt to store the kb_buffer value.
+ */ 
+static ssize_t kb_buffer_store(struct device *dev,
 	struct device_attribute *attr, const char *buf, size_t size)
 {
-	unsigned int red_duty_cycle;
-	int ret;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	// Parse the string we received as an unsigned int
-	// See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L213
-	ret = kstrtouint(buf, 0, &red_duty_cycle);
-	if (ret < 0)
-	{
-		return ret;
-	}
-	
-	iowrite32(red_duty_cycle, priv->red_duty_cycle);
-	
-	// Write was successful, so we return the number of bytes we wrote.
-	return size;
-}
-
-
-
-/**
- * green_duty_cycle_show() - Return the green_duty_cycle value to userspace via sysfs.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that gets returned to userspace.
- * 
- * Return: The number of bytes read.
- */
-static ssize_t green_duty_cycle_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
-{
-	unsigned int green_duty_cycle;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	green_duty_cycle = ioread32(priv->green_duty_cycle);
-	
-	return scnprintf(buf, PAGE_SIZE, "%u\n", green_duty_cycle);
-}
-
-/**
- * green_duty_cycle_store() - Store the green_duty_cycle value.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that contains the green_duty_cycle value being written.
- * @size: The number of bytes being written.
- * 
- * Return: The number of bytes stored.
- */
-static ssize_t green_duty_cycle_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
-{
-	unsigned int green_duty_cycle;
-	int ret;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	// Parse the string we received as a unsigned int
-	// See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L213
-	ret = kstrtouint(buf, 0, &green_duty_cycle);
-	if (ret < 0)
-	{
-		return ret;
-	}
-	
-	iowrite32(green_duty_cycle, priv->green_duty_cycle);
-	
-	// Write was successful, so we return the number of bytes we wrote.
-	return size;
-}
-
-
-
-/**
- * blue_duty_cycle_show() - Return the blue_duty_cycle value to userspace via sysfs.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that gets returned to userspace.
- * 
- * Return: The number of bytes read.
- */
-static ssize_t blue_duty_cycle_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
-{
-	unsigned int blue_duty_cycle;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	blue_duty_cycle = ioread32(priv->blue_duty_cycle);
-	
-	return scnprintf(buf, PAGE_SIZE, "%u\n", blue_duty_cycle);
-}
-
-/**
- * blue_duty_cycle_store() - Store the blue_duty_cycle value.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that contains the blue_duty_cycle value being written.
- * @size: The number of bytes being written.
- * 
- * Return: The number of bytes stored.
- */
-static ssize_t blue_duty_cycle_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
-{
-	unsigned int blue_duty_cycle;
-	int ret;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	// Parse the string we received as an unsigned int
-	// See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L213
-	ret = kstrtouint(buf, 0, &blue_duty_cycle);
-	if (ret < 0)
-	{
-		return ret;
-	}
-	
-	iowrite32(blue_duty_cycle, priv->blue_duty_cycle);
-	
-	// Write was successful, so we return the number of bytes we wrote.
-	return size;
-}
-
-
-
-/**
- * period_show() - Return the period value to userspace via sysfs.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that gets returned to userspace.
- * 
- * Return: The number of bytes read.
- */
-static ssize_t period_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
-{
-	unsigned int period;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	period = ioread32(priv->period);
-	
-	return scnprintf(buf, PAGE_SIZE, "%u\n", period);
-}
-
-/**
- * period_store() - Store the period value.
- * @dev:  Device structure for the pwm component. This is embedded
- *        in the pwm's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that contains the period value being written.
- * @size: The number of bytes being written.
- * 
- * Return: The number of bytes stored.
- */
-static ssize_t period_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
-{
-	unsigned int period;
-	int ret;
-	struct pwm_dev *priv = dev_get_drvdata(dev);
-	
-	// Parse the string we received as an unsigned int
-	// See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L213
-	ret = kstrtouint(buf, 0, &period);
-	if (ret < 0)
-	{
-		return ret;
-	}
-	
-	iowrite32(period, priv->period);
-	
-	// Write was successful, so we return the number of bytes we wrote.
+	pr_err("Keyboard buffer cannot be written to.");
 	return size;
 }
 
 
 
 // Define sysfs attributes
-static DEVICE_ATTR_RW(red_duty_cycle);
-static DEVICE_ATTR_RW(green_duty_cycle);
-static DEVICE_ATTR_RW(blue_duty_cycle);
-static DEVICE_ATTR_RW(period);
+static DEVICE_ATTR_RW(kb_buffer);
 
 // Create an attribute group so the device core can export attributes for us
-static struct attribute *pwm_attrs[] =
+static struct attribute *keyboard_attrs[] =
 {
-	&dev_attr_red_duty_cycle.attr,
-	&dev_attr_green_duty_cycle.attr,
-	&dev_attr_blue_duty_cycle.attr,
-	&dev_attr_period.attr,
+	&dev_attr_kb_buffer.attr,
 	NULL,
 };
-ATTRIBUTE_GROUPS(pwm);
+ATTRIBUTE_GROUPS(keyboard);
 
 // END OF ATTRIBUTES ----------------------------------------------------------
 
@@ -299,16 +102,16 @@ ATTRIBUTE_GROUPS(pwm);
 // PROBE AND REMOVE -----------------------------------------------------------
 
 /**
- * pwm_probe() - Initialize pwm device when a match is found.
- * @pdev: Platform device structure associated with pwm device;
+ * keyboard_probe() - Initialize keyboard device when a match is found.
+ * @pdev: Platform device structure associated with keyboard device;
  *        pdev is automatically created by the driver core based upon
  *        the device tree node.
  *
- * It's called by the kernel when a pwm device is found in the device tree.
+ * It's called by the kernel when a keyboard device is found in the device tree.
  */
-static int pwm_probe(struct platform_device *pdev)
+static int keyboard_probe(struct platform_device *pdev)
 {
-	pr_info("pwm_probe\n");
+	pr_info("keyboard_probe\n");
 	
 	/**
 	 * Allocate kernel memory for the pwm device and set it to 0.
@@ -316,8 +119,8 @@ static int pwm_probe(struct platform_device *pdev)
 	 * see the kmalloc documentation for more info. The allocated memory
 	 * is automatically freed when the device is removed.
 	 */
-	struct pwm_dev *priv;
-	priv = devm_kzalloc(&pdev->dev, sizeof(struct pwm_dev),
+	struct keyboard_dev *priv;
+	priv = devm_kzalloc(&pdev->dev, sizeof(struct keyboard_dev),
 		GFP_KERNEL);
 	if (!priv)
 	{
@@ -339,16 +142,7 @@ static int pwm_probe(struct platform_device *pdev)
 	}
 	
 	// Set the memory addresses for each register.
-	priv->red_duty_cycle = priv->base_addr + RED_DC_OFFSET;
-	priv->green_duty_cycle = priv->base_addr + GREEN_DC_OFFSET;
-	priv->blue_duty_cycle = priv->base_addr + BLUE_DC_OFFSET;
-	priv->period = priv->base_addr + PERIOD_OFFSET;
-	
-	// Initialize registers to show pretty pink
-	iowrite32(0x00000800, priv->red_duty_cycle);
-	iowrite32(0x00000020, priv->green_duty_cycle);
-	iowrite32(0x00000010, priv->blue_duty_cycle);
-	iowrite32(0x00002800, priv->period);	
+	priv->kb_buffer = priv->base_addr + KB_BUFFER_OFFSET;
 	
 	/**
 	 * Attach the pwm's private data to the platform device's struct.
@@ -356,21 +150,21 @@ static int pwm_probe(struct platform_device *pdev)
 	 */
 	platform_set_drvdata(pdev, priv);
 	
-	pr_info("pwm_probe successful! :)\n");
+	pr_info("keyboard_probe successful! :)\n");
 	return 0;
 }
 
 
 
 /**
- * pwm_remove() - Remove an pwm device.
- * @pdev: Platform device structure associated with our pwm device.
+ * keyboard_remove() - Remove a keyboard device.
+ * @pdev: Platform device structure associated with our keyboard device.
  * 
- * It's called when an pwm device is removed or the driver is removed.
+ * It's called when an keyboard device is removed or the driver is removed.
  */
-static int pwm_remove(struct platform_device *pdev)
+static int keyboard_remove(struct platform_device *pdev)
 {	
-	pr_info("pwm_remove successful! :)\n");
+	pr_info("keyboard_remove successful! :)\n");
 	return 0;
 }
 
@@ -379,29 +173,29 @@ static int pwm_remove(struct platform_device *pdev)
 
 
 /**
- * struct pwm_driver - Platform driver struct for this driver
+ * struct keyboard_driver - Platform driver struct for this driver
  * @probe:                 Pointer to function called when device is found
  * @remove:                Pointer to function called when device is removed
  * @driver.owner:          Which module owns this driver
  * @driver.name:           Name of driver
  * @driver.of_match_table: Device tree match table
  */
-static struct platform_driver pwm_driver = {
-	.probe = pwm_probe,
-	.remove = pwm_remove,
+static struct platform_driver keyboard_driver = {
+	.probe = keyboard_probe,
+	.remove = keyboard_remove,
 	.driver = {
 		.owner = THIS_MODULE,
-		.name = "pwm",
-		.of_match_table = pwm_of_match,
-		.dev_groups = pwm_groups,
+		.name = "keyboard",
+		.of_match_table = keyboard_of_match,
+		.dev_groups = keyboard_groups,
 	},
 };
 
 
 
-module_platform_driver(pwm_driver);
+module_platform_driver(keyboard_driver);
 
-MODULE_DEVICE_TABLE(of, pwm_of_match);
+MODULE_DEVICE_TABLE(of, keyboard_of_match);
 MODULE_LICENSE("Dual MIT/GPL");
 MODULE_AUTHOR("Ryan Dupuis");
-MODULE_DESCRIPTION("pwm driver");
+MODULE_DESCRIPTION("keyboard driver");

@@ -288,7 +288,6 @@ static struct attribute *pwm_attrs[] =
 	&dev_attr_green_duty_cycle.attr,
 	&dev_attr_blue_duty_cycle.attr,
 	&dev_attr_period.attr,
-	NULL,
 };
 ATTRIBUTE_GROUPS(pwm);
 

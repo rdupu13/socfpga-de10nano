@@ -39,6 +39,7 @@ static const struct of_device_id lcd_of_match[] =
  * @base_addr:        Pointer to the component's base address
  * @control:          Address of the control register
  * @data:             Address of the data register
+ 8 @miscdev:          miscdevice used to create a character device
  * @lock:             mutex used to prevent concurrent writes to memory
  *
  * lcd_dev struct gets created for each lcd component.
@@ -48,6 +49,7 @@ struct lcd_dev
 	void __iomem *base_addr;
 	void __iomem *control;
 	void __iomem *data;
+	struct miscdevice miscdev;
 	struct mutex lock;
 };
 
@@ -171,10 +173,152 @@ static struct attribute *lcd_attrs[] =
 	&dev_attr_control.attr,
 	&dev_attr_data.attr,
 	NULL,
+	NULL,
 };
 ATTRIBUTE_GROUPS(lcd);
 
 // END OF ATTRIBUTES ----------------------------------------------------------
+
+
+
+// FILE OPERATIONS ------------------------------------------------------------
+
+/**
+ * lcd_read() - Read method for the lcd char device
+ * @file:   Pointer to the char device file struct.
+ * @buf:    User-space buffer to read the value into.
+ * @count:  The number of bytes being requested.
+ * @offset: The byte offset in the file being read from.
+ *
+ * Return: On success, the number of bytes written is returned and the
+ * offset @offset is advanced by this number. On error, a negative error
+ * value is returned.
+ */
+static ssize_t lcd_read(struct file *file, char __user *buf, size_t count, loff_t *offset)
+{
+	u32 val;
+	
+	/*
+	 * Get the device's private data from the file struct's private_data
+	 * field. The private_data field is equal to the miscdev field in the
+	 * lcd_dev struct. container_of returns the lcd_dev struct that contains
+	 * the miscdev in private_data.
+	 */
+	struct lcd_dev *priv = container_of(file->private_data, struct lcd_dev, miscdev);
+	
+	// Check file offset to make sure we are reading from a valid location.
+	if (*offset < 0)
+	{
+		// We can't read from a negative file position.
+		return -EINVAL;
+	}
+	if (*offset >= 16)
+	{
+		// We can't read from a position past the end of our device.
+		return 0;
+	}
+	if ((*offset % 0x4) != 0)
+	{
+		// Prevent unaligned access.
+		pr_warn("lcd_read: unaligned access\n");
+		return -EFAULT;
+	}
+	
+	val = ioread32(priv->base_addr + *offset);
+	
+	// Copy the value to userspace.
+	size_t ret = copy_to_user(buf, &val, sizeof(val));
+	if (ret == sizeof(val))
+	{
+		pr_warn("lcd_read: nothing copied\n");
+		return -EFAULT;
+	}
+	
+	// Increment the file offset by the number of bytes we read.
+	*offset = *offset + sizeof(val);
+	
+	return sizeof(val);
+}
+
+
+
+/**
+ * lcd_write() - Write method for the lcd char device
+ * @file:   Pointer to the char device file struct.
+ * @buf:    User-space buffer to read the value from.
+ * @count:  The number of bytes being written.
+ * @offset: The byte offset in the file being written to.
+ *
+ * Return: On success, the number of bytes written is returned and the
+ * offset @offset is advanced by this number. On error, a negative error
+ * value is returned.
+ */
+static ssize_t lcd_write(struct file *file, const char __user *buf, size_t count, loff_t *offset)
+{
+	u32 val;
+	
+	struct lcd_dev *priv = container_of(file->private_data, struct lcd_dev, miscdev);
+	
+	if (*offset < 0)
+	{
+		return -EINVAL;
+	}	
+	if (*offset >= 16)
+	{
+		return 0;
+	}
+	if ((*offset % 0x4) != 0)
+	{
+		pr_warn("lcd_write: unaligned access\n");
+		return -EFAULT;
+	}
+	
+	mutex_lock(&priv->lock);
+	
+	// Get the value from userspace.
+	size_t ret = copy_from_user(&val, buf, sizeof(val));
+	if (ret != sizeof(val))
+	{
+		iowrite32(val, priv->base_addr + *offset);
+		
+		// Increment the file offset by the number of bytes we wrote.
+		*offset = *offset + sizeof(val);
+		
+		// Return the number of bytes we wrote.
+		ret = sizeof(val);
+	}
+	else
+	{
+		pr_warn("lcd_write: nothing copied from user space\n");
+		ret = -EFAULT;
+	}
+	
+	mutex_unlock(&priv->lock);
+	
+	return ret;
+}
+
+
+
+/**
+ * lcd_fops - File operations supported by the lcd driver
+ * @owner:  The lcd driver owns the file operations; this ensures
+ *          that the driver can't be removed while the character device is
+ *          still in use.
+ * @read:   The read function.
+ * @write:  The write function.
+ * @llseek: We use the kernel's default_llseek() function; this allows users
+ *          to change what position they are writing/reading to/from.
+ */
+static const struct file_operations lcd_fops =
+{
+	.owner = THIS_MODULE,
+	.read = lcd_read,
+	.write = lcd_write,
+	.llseek = default_llseek,
+};
+
+// END OF FILE OPERATIONS -----------------------------------------------------
 
 
 
@@ -224,9 +368,22 @@ static int lcd_probe(struct platform_device *pdev)
 	priv->control = priv->base_addr + CONTROL_OFFSET;
 	priv->data = priv->base_addr + DATA_OFFSET;
 	
-	// Initialize registers to zeros
-	iowrite32(0x00000000, priv->control);
-	iowrite32(0x00000000, priv->data);
+	// TODO: Initialize LCD
+	
+	
+	// Initialze the misc device parameters
+	priv->miscdev.minor = MISC_DYNAMIC_MINOR;
+	priv->miscdev.name = "lcd";
+	priv->miscdev.fops = &lcd_fops;
+	priv->miscdev.parent = &pdev->dev;
+	
+	// Register the misc device; this creates a char dev at /dev/lcd
+	size_t ret = misc_register(&priv->miscdev);
+	if (ret)
+	{
+		pr_err("Failed to register misc device.");
+		return ret;
+	}
 	
 	/**
 	 * Attach the lcd's private data to the platform device's struct.
@@ -248,6 +405,14 @@ static int lcd_probe(struct platform_device *pdev)
  */
 static int lcd_remove(struct platform_device *pdev)
 {	
+	pr_info("lcd_remove\n");
+	
+	// Get the lcd's private data from the platform device.
+	struct lcd_dev *priv = platform_get_drvdata(pdev);
+	
+	// Deregister the misc device and remove the /dev/lcd file.
+	misc_deregister(&priv->miscdev);
+	
 	pr_info("lcd_remove successful! :)\n");
 	return 0;
 }
@@ -260,6 +425,7 @@ static int lcd_remove(struct platform_device *pdev)
  * struct lcd_driver - Platform driver struct for this driver
  * @probe:                 Pointer to function called when device is found
  * @remove:                Pointer to function called when device is removed
+ * @fops:                  Pointer to file operations struct
  * @driver.owner:          Which module owns this driver
  * @driver.name:           Name of driver
  * @driver.of_match_table: Device tree match table
