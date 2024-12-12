@@ -1,0 +1,6 @@
+de10nano_pin_assignments.qsf
+final_project.qpf
+socsystem.qsys
+soc_system.rbf
+soc_system/synthesis/soc_system.qip
+soc_system/synthesis/soc_system.vhd

@@ -18,4 +18,4 @@ driver.
 ?
 
 ## Division of labor
-No plan was made ahead of time. See [teamwork](teamwork.mc).
+No plan was made ahead of time. See [teamwork](teamwork.md).
