@@ -13,8 +13,12 @@
 #include <linux/types.h>
 #include <linux/fs.h>
 #include <linux/kstrtox.h>
+#include <linux/delay.h>
 
 
+
+#define LCD_WAIT 5		/* How long to wait between writes to
+						 * registers in milliseconds */
 
 #define CONTROL_OFFSET 0x0
 #define DATA_OFFSET 0x4
@@ -55,132 +59,6 @@ struct lcd_dev
 
 
 
-// ATTRIBUTES -----------------------------------------------------------------
-
-/**
- * control_show() - Return the control value to userspace via sysfs.
- * @dev:  Device structure for the lcd component. This is embedded
- *        in the lcd's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that gets returned to userspace.
- * 
- * Return: The number of bytes read.
- */
-static ssize_t control_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
-{
-	unsigned int control;
-	struct lcd_dev *priv = dev_get_drvdata(dev);
-	
-	control = ioread32(priv->control);
-	
-	return scnprintf(buf, PAGE_SIZE, "%u\n", control);
-}
-
-/**
- * control_store() - Store the control value.
- * @dev:  Device structure for the lcd component. This is embedded
- *        in the lcd's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that contains the control value being written.
- * @size: The number of bytes being written.
- * 
- * Return: The number of bytes stored.
- */
-static ssize_t control_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
-{
-	unsigned int control;
-	int ret;
-	struct lcd_dev *priv = dev_get_drvdata(dev);
-	
-	// Parse the string we received as an unsigned int
-	// See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L213
-	ret = kstrtouint(buf, 0, &control);
-	if (ret < 0)
-	{
-		return ret;
-	}
-	
-	iowrite32(control, priv->control);
-	
-	// Write was successful, so we return the number of bytes we wrote.
-	return size;
-}
-
-
-
-/**
- * data_show() - Return the data value to userspace via sysfs.
- * @dev:  Device structure for the lcd component. This is embedded
- *        in the lcd's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that gets returned to userspace.
- * 
- * Return: The number of bytes read.
- */
-static ssize_t data_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
-{
-	unsigned int data;
-	struct lcd_dev *priv = dev_get_drvdata(dev);
-	
-	data = ioread32(priv->data);
-	
-	return scnprintf(buf, PAGE_SIZE, "%u\n", data);
-}
-
-/**
- * data_store() - Store the data value.
- * @dev:  Device structure for the lcd component. This is embedded
- *        in the lcd's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that contains the data value being written.
- * @size: The number of bytes being written.
- * 
- * Return: The number of bytes stored.
- */
-static ssize_t data_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
-{
-	unsigned int data;
-	int ret;
-	struct lcd_dev *priv = dev_get_drvdata(dev);
-	
-	// Parse the string we received as a unsigned int
-	// See https://elixir.bootlin.com/linux/latest/source/lib/kstrtox.c#L213
-	ret = kstrtouint(buf, 0, &data);
-	if (ret < 0)
-	{
-		return ret;
-	}
-	
-	iowrite32(data, priv->data);
-	
-	// Write was successful, so we return the number of bytes we wrote.
-	return size;
-}
-
-
-
-// Define sysfs attributes
-static DEVICE_ATTR_RW(control);
-static DEVICE_ATTR_RW(data);
-
-// Create an attribute group so the device core can export attributes for us
-static struct attribute *lcd_attrs[] =
-{
-	&dev_attr_control.attr,
-	&dev_attr_data.attr,
-	NULL,
-	NULL,
-};
-ATTRIBUTE_GROUPS(lcd);
-
-// END OF ATTRIBUTES ----------------------------------------------------------
-
-
-
 // FILE OPERATIONS ------------------------------------------------------------
 
 /**
@@ -198,44 +76,34 @@ static ssize_t lcd_read(struct file *file, char __user *buf, size_t count, loff_
 {
 	u32 val;
 	
-	/*
-	 * Get the device's private data from the file struct's private_data
-	 * field. The private_data field is equal to the miscdev field in the
-	 * lcd_dev struct. container_of returns the lcd_dev struct that contains
-	 * the miscdev in private_data.
-	 */
-	struct lcd_dev *priv = container_of(file->private_data, struct lcd_dev, miscdev);
-	
-	// Check file offset to make sure we are reading from a valid location.
-	if (*offset < 0)
-	{
-		// We can't read from a negative file position.
-		return -EINVAL;
-	}
-	if (*offset >= 16)
-	{
-		// We can't read from a position past the end of our device.
-		return 0;
-	}
-	if ((*offset % 0x4) != 0)
-	{
-		// Prevent unaligned access.
-		pr_warn("lcd_read: unaligned access\n");
-		return -EFAULT;
-	}
-	
-	val = ioread32(priv->base_addr + *offset);
-	
-	// Copy the value to userspace.
-	size_t ret = copy_to_user(buf, &val, sizeof(val));
-	if (ret == sizeof(val))
-	{
-		pr_warn("lcd_read: nothing copied\n");
-		return -EFAULT;
-	}
-	
-	// Increment the file offset by the number of bytes we read.
-	*offset = *offset + sizeof(val);
+//	struct lcd_dev *priv = container_of(file->private_data, struct lcd_dev, miscdev);
+//	
+//	if (*offset < 0)
+//	{
+//		return -EINVAL;
+//	}
+//	if (*offset >= 16)
+//	{
+//		return 0;
+//	}
+//	if ((*offset % 0x4) != 0)
+//	{
+//		pr_warn("lcd_read: unaligned access\n");
+//		return -EFAULT;
+//	}
+//	
+//	val = ioread32(priv->base_addr + *offset);
+//	
+//	// Copy the value to userspace.
+//	size_t ret = copy_to_user(buf, &val, sizeof(val));
+//	if (ret == sizeof(val))
+//	{
+//		pr_warn("lcd_read: nothing copied\n");
+//		return -EFAULT;
+//	}
+//	
+//	// Increment the file offset by the number of bytes we read.
+//	*offset = *offset + sizeof(val);
 	
 	return sizeof(val);
 }
@@ -255,7 +123,7 @@ static ssize_t lcd_read(struct file *file, char __user *buf, size_t count, loff_
  */
 static ssize_t lcd_write(struct file *file, const char __user *buf, size_t count, loff_t *offset)
 {
-	u32 val;
+	char user_buf[16];
 	
 	struct lcd_dev *priv = container_of(file->private_data, struct lcd_dev, miscdev);
 	
@@ -265,37 +133,39 @@ static ssize_t lcd_write(struct file *file, const char __user *buf, size_t count
 	}	
 	if (*offset >= 16)
 	{
+		pr_warn("lcd_write: Cursor past end of LCD screen.\n");
 		return 0;
 	}
-	if ((*offset % 0x4) != 0)
-	{
-		pr_warn("lcd_write: unaligned access\n");
-		return -EFAULT;
-	}
 	
+	// Lock device so no other process can access it.
 	mutex_lock(&priv->lock);
 	
 	// Get the value from userspace.
-	size_t ret = copy_from_user(&val, buf, sizeof(val));
-	if (ret != sizeof(val))
+	size_t bytes_copied = copy_from_user(user_buf, buf, count);
+	
+	if (bytes_copied == 0)
 	{
-		iowrite32(val, priv->base_addr + *offset);
-		
-		// Increment the file offset by the number of bytes we wrote.
-		*offset = *offset + sizeof(val);
-		
-		// Return the number of bytes we wrote.
-		ret = sizeof(val);
-	}
-	else
-	{
-		pr_warn("lcd_write: nothing copied from user space\n");
-		ret = -EFAULT;
+		pr_warn("lcd_write: Zero bytes copied from userspace.\n");
+		return 0;
 	}
 	
+	while (*offset < *offset + bytes_copied)
+	{
+		// Write character to LCD using ctl and data registers
+		iowrite32((u32) user_buf[*offset], priv->data);
+		msleep(LCD_WAIT);
+		iowrite32(0x00000005, priv->control);
+		msleep(LCD_WAIT);
+		iowrite32(0x00000000, priv->control);
+		msleep(LCD_WAIT);
+		
+		*offset++;
+	}
+	
+	// Unlock device and return number of bytes written.
 	mutex_unlock(&priv->lock);
 	
-	return ret;
+	return bytes_copied;
 }
 
 
@@ -343,8 +213,7 @@ static int lcd_probe(struct platform_device *pdev)
 	 * is automatically freed when the device is removed.
 	 */
 	struct lcd_dev *priv;
-	priv = devm_kzalloc(&pdev->dev, sizeof(struct lcd_dev),
-		GFP_KERNEL);
+	priv = devm_kzalloc(&pdev->dev, sizeof(struct lcd_dev), GFP_KERNEL);
 	if (!priv)
 	{
 		pr_err("Failed to allocate memory.\n");
@@ -368,8 +237,44 @@ static int lcd_probe(struct platform_device *pdev)
 	priv->control = priv->base_addr + CONTROL_OFFSET;
 	priv->data = priv->base_addr + DATA_OFFSET;
 	
-	// TODO: Initialize LCD
-	
+	// Initialize LCD.
+	iowrite32(0x00000000, priv->control);
+	// Function set: 8-bit mode, 2-line display, 5x8 font
+	iowrite32(0x00000038, priv->data);
+	msleep(LCD_WAIT);
+	iowrite32(0x00000001, priv->control);
+	msleep(LCD_WAIT);
+	iowrite32(0x00000000, priv->control);
+	msleep(LCD_WAIT);
+	// Display on/off control: display on, cursor on, blink on
+	iowrite32(0x0000000F, priv->data);
+	msleep(LCD_WAIT);
+	iowrite32(0x00000001, priv->control);
+	msleep(LCD_WAIT);
+	iowrite32(0x00000000, priv->control);
+	msleep(LCD_WAIT);
+	// Entry mode set: Increment and shift cursor, don't shift entire display
+	iowrite32(0x00000006, priv->data);
+	msleep(LCD_WAIT);
+	iowrite32(0x00000001, priv->control);
+	msleep(LCD_WAIT);
+	iowrite32(0x00000000, priv->control);
+	msleep(LCD_WAIT);
+	// Clear display
+	iowrite32(0x00000001, priv->data);
+	msleep(LCD_WAIT);
+	iowrite32(0x00000001, priv->control);
+	msleep(LCD_WAIT);
+	iowrite32(0x00000000, priv->control);
+	msleep(LCD_WAIT);
+	// Return home
+	iowrite32(0x00000002, priv->data);
+	msleep(LCD_WAIT);
+	iowrite32(0x00000001, priv->control);
+	msleep(LCD_WAIT);
+	// Clear registers
+	iowrite32(0x00000000, priv->data);
+	iowrite32(0x00000000, priv->control);
 	
 	// Initialze the misc device parameters
 	priv->miscdev.minor = MISC_DYNAMIC_MINOR;
@@ -437,7 +342,6 @@ static struct platform_driver lcd_driver = {
 		.owner = THIS_MODULE,
 		.name = "lcd",
 		.of_match_table = lcd_of_match,
-		.dev_groups = lcd_groups,
 	},
 };
 

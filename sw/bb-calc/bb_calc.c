@@ -21,8 +21,8 @@ FILE *pwm_file;
 #define BLUE_OFFSET 0x8
 #define PERIOD_OFFSET 0xC
 
-//FILE *kb_file;
-//#define BUFFER_OFFSET 0x0
+FILE *kb_file;
+#define BUFFER_OFFSET 0x0
 
 FILE *lcd_file;
 #define CTL_OFFSET 0x0
@@ -41,8 +41,7 @@ void ctlc_handler(int sig)
 	
 	fclose(adc_file);
 	fclose(pwm_file);
-	//fclose(kb_file);
-	
+	fclose(kb_file);
 	fclose(lcd_file);
 	fclose(lcd_msg_file);
 	
@@ -112,7 +111,13 @@ int main (int argc, char **argv)
 	unsigned int pwm_period;
 	
 	// Open keyboard device file
-	// keyboard_file = fopen("/dev/keyboard", "rb+");
+	keyboard_file = fopen("/dev/keyboard", "rb+");
+	if (kb_file == NULL)
+	{
+		printf("Failed to open /dev/keyboard.\n");
+		return 1;
+	}
+	unsigned int kb_buffer;
 	
 	// Open lcd device file
 	lcd_file = fopen("/dev/lcd", "rb+");

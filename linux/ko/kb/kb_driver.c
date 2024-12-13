@@ -1,5 +1,5 @@
 /**
- * Keyboard Platform Device Driver
+ * Calculator Keyboard Platform Device Driver
  * 
  * Ryan Dupuis
  */
@@ -15,8 +15,6 @@
 #include <linux/kstrtox.h>
 
 
-
-#define KB_BUFFER_OFFSET 0x0
 
 #define BYTE_SIZE 16
 
@@ -36,7 +34,8 @@ static const struct of_device_id keyboard_of_match[] =
 /**
  * struct keyboard_dev - Private keyboard device struct.
  * @base_addr:        Pointer to the component's base address
- * @red_duty_cycle:   Address of the kb_buffer register
+ * @kb_buffer:        Address of the control register
+ * @miscdev:          miscdevice used to create a character device
  * @lock:             mutex used to prevent concurrent writes to memory
  *
  * keyboard_dev struct gets created for each keyboard component.
@@ -45,57 +44,107 @@ struct keyboard_dev
 {
 	void __iomem *base_addr;
 	void __iomem *kb_buffer;
+	struct miscdevice miscdev;
 	struct mutex lock;
 };
 
 
 
-// ATTRIBUTES -----------------------------------------------------------------
+// FILE OPERATIONS ------------------------------------------------------------
 
 /**
- * kb_buffer_show() - Return the kb_buffer value to userspace via sysfs.
- * @dev:  Device structure for the keyboard component. This is embedded
- *        in the keyboard's platform device struct.
- * @attr: Unused.
- * @buf:  Buffer that gets returned to userspace.
- * 
- * Return: The number of bytes read.
+ * keyboard_read() - Read method for the keyboard char device
+ * @file:   Pointer to the char device file struct.
+ * @buf:    User-space buffer to read the value into.
+ * @count:  The number of bytes being requested.
+ * @offset: The byte offset in the file being read from.
+ *
+ * Return: On success, the number of bytes written is returned and the
+ * offset @offset is advanced by this number. On error, a negative error
+ * value is returned.
  */
-static ssize_t kb_buffer_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
+static ssize_t keyboard_read(struct file *file, char __user *buf, size_t count, loff_t *offset)
 {
-	unsigned int kb_buffer;
-	struct keyboard_dev *priv = dev_get_drvdata(dev);
+	u32 val;
 	
-	kb_buffer = ioread32(priv->kb_buffer);
+	/*
+	 * Get the device's private data from the file struct's private_data
+	 * field. The private_data field is equal to the miscdev field in the
+	 * keyboard_dev struct. container_of returns the keyboard_dev struct
+	 * that contains the miscdev in private_data.
+	 */
+	struct keyboard_dev *priv = container_of(file->private_data, struct keyboard_dev, miscdev);
 	
-	return scnprintf(buf, PAGE_SIZE, "%u\n", kb_buffer);
+	if (*offset < 0)
+	{
+		return -EINVAL;
+	}
+	if (*offset >= 16)
+	{
+		return 0;
+	}
+	if ((*offset % 0x4) != 0)
+	{
+		pr_warn("keyboard_read: unaligned access\n");
+		return -EFAULT;
+	}
+	
+	val = ioread32(priv->base_addr + *offset);
+	
+	// Copy the value to userspace.
+	size_t ret = copy_to_user(buf, &val, sizeof(val));
+	if (ret == sizeof(val))
+	{
+		pr_warn("keyboard_read: nothing copied\n");
+		return -EFAULT;
+	}
+	
+	// Increment the file offset by the number of bytes we read.
+	*offset = *offset + sizeof(val);
+	
+	return sizeof(val);
 }
+
+
 
 /**
- * kb_buffer_store() - Attempt to store the kb_buffer value.
+ * keyboard_write() - Write method for the keyboard char device
+ * @file:   Pointer to the char device file struct.
+ * @buf:    User-space buffer to read the value from.
+ * @count:  The number of bytes being written.
+ * @offset: The byte offset in the file being written to.
+ *
+ * Return: On success, the number of bytes written is returned and the
+ * offset @offset is advanced by this number. On error, a negative error
+ * value is returned.
  */ 
-static ssize_t kb_buffer_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
+static ssize_t keyboard_write(struct file *file, const char __user *buf, size_t count, loff_t *offset)
 {
-	pr_err("Keyboard buffer cannot be written to.");
-	return size;
+	pr_info("No write performed on read-only device.");
+	return 0;
 }
 
 
 
-// Define sysfs attributes
-static DEVICE_ATTR_RW(kb_buffer);
-
-// Create an attribute group so the device core can export attributes for us
-static struct attribute *keyboard_attrs[] =
+/**
+ * keyboard_fops - File operations supported by the keyboard driver
+ * @owner:  The keyboard driver owns the file operations; this ensures
+ *          that the driver can't be removed while the character device is
+ *          still in use.
+ * @read:   The read function.
+ * @write:  The write function.
+ * @llseek: We use the kernel's default_llseek() function; this allows users
+ *          to change what position they are writing/reading to/from.
+ */
+static const struct file_operations keyboard_fops =
 {
-	&dev_attr_kb_buffer.attr,
-	NULL,
+	.owner = THIS_MODULE,
+	.read = keyboard_read,
+	.write = keyboard_write,
+	.llseek = default_llseek,
 };
-ATTRIBUTE_GROUPS(keyboard);
 
-// END OF ATTRIBUTES ----------------------------------------------------------
+// END OF FILE OPERATIONS -----------------------------------------------------
 
 
 
@@ -114,17 +163,16 @@ static int keyboard_probe(struct platform_device *pdev)
 	pr_info("keyboard_probe\n");
 	
 	/**
-	 * Allocate kernel memory for the pwm device and set it to 0.
+	 * Allocate kernel memory for the keyboard device and set it to 0.
 	 * GFP_KERNEL specifies that we are allocating normal kernel RAM;
 	 * see the kmalloc documentation for more info. The allocated memory
 	 * is automatically freed when the device is removed.
 	 */
 	struct keyboard_dev *priv;
-	priv = devm_kzalloc(&pdev->dev, sizeof(struct keyboard_dev),
-		GFP_KERNEL);
+	priv = devm_kzalloc(&pdev->dev, sizeof(struct keyboard_dev), GFP_KERNEL);
 	if (!priv)
 	{
-		pr_err("Failed to allocate memory.\n");
+		pr_err("Failed to allocate kernel memory.\n");
 		return -ENOMEM;
 	}
 	
@@ -142,10 +190,24 @@ static int keyboard_probe(struct platform_device *pdev)
 	}
 	
 	// Set the memory addresses for each register.
-	priv->kb_buffer = priv->base_addr + KB_BUFFER_OFFSET;
+	priv->kb_buffer = priv->base_addr;
+	
+	// Initialze the misc device parameters
+	priv->miscdev.minor = MISC_DYNAMIC_MINOR;
+	priv->miscdev.name = "keyboard";
+	priv->miscdev.fops = &keyboard_fops;
+	priv->miscdev.parent = &pdev->dev;
+	
+	// Register the misc device; this creates a char dev at /dev/lcd
+	size_t ret = misc_register(&priv->miscdev);
+	if (ret)
+	{
+		pr_err("Failed to register misc device.");
+		return ret;
+	}
 	
 	/**
-	 * Attach the pwm's private data to the platform device's struct.
+	 * Attach the keybaord's private data to the platform device's struct.
 	 * This is so we can access our state container in the other functions.
 	 */
 	platform_set_drvdata(pdev, priv);
@@ -157,13 +219,21 @@ static int keyboard_probe(struct platform_device *pdev)
 
 
 /**
- * keyboard_remove() - Remove a keyboard device.
+ * keyboard_remove() - Remove an keyboard device.
  * @pdev: Platform device structure associated with our keyboard device.
  * 
- * It's called when an keyboard device is removed or the driver is removed.
+ * It's called when an pwm device is removed or the driver is removed.
  */
 static int keyboard_remove(struct platform_device *pdev)
 {	
+	pr_info("keyboard_remove\n");
+	
+	// Get the keyboard's private data from the platform device.
+	struct keyboard_dev *priv = platform_get_drvdata(pdev);
+	
+	// Deregister the misc device and remove the /dev/keyboard file.
+	misc_deregister(&priv->miscdev);
+	
 	pr_info("keyboard_remove successful! :)\n");
 	return 0;
 }
@@ -176,6 +246,7 @@ static int keyboard_remove(struct platform_device *pdev)
  * struct keyboard_driver - Platform driver struct for this driver
  * @probe:                 Pointer to function called when device is found
  * @remove:                Pointer to function called when device is removed
+ * @fops:                  Pointer to file operations struct
  * @driver.owner:          Which module owns this driver
  * @driver.name:           Name of driver
  * @driver.of_match_table: Device tree match table
@@ -187,7 +258,6 @@ static struct platform_driver keyboard_driver = {
 		.owner = THIS_MODULE,
 		.name = "keyboard",
 		.of_match_table = keyboard_of_match,
-		.dev_groups = keyboard_groups,
 	},
 };
 

@@ -1,6 +1,6 @@
 ifneq ($(KERNELRELEASE),)
 # kbuild part of makefile
-obj-m  := de10nano_adc.o
+obj-m  := adc_driver.o
 
 else
 # normal makefile
