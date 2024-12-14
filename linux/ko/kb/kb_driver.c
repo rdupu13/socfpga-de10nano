@@ -79,23 +79,15 @@ static ssize_t keyboard_read(struct file *file, char __user *buf, size_t count, 
 	{
 		return -EINVAL;
 	}
-	if (*offset >= 16)
-	{
-		return 0;
-	}
-	if ((*offset % 0x4) != 0)
-	{
-		pr_warn("keyboard_read: unaligned access\n");
-		return -EFAULT;
-	}
 	
-	val = ioread32(priv->base_addr + *offset);
+	val = ioread32(priv->kb_buffer);
 	
 	// Copy the value to userspace.
 	size_t ret = copy_to_user(buf, &val, sizeof(val));
+	
 	if (ret == sizeof(val))
 	{
-		pr_warn("keyboard_read: nothing copied\n");
+		pr_warn("keyboard_read: Zero bytes copied to userspace.\n");
 		return -EFAULT;
 	}
 	

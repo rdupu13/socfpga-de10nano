@@ -123,9 +123,11 @@ static ssize_t lcd_read(struct file *file, char __user *buf, size_t count, loff_
  */
 static ssize_t lcd_write(struct file *file, const char __user *buf, size_t count, loff_t *offset)
 {
-	char user_buf[16];
-	
+	char user_buf[16];	
 	struct lcd_dev *priv = container_of(file->private_data, struct lcd_dev, miscdev);
+	size_t bytes_to_copy = 0;
+	size_t bytes_copied = 0;
+	size_t bytes_written = 0;
 	
 	if (*offset < 0)
 	{
@@ -137,35 +139,36 @@ static ssize_t lcd_write(struct file *file, const char __user *buf, size_t count
 		return 0;
 	}
 	
-	// Lock device so no other process can access it.
-	mutex_lock(&priv->lock);
-	
 	// Get the value from userspace.
-	size_t bytes_copied = copy_from_user(user_buf, buf, count);
+	bytes_to_copy = min(count, (size_t)(16 - *offset));
 	
+	bytes_copied = bytes_to_copy - copy_from_user(user_buf, buf, count);
 	if (bytes_copied == 0)
 	{
 		pr_warn("lcd_write: Zero bytes copied from userspace.\n");
-		return 0;
+		return -EFAULT;
 	}
 	
-	while (*offset < *offset + bytes_copied)
+	// Lock device so no other process can access it.
+	mutex_lock(&priv->lock);
+	
+	// Write data to the LCD
+	for (bytes_written = 0; bytes_written < bytes_to_copy; bytes_written++)
 	{
-		// Write character to LCD using ctl and data registers
-		iowrite32((u32) user_buf[*offset], priv->data);
+		iowrite32((u32)user_buf[bytes_written], priv->data);
 		msleep(LCD_WAIT);
 		iowrite32(0x00000005, priv->control);
 		msleep(LCD_WAIT);
 		iowrite32(0x00000000, priv->control);
 		msleep(LCD_WAIT);
 		
-		*offset++;
+		(*offset)++;
 	}
 	
 	// Unlock device and return number of bytes written.
 	mutex_unlock(&priv->lock);
 	
-	return bytes_copied;
+	return bytes_written;
 }
 
 
