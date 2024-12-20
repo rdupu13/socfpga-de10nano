@@ -65,36 +65,25 @@ struct keyboard_dev
  */
 static ssize_t keyboard_read(struct file *file, char __user *buf, size_t count, loff_t *offset)
 {
-	u32 val;
-	
-	/*
-	 * Get the device's private data from the file struct's private_data
-	 * field. The private_data field is equal to the miscdev field in the
-	 * keyboard_dev struct. container_of returns the keyboard_dev struct
-	 * that contains the miscdev in private_data.
-	 */
+	unsigned int button;
 	struct keyboard_dev *priv = container_of(file->private_data, struct keyboard_dev, miscdev);
+	size_t bytes_copied = 0;
 	
-	if (*offset < 0)
+	if (*offset != 0)
 	{
-		return -EINVAL;
+		*offset = 0;
 	}
 	
-	val = ioread32(priv->kb_buffer);
+	button = ioread32(priv->kb_buffer);
 	
-	// Copy the value to userspace.
-	size_t ret = copy_to_user(buf, &val, sizeof(val));
-	
-	if (ret == sizeof(val))
+	bytes_copied = 1 - copy_to_user(buf, &button, 4);
+	if (bytes_copied == 0)
 	{
 		pr_warn("keyboard_read: Zero bytes copied to userspace.\n");
 		return -EFAULT;
 	}
 	
-	// Increment the file offset by the number of bytes we read.
-	*offset = *offset + sizeof(val);
-	
-	return sizeof(val);
+	return bytes_copied;
 }
 
 

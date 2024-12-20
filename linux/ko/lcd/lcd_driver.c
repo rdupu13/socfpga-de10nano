@@ -74,38 +74,8 @@ struct lcd_dev
  */
 static ssize_t lcd_read(struct file *file, char __user *buf, size_t count, loff_t *offset)
 {
-	u32 val;
-	
-//	struct lcd_dev *priv = container_of(file->private_data, struct lcd_dev, miscdev);
-//	
-//	if (*offset < 0)
-//	{
-//		return -EINVAL;
-//	}
-//	if (*offset >= 16)
-//	{
-//		return 0;
-//	}
-//	if ((*offset % 0x4) != 0)
-//	{
-//		pr_warn("lcd_read: unaligned access\n");
-//		return -EFAULT;
-//	}
-//	
-//	val = ioread32(priv->base_addr + *offset);
-//	
-//	// Copy the value to userspace.
-//	size_t ret = copy_to_user(buf, &val, sizeof(val));
-//	if (ret == sizeof(val))
-//	{
-//		pr_warn("lcd_read: nothing copied\n");
-//		return -EFAULT;
-//	}
-//	
-//	// Increment the file offset by the number of bytes we read.
-//	*offset = *offset + sizeof(val);
-	
-	return sizeof(val);
+	pr_warn("lcd_read: Cannot read from this device.\n");
+	return 0;
 }
 
 
@@ -155,14 +125,17 @@ static ssize_t lcd_write(struct file *file, const char __user *buf, size_t count
 	// Write data to the LCD
 	for (bytes_written = 0; bytes_written < bytes_to_copy; bytes_written++)
 	{
-		iowrite32((u32)user_buf[bytes_written], priv->data);
-		msleep(LCD_WAIT);
-		iowrite32(0x00000005, priv->control);
-		msleep(LCD_WAIT);
-		iowrite32(0x00000000, priv->control);
-		msleep(LCD_WAIT);
-		
-		(*offset)++;
+		if (bytes_written < bytes_to_copy - 1)
+		{
+			iowrite32((u32) user_buf[bytes_written], priv->data);
+			msleep(LCD_WAIT);
+			iowrite32(0x00000005, priv->control);
+			msleep(LCD_WAIT);
+			iowrite32(0x00000000, priv->control);
+			msleep(LCD_WAIT);
+			
+			(*offset)++;
+		}
 	}
 	
 	// Unlock device and return number of bytes written.

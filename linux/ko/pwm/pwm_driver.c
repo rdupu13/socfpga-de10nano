@@ -77,10 +77,9 @@ struct pwm_dev
 static ssize_t pwm_read(struct file *file, char __user *buf, size_t count, loff_t *offset)
 {
 	u32 val;
-	
 	struct pwm_dev *priv = container_of(file->private_data, struct pwm_dev, miscdev);
+	size_t bytes_copied = 0;
 	
-	// Rudimentary error catching.
 	if (*offset < 0)
 	{
 		return -EINVAL;
@@ -91,24 +90,24 @@ static ssize_t pwm_read(struct file *file, char __user *buf, size_t count, loff_
 	}
 	if ((*offset % 0x4) != 0)
 	{
-		pr_warn("pwm_read: unaligned access\n");
+		pr_warn("pwm_read: Unaligned access isn't allowed.\n");
 		return -EFAULT;
 	}
 	
 	val = ioread32(priv->base_addr + *offset);
 	
 	// Copy the value to userspace.
-	size_t ret = copy_to_user(buf, &val, sizeof(val));
-	if (ret == sizeof(val))
+	bytes_copied = sizeof(val) - copy_to_user(buf, &val, sizeof(val));
+	if (bytes_copied < sizeof(val))
 	{
-		pr_warn("pwm_read: nothing copied\n");
+		pr_warn("pwm_read: Zero bytes copied to userspace.\n");
 		return -EFAULT;
 	}
 
 	// Increment the file offset by the number of bytes we read.
 	*offset = *offset + sizeof(val);
 	
-	return sizeof(val);
+	return bytes_copied;
 }
 
 
