@@ -13,7 +13,7 @@ entity processor is
 		bus_enable : in    std_logic;
 		ready      : in    std_logic;
 		irq        : in    std_logic_vector(3 downto 0);
-		nm_irq     : in    std_logic_vector(3 downto 0);
+		hw_exc     : in    std_logic_vector(3 downto 0);
 		
 		read_write : out   std_logic;
 		vector     : out   std_logic;
@@ -36,7 +36,7 @@ architecture processor_arch of processor is
 			bus_enable : in  std_logic;
 			ready      : in  std_logic;
 			irq        : in  std_logic_vector(3 downto 0);
-			nm_irq     : in  std_logic_vector(3 downto 0);
+			hw_exc     : in  std_logic_vector(3 downto 0);
 			p_status   : in  std_logic_vector(15 downto 0);
 			
 			read_write : out std_logic;
@@ -45,8 +45,6 @@ architecture processor_arch of processor is
 			sync       : out std_logic;
 			
 			alu_sel    : out std_logic_vector(3 downto 0);
-			src_sel    : out std_logic_vector(3 downto 0);
-			dst_sel    : out std_logic_vector(3 downto 0)
 			
 		);
 	end component;
@@ -57,9 +55,9 @@ architecture processor_arch of processor is
 			clk     : in  std_logic;
 			rst     : in  std_logic;
 			alu_sel : in  std_logic_vector(3 downto 0);
-			d1_in   : in  std_logic_vector(15 downto 0);
-			d2_in   : in  std_logic_vector(15 downto 0);
-			dout    : out std_logic_vector(15 downto 0)
+			opd1_in : in  std_logic_vector(15 downto 0);
+			opd2_in : in  std_logic_vector(15 downto 0);
+			result  : out std_logic_vector(15 downto 0)
 		);
 	end component;
 	
@@ -72,13 +70,15 @@ architecture processor_arch of processor is
 	--     0 = little endian 0A0B0C0D => 0D 0C 0B 0A   low byte first  <- I prefer
 	--     1 = big endian    0A0B0C0D => 0A 0B 0C 0D   high byte first
 	-- modes (mm)
-	--     01 - usr
-	--     10 - irq
-	--     11 - knl
+	--     001 - usr    USeR
+	--     100 - exc    hardware EXCeption
+	--     101 - irq    InteRRupt ReQuest
+	--     110 - knl    KerNeL
+	--     111 - 
 	
 	-- processor status bit layout
 	
-	-- 0000 iiii czvn vemm
+	-- 1111 iiii vnzc epmm
 	
 	
 	
@@ -108,8 +108,6 @@ architecture processor_arch of processor is
 	signal d2_bus  : std_logic_vector(15 downto 0);
 	
 	signal alu_sel : std_logic_vector(3 downto 0);
-	signal src_sel : std_logic_vector(3 downto 0);
-	signal dst_sel : std_logic_vector(3 downto 0);
 	
 	
 	
@@ -144,17 +142,32 @@ begin
 			clk     => clk,
 			rst     => rst,
 			alu_sel => alu_sel,
-			d1_in   => d1_bus,
-			d2_in   => d2_bus,
-			dout    => dout
+			opd1_in => d2_bus,
+			opd1_in => d2_bus,
+			result  => dout
 		);
 	
-	REGISTERS : process (clk, rst)
+	CONTEXT_BLOCK_REGISTERS : process (clk, rst)
 	begin
 		if rst = '0' then
+			register_0       <= x"0005";
+			register_1       <= x"0003";
+			register_2       <= x"0000";
+			register_3       <= x"0000";
+			register_4       <= x"0000";
+			register_5       <= x"0000";
+			register_6       <= x"0000";
+			register_7       <= x"0000";
+			register_8       <= x"0000";
+			register_9       <= x"0000";
+			register_a       <= x"0000";
+			base_pointer     <= x"0000";
+			stack_pointer    <= x"0000";
+			link_register    <= x"0000";
+			program_counter  <= x"0000";
+			processor_status <= x"F006";
+		elsif rising_edge(div_clk) then
 			
-		elsif rising_edge(clk) then
-			if ()
 		end if;
 	end process;
 	

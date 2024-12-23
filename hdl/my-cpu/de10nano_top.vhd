@@ -109,16 +109,14 @@ architecture de10nano_arch of de10nano_top is
 		(	
 			clk        : in    std_logic;
 			rst        : in    std_logic;
-			
 			bus_enable : in    std_logic;
 			ready      : in    std_logic;
 			irq        : in    std_logic_vector(3 downto 0);
-			
+			hw_exc     : in    std_logic_vector(3 downto 0);
 			read_write : out   std_logic;
 			vector     : out   std_logic;
 			lock       : out   std_logic;
-			sync       : out   std_logic;
-			
+			sync       : out   std_logic;	
 			data       : inout std_logic_vector(31 downto 0);
 			address    : out   std_logic_vector(31 downto 0)
 		);
@@ -128,8 +126,20 @@ architecture de10nano_arch of de10nano_top is
 	
 	end
 	
-	signal count : unsigned(23 downto 0);
+	signal count   : unsigned(23 downto 0);
 	signal div_clk : std_logic;
+	
+	signal bus_enable : std_logic;
+	signal ready      : std_logic;
+	signal irq        : std_logic_vector(3 downto 0);
+	signal hw_exc     : std_logic_vector(3 downto 0);
+	signal read_write : std_logic;
+	signal vector     : std_logic;
+	signal lock       : std_logic;
+	signal sync       : std_logic;
+	
+	signal data       : std_logic_vector(15 downto 0);
+	signal address    : std_logic_vector(15 downto 0);
 	
 begin
 	
@@ -150,12 +160,30 @@ begin
 	CPU : processor
 		port map
 		(
-			clk => fpga_clk1_50,
-			rst => 
+			clk        => div_clk,
+			rst        => push_button_n(0),
+			bus_enable => bus_enable,
+			ready      => ready,
+			irq        => irq,
+			hw_exc     => hw_exc,
+			read_write => read_write,
+			vector     => vector,
+			lock       => lock,
+			sync       => sync,
+			data       => data,
+			address    => address
 		);
 	
-	RAM : 
+	RAM : memory
+		port map
+		(
+			clk        => div_clk,
+			rst        => push_button_n(0),
+			read_write => read_write,
+			data       => data,
+			address    => address
+		);
 	
-	led <= ;
+	led <= div_clk & "0000000";
 	
 end architecture;	

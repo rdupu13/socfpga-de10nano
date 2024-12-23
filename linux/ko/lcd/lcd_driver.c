@@ -40,11 +40,34 @@ static const struct of_device_id lcd_of_match[] =
 
 /**
  * struct lcd_dev - Private lcd device struct.
- * @base_addr:        Pointer to the component's base address
- * @control:          Address of the control register
- * @data:             Address of the data register
- 8 @miscdev:          miscdevice used to create a character device
- * @lock:             mutex used to prevent concurrent writes to memory
+ * @base_addr:  Pointer to the component's base address
+ * @control:    Address of the control register
+ * @data:       Address of the data register
+ * @lcd_status: Status bits of LCD (D S O R B _ N F)
+ * 				Bit 7: Direction that cursor moves
+ * 					0 = left
+ * 					1 = right
+ * 				Bit 6: whether to Shift entire display
+ * 					0 = no
+ * 					1 = yes
+ * 				Bit 5: display On/Off control
+ * 					0 = off
+ * 					1 = on
+ * 				Bit 4: cuRsoR on/off control
+ * 					0 = off
+ * 					1 = on
+ * 				Bit 3: cursor Blink on/off control
+ * 					0 = off
+ * 					1 = on
+ * 				Bit 2: unused for now
+ * 				Bit 1: line Number
+ * 					0 = 1-line mode
+ * 					1 = 2-line mode
+ * 				Bit 0: Font size
+ * 					0 = 5x8 pixels
+ * 					1 = 5x11 pixels
+ * @miscdev:    miscdevice used to create a character device
+ * @lock:       mutex used to prevent concurrent writes to memory
  *
  * lcd_dev struct gets created for each lcd component.
  */
@@ -53,6 +76,7 @@ struct lcd_dev
 	void __iomem *base_addr;
 	void __iomem *control;
 	void __iomem *data;
+	u8 lcd_status;
 	struct miscdevice miscdev;
 	struct mutex lock;
 };
@@ -123,19 +147,46 @@ static ssize_t lcd_write(struct file *file, const char __user *buf, size_t count
 	mutex_lock(&priv->lock);
 	
 	// Write data to the LCD
-	for (bytes_written = 0; bytes_written < bytes_to_copy; bytes_written++)
+	u32 instruction;
+	for (bytes_written = 0; bytes_written < bytes_to_copy - 1; bytes_written++)
 	{
-		if (bytes_written < bytes_to_copy - 1)
+		if ((user_buf[bytes_written] == '\\')
+			&& (bytes_written < bytes_to_copy - 2))
 		{
-			iowrite32((u32) user_buf[bytes_written], priv->data);
+			switch (user_buf[bytes_written + 1])
+			{
+			case 'c': iowrite32(0x00000001, priv->data); break; // Clear display
+			case 'h': iowrite32(0x00000002, priv->data); break; // return Home
+		//	case 'd':
+		//		if () {
+		//			iowrite32(0x00000000, priv->data);
+		//		} else {
+		//			iowrite32(0x00000000, priv->data);
+		//		}
+		//		break; // Direction
+		//	case 's': iowrite32(0x00000000, priv->data); break; // Shift
+		//	case 'o': iowrite32(0x00000000, priv->data); break; // On/Off
+		//	case 'r': iowrite32(0x00000000, priv->data); break; // cuRsoR
+		//	case 'b': iowrite32(0x00000000, priv->data); break; // Blink
+		//	case 'n': iowrite32(0x00000000, priv->data); break; // line Number
+		//	case 'f': iowrite32(0x00000000, priv->data); break; // Font size
+			default:  iowrite32(0x00000000, priv->data); break;
+			}
 			msleep(LCD_WAIT);
-			iowrite32(0x00000005, priv->control);
+			iowrite32(0x00000001, priv->control);
 			msleep(LCD_WAIT);
 			iowrite32(0x00000000, priv->control);
 			msleep(LCD_WAIT);
-			
-			(*offset)++;
 		}
+		
+		iowrite32((u32) user_buf[bytes_written], priv->data);
+		msleep(LCD_WAIT);
+		iowrite32(0x00000005, priv->control);
+		msleep(LCD_WAIT);
+		iowrite32(0x00000000, priv->control);
+		msleep(LCD_WAIT);
+		
+		(*offset)++;
 	}
 	
 	// Unlock device and return number of bytes written.
@@ -251,6 +302,9 @@ static int lcd_probe(struct platform_device *pdev)
 	// Clear registers
 	iowrite32(0x00000000, priv->data);
 	iowrite32(0x00000000, priv->control);
+	
+	// Update dev struct with LCD state info
+	priv->lcd_status = 0xBA;
 	
 	// Initialze the misc device parameters
 	priv->miscdev.minor = MISC_DYNAMIC_MINOR;
